@@ -4,4 +4,9 @@
 
 The standard input is a vcf file.
 
+To install this package:
+
+`library(devtools)`
+`install_github("GreshamLab/vivaldi")`
+
 Authors: Marrisa Knoll, Katherine Johnson, Mohammed Khalfan, David Gresham
