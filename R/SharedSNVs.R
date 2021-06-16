@@ -3,7 +3,7 @@
 
 SharedSNVs = function(vardf,savedir){
   
-  vardf$variant = paste0(vardf$CHROM,"_",vardf$minor, vardf$POS, vardf$REF)
+  vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
   
   df = group_by(vardf, variant) %>% mutate(count = 1, totalsamp = sum(count))
   
