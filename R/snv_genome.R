@@ -1,7 +1,7 @@
 # Plot of SNVs per sample across genome
 # User inputs variant dataframe and save directory
 
-GenomeSNV = function(vardf, savedir){
+snv_genome = function(vardf){
   
   sum_df = group_by(vardf, sample,annotation) %>% tally()
   
@@ -13,6 +13,5 @@ GenomeSNV = function(vardf, savedir){
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   
   print(plot)
-  ggsave(plot, filename = glue("{savedir}/GenomeSNVPlot.pdf"),
-         width = 12, height = 13.2, limitsize=FALSE)
+
 }
