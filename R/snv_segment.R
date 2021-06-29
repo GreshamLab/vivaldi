@@ -1,7 +1,7 @@
 # Plot of SNVs per sample across segments
 # User inputs variant dataframe and save directory
 
-SegmentSNV = function(vardf,savedir){
+snv_segment = function(vardf){
   
   sum_df = group_by(vardf, sample, CHROM, annotation) %>% tally()
   
@@ -14,7 +14,4 @@ SegmentSNV = function(vardf,savedir){
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   
   print(plot)
-  ggsave(plot, filename = glue("{savedir}/SegmentSNVPlot.pdf"),
-         width = 12, height = 13.2, limitsize=FALSE)
-  
 }
