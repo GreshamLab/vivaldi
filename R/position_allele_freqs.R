@@ -2,7 +2,7 @@
 # User inputs variant dataframe, chromosome, nt position and save directory
 # segment and nt need to be in "quotes" when called in the function
 
-VarAF = function(vardf,segment,nt,savedir){
+variant_allele_freq = function(vardf,segment,nt){
   
   vardf = vardf %>% filter(CHROM == segment, POS == nt) %>% droplevels()
   
@@ -10,12 +10,11 @@ VarAF = function(vardf,segment,nt,savedir){
     geom_point(aes(y = majorfreq, color = major)) +
     geom_point(aes(y = minorfreq, color = minor)) +
     ggtitle(paste0("Allele Frequencies at ",segment," Position ",nt)) +
+    ylab("Allele Frequency") +
+    scale_color_discrete(name = "Allele") +
     theme(legend.key = element_blank(),
         strip.background = element_rect(colour="black", fill="white"),
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   
   print(plot)
-  ggsave(plot, filename = glue("{savedir}/SegmentSNVPlot.pdf"),
-         width = 12, height = 13.2, limitsize=FALSE)
-  
 }
