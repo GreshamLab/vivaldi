@@ -1,7 +1,7 @@
 # vivaldi package
 # Kate Johnson
 
-TsTv_ratio = function(df, genome_sites){
+tstv_ratio = function(df, genome_sites){
 
     chrom_groups = c('sample','CHROM', "major", "minor","tstv")
 
