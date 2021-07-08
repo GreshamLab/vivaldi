@@ -1,11 +1,7 @@
 # vivaldi package
 # Kate Johnson
 
-plotShannon = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
-
-  if (!dir.exists(glue("{wkdir}/SNV_figures"))) {
-      dir.create(glue("{wkdir}/SNV_figures"))
-    }
+plot_shannon = function(vcf_df){
 
     xlim = length(levels(factor(vcf_df$CHROM)))
 
@@ -21,11 +17,6 @@ plotShannon = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
 
     print(p1)
 
-    ggsave(p1,
-       filename = glue("{wkdir}SNV_figures/Shannon.ntpos.{freq_cutoff}.{coverage_cutoff}.pdf"),
-       width = 1.8*xlim,
-       height = 6, limitsize=FALSE, useDingbats = FALSE)
-
     temp = vcf_df %>% select(CHROM, sample, shannon_chrom_perkb, genome_shannon_perkb)
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
@@ -40,11 +31,6 @@ plotShannon = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
 
     print(p2)
 
-    ggsave(p2,
-       filename = glue("{wkdir}SNV_figures/Shannon.chrom.perkb.{freq_cutoff}.{coverage_cutoff}.pdf"),
-       width = 1.8*xlim,
-       height = 6, limitsize=FALSE, useDingbats = FALSE)
-
     temp = temp %>% select(-shannon_chrom_perkb, -CHROM)
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
@@ -57,10 +43,5 @@ plotShannon = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
                         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
     print(p3)
-
-    ggsave(p3,
-       filename = glue("{wkdir}SNV_figures/Shannon.perkb.{freq_cutoff}.{coverage_cutoff}.pdf"),
-       width = 0.6*xlim,
-       height = 6, limitsize=FALSE, useDingbats = FALSE)
 
 }
