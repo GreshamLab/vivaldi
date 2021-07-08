@@ -1,9 +1,8 @@
 # vivaldi package
 # Kate Johnson
 
-ShannonEntropy = function(df, genome_size, segment_size_column){
+shannon_entropy = function(df, genome_size){
   ## only uses positions with minorvariants
-  colidx = which(colnames(df)==segment_size_column)
 
   df$shannon_ntpos = (-(df$majorfreq)*(log2(df$majorfreq))) + (-(df$minorfreq)*(log2(df$minorfreq)))
 
@@ -11,7 +10,7 @@ ShannonEntropy = function(df, genome_size, segment_size_column){
 
   df = df %>% group_by(sample) %>% mutate(genome_shannon = sum(chrom_shannon))
 
-  df$shannon_chrom_perkb = (df$chrom_shannon/(df[[colidx]]/1000))
+  df$shannon_chrom_perkb = (df$chrom_shannon/(df$chrom_size/1000))
 
   df$genome_shannon_perkb = (df$genome_shannon/(genome_size/1000))
 
