@@ -1,7 +1,7 @@
 # vivaldi package
 # Kate Johnson
 
-TallyIt = function(df, groupit, new_colname){
+tally_it = function(df, groupit, new_colname){
     #INPUT: dataframe and vector of variables want to group by to count
     #OUTPUT: count dataframe using the group variables
 
