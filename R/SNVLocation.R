@@ -1,11 +1,7 @@
 # vivaldi package
 # Kate Johnson
 
-SNVLocation = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
-
-  if (!dir.exists(glue("{wkdir}/SNV_figures"))) {
-        dir.create(glue("{wkdir}/SNV_figures"))
-      }
+snv_location = function(vcf_df){
 
     xlim = length(levels(factor(vcf_df$CHROM)))
 
@@ -33,8 +29,4 @@ SNVLocation = function(vcf_df, wkdir, freq_cutoff=0.02, coverage_cutoff=300){
 
     print(plot4)
 
-    ggsave(plot4,
-       filename = glue("{wkdir}SNV_figures/SNV.position.{freq_cutoff}.{coverage_cutoff}.pdf"),
-       width = 1.8*xlim,
-       height = 1.1*ylim, limitsize=FALSE, useDingbats = FALSE)
 }
