@@ -2,37 +2,36 @@
 # Kate Johnson
 
 # using SNPeff annotations
-PrepAnn = function(vcf_dataframe){
+prepare_annotations = function(vcf_dataframe){
 
     # names of elements selected from snpeff website
     snpeff = c('allele','annotation','putative_impact','gene_name','gene_id',
         'feature_type','feature_id','transcript_biotype','rank_total','HGVS.c','HGVS.p',
         'cDNA_position','CDS_position','protein_position','distance_to_feature')
 
-    snpeff2 = c('allele2','annotation2','putative_impact2','gene_name2','gene_id2',
-        'feature_type2','feature_id2','transcript_biotype2','rank_total2','HGVS.c2','HGVS.p2',
-        'cDNA_position2','CDS_position2','protein_position2','distance_to_feature2')
+    snpeff2 = c()
 
-    snpeff_multi = c('allele','annotation','putative_impact','gene_name','gene_id',
-          'feature_type','feature_id','transcript_biotype','rank_total','HGVS.c','HGVS.p',
-          'cDNA_position','CDS_position','protein_position','distance_to_feature',
-          'allele2','annotation2','putative_impact2','gene_name2','gene_id2',
-          'feature_type2','feature_id2','transcript_biotype2','rank_total2','HGVS.c2','HGVS.p2',
-          'cDNA_position2','CDS_position2','protein_position2','distance_to_feature2','errors')
+    for (i in snpeff){
 
-    # full df will contain all information - can be used for shannon etc
-    # >45 would indicate that there are more than 2 annotations (based off of number of snpeff features)
+      snpeff2 = c(snpeff2, glue("{i}2"))
+
+    }
+
+    snpeff_multi = c(snpeff, snpeff2, 'errors')
+
+    snpeff_length = length(snpeff)
+
     full_df = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) < 45) %>%
+                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
     # Labeling for future filtering/figures
-    full_df = full_df %>% mutate(ann_number = ifelse(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > 16, "two", "one"))
+    full_df = full_df %>% mutate(ann_number = ifelse(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length + 1, "two", "one"))
 
     full_df = full_df %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
 
     too_many_ann = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > 30) %>%
+                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length*2) %>%
                   droplevels()
 
     message(">2 annotations: ", list(levels(factor(too_many_ann$sample))))
@@ -40,15 +39,15 @@ PrepAnn = function(vcf_dataframe){
     # building just an annotation df
     # 16 different features provided by snpeff see website for more info
     single_anno = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) <= 16) %>%
+                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) <= snpeff_length + 1) %>%
                   droplevels()
 
     single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
 
     # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
     multi_anno = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > 16 &
-                          lengths(gregexpr("[|]", vcf_dataframe$ANN)) < 45) %>%
+                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length + 1 &
+                          lengths(gregexpr("[|]", vcf_dataframe$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
     multi_anno = multi_anno %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
