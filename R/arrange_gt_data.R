@@ -3,9 +3,13 @@
 
 
 ######################## FUNCTIONS FOR VCF IMPORT ############################
-ArrangeData_gt = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes'){
+arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes'){
 
-    filelist = Sys.glob(glue("{vardir}*.vcf"))
+    fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')
+
+    gt_list = c("ChromKey","POS","gt_AD","gt_DP")
+
+    filelist = Sys.glob(glue("{vardir}/*.vcf"))
 
     message("Length of input files: ", length(filelist))
 
@@ -26,15 +30,15 @@ ArrangeData_gt = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes'){
         if (annotated == 'yes'){
 
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% select('ChromKey','CHROM','POS','ID','REF','ALT','ANN')
+          vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list), 'ANN')
 
         } else(
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% select('ChromKey','CHROM','POS','ID','REF','ALT')
+          vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list))
         )
 
         # $gt contains the genotype information. grab info we want
-        vcf_gt = vcf_tidy$gt %>% select("ChromKey","POS","gt_AD","gt_DP")
+        vcf_gt = vcf_tidy$gt %>% select(all_of(gt_list))
 
         vcf_total = merge(vcf_fix, vcf_gt, by = c("ChromKey","POS"), all= TRUE)
 
