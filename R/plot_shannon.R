@@ -1,6 +1,13 @@
-# vivaldi package
-# Kate Johnson
-
+#' plot_shannon
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
+#'
+#' @name plot_shannon
+#' @param vcf_df A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
+#' @return Three plots showing the nt Shannon, chrom Shannon, and full genome Shannon calculations
+#' @export
+#' @examples
+#' plot_shannon(vcf_df)
 plot_shannon = function(vcf_df){
 
     xlim = length(levels(factor(vcf_df$CHROM)))
