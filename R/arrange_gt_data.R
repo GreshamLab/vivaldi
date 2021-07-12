@@ -1,5 +1,15 @@
-# vivaldi package
-# Kate Johnson
+#' arrange_gt_data
+#'
+#' Reads in a directory of VCF files and converts them into a single dataframe
+#'
+#' @name arrange_gt_data
+#' @param vardir Directory path containing vcf files
+#' @param ntlist Nucleotides (default ("A", "T", "G", "C") used for finding multiple alt alleles
+#' @param annotated Whether the vcf files have been annotated using snpeff "yes" or "no" (default "yes")
+#' @return A large dataframe containing information for all input vcf files.
+#' @export
+#' @examples
+#' df = arrange_gt_Data(vardir, ntlist = c('A','G','T','C'), annotated = 'yes')
 
 
 ######################## FUNCTIONS FOR VCF IMPORT ############################
