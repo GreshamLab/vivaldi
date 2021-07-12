@@ -1,6 +1,12 @@
-# vivaldi package
-# Kate Johnson
-
+#' Inputs a filtered and rearranged vcf dataframe and calculates the transition/transversion ratio
+#'
+#' @name tstv_ratio
+#' @param df The filtered and rearranged variant dataframe
+#' @param genome_sites The total size of the genome
+#' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
+#' @export
+#' @examples
+#' tstv_ratio(df, 13000)
 tstv_ratio = function(df, genome_sites){
 
     chrom_groups = c('sample','CHROM', "major", "minor","tstv")
