@@ -10,9 +10,6 @@
 #' @export
 #' @examples
 #' df = arrange_gt_Data(vardir, ntlist = c('A','G','T','C'), annotated = 'yes')
-
-
-######################## FUNCTIONS FOR VCF IMPORT ############################
 arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes'){
 
     fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')
