@@ -1,6 +1,14 @@
-# vivaldi package
-# Kate Johnson
-
+#' shannon_entropy
+#'
+#' Takes a rearranged vcf dataframe (arrange_gt_data) and calculates the Shannon entropy
+#'
+#' @name shannon_entropy
+#' @param df A rearranged vcf dataframe (arrange_gt_data)
+#' @param genome_size The full length of the genome
+#' @return A dataframe with Shannon entropy/kb calculations for the chroms and entire genome
+#' @export
+#' @examples
+#' shannon_entropy(df, 13000)
 shannon_entropy = function(df, genome_size){
   ## only uses positions with minorvariants
 
