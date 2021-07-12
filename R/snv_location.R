@@ -1,6 +1,13 @@
-# vivaldi package
-# Kate Johnson
-
+#' snv_location
+#'
+#' Reads in the vcf dataframe and generates a plot showing the frequency and location of SNVs
+#'
+#' @name snv_location
+#' @param vcf_df A rearranged (arrange_gt_data)
+#' @return A plot showing the location and frequency of SNVs found across samples
+#' @export
+#' @examples
+#' snv_location(vcf_df)
 snv_location = function(vcf_df){
 
     xlim = length(levels(factor(vcf_df$CHROM)))
