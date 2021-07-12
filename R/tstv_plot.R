@@ -1,6 +1,13 @@
-# vivaldi package
-# Kate Johnson
-
+#' tstv_plot
+#'
+#' Plots Ts/Tv ratios
+#'
+#' @name tstv_plot
+#' @param df TsTv dataframe generated using the tstv_ratio function
+#' @return two plots showing the K2P and simple Ts/Tv ratios
+#' @export
+#' @examples
+#' tstv_plot(tstv_df)
 tstv_plot = function(df){
 
     p1 = ggplot(df, aes(x=sample,y=R)) +
