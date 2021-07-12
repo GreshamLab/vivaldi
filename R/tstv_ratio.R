@@ -1,3 +1,5 @@
+#' tstv_ratio
+#'
 #' Inputs a filtered and rearranged vcf dataframe and calculates the transition/transversion ratio
 #'
 #' @name tstv_ratio
