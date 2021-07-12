@@ -1,7 +1,13 @@
-# vivaldi package
-# Kate Johnson
-
-# using SNPeff annotations
+#' prepare_annotations
+#'
+#' Separates the snpeff annotations found in an annotated and rearranged (using arrange_gt_data) dataframe
+#'
+#' @name prepare_annotations
+#' @param vcf_dataframe A rearranged and annotated vcf dataframe generated using SNPeff and the arrange_gt_data function
+#' @return a dataframe containing each annotation on a separate row
+#' @export
+#' @examples
+#' prepare_annotations(vcf_dataframe)
 prepare_annotations = function(vcf_dataframe){
 
     # names of elements selected from snpeff website
