@@ -11,14 +11,25 @@
 #' @examples
 #' tally_it(df, c("sample","CHROM"), "snv_count")
 tally_it = function(df, groupit, new_colname){
-    #INPUT: dataframe and vector of variables want to group by to count
-    #OUTPUT: count dataframe using the group variables
 
-    df = df[!duplicated(df), ] %>% droplevels
+    snpeff = snpeff_info()
+
+    if (length(intersect(colnames(df), snpeff)) > 0){
+
+      df = df %>% select(!all_of(c(snpeff)))
+
+      df = df[!duplicated(df), ] %>% droplevels()
+
+    } else{
+
+      df = df[!duplicated(df), ] %>% droplevels()
+
+    }
 
     count_df = df %>% group_by_at(vars(all_of(groupit))) %>% tally()
 
     colnames(count_df)[colnames(count_df) == 'n'] = new_colname
 
     return(count_df)
+
 }
