@@ -1,79 +1,68 @@
 #' prepare_annotations
 #'
-#' Separates the snpeff annotations found in an annotated and rearranged (using arrange_gt_data) dataframe
+#' Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
 #'
 #' @name prepare_annotations
-#' @param vcf_dataframe A rearranged and annotated vcf dataframe generated using SNPeff and the arrange_gt_data function
-#' @return a dataframe containing each annotation on a separate row
+#' @param df A rearranged and annotated VCF dataframe
+#' @return A dataframe containing each annotation on a separate row
 #' @export
 #' @examples
-#' prepare_annotations(vcf_dataframe)
-prepare_annotations = function(vcf_dataframe){
+#' prepare_annotations(df)
+prepare_annotations = function(df){
 
-    # names of elements selected from snpeff website
-    snpeff = c('allele','annotation','putative_impact','gene_name','gene_id',
-        'feature_type','feature_id','transcript_biotype','rank_total','HGVS.c','HGVS.p',
-        'cDNA_position','CDS_position','protein_position','distance_to_feature')
+    if (!"ANN" %in% colnames(df)){
 
-    snpeff2 = c()
+      message("No annotations present in dataframe - to annotate use SNPeff")
 
-    for (i in snpeff){
+    } else{
+        # names of elements selected from snpeff website
+        snpeff = snpeff_info()
 
-      snpeff2 = c(snpeff2, glue("{i}2"))
+        snpeff2 = c()
 
-    }
+        for (i in snpeff){
 
-    snpeff_multi = c(snpeff, snpeff2, 'errors')
+          snpeff2 = c(snpeff2, glue("{i}2"))
 
-    snpeff_length = length(snpeff)
+        }
 
-    full_df = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) < snpeff_length*3) %>%
+        snpeff_multi = c(snpeff, snpeff2, 'errors')
+
+        snpeff_length = length(snpeff)
+
+        message(">2 annotations: ", list(levels(factor((df %>%
+                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length*2) %>%
+                  droplevels())$sample))))
+
+        # building just an annotation df
+        # 16 different features provided by snpeff see website for more info
+        single_anno = df %>%
+                    filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
                   droplevels()
 
-    # Labeling for future filtering/figures
-    full_df = full_df %>% mutate(ann_number = ifelse(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length + 1, "two", "one"))
+        single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
 
-    full_df = full_df %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
-
-    too_many_ann = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length*2) %>%
+        # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
+        multi_anno = df %>%
+                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length + 1 &
+                          lengths(gregexpr("[|]", df$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
-    message(">2 annotations: ", list(levels(factor(too_many_ann$sample))))
+        multi_anno = multi_anno %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
 
-    # building just an annotation df
-    # 16 different features provided by snpeff see website for more info
-    single_anno = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) <= snpeff_length + 1) %>%
-                  droplevels()
+        multi_anno1 = multi_anno %>% select(!all_of(snpeff2)) # separate by first annotation
 
-    single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
+        multi_anno2 = multi_anno %>% select(!all_of(snpeff)) # separate by second annotation
 
-    # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
-    multi_anno = vcf_dataframe %>%
-                    filter(lengths(gregexpr("[|]", vcf_dataframe$ANN)) > snpeff_length + 1 &
-                          lengths(gregexpr("[|]", vcf_dataframe$ANN)) < snpeff_length*3) %>%
-                  droplevels()
+        colnames(multi_anno2) = c(colnames(multi_anno1)) # change col names to match
 
-    multi_anno = multi_anno %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
+        multi_anno = rbind(multi_anno1, multi_anno2) # concat annotation dfs to make long df
 
-    multi_anno1 = multi_anno %>% select(!all_of(snpeff2)) # separate by first annotation
+        multi_anno = rbind(single_anno, multi_anno) # concat with single annotations to have all
 
-    multi_anno2 = multi_anno %>% select(!all_of(snpeff)) # separate by second annotation
+        # deduplicate just in case
+        multi_anno = multi_anno[!duplicated(multi_anno), ] %>% droplevels()
 
-    colnames(multi_anno2) = c(colnames(multi_anno1)) # change col names to match
-
-    multi_anno = rbind(multi_anno1, multi_anno2) # concat annotation dfs to make long df
-
-    multi_anno = rbind(single_anno, multi_anno) # concat with single annotations to have all
-
-    # deduplicate just in case
-    multi_anno = multi_anno[!duplicated(multi_anno), ] %>% droplevels()
-
-    full_df = full_df[!duplicated(full_df), ] %>% droplevels()
-
-    df_list = list("full_df"=full_df, "ann_df"=multi_anno) # form into list to return
-
-    return(df_list)
+        return(multi_anno)
+      }
 }
