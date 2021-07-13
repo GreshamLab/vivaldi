@@ -4,17 +4,20 @@
 #'
 #' @name arrange_gt_data
 #' @param vardir Directory path containing vcf files
-#' @param ntlist Nucleotides (default ("A", "T", "G", "C") used for finding multiple alt alleles
-#' @param annotated Whether the vcf files have been annotated using snpeff "yes" or "no" (default "yes")
-#' @return A large dataframe containing information for all input vcf files.
+#' @param reference_fasta Reference fasta file used for alignment
+#' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
+#' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
+#' @return A large dataframe containing information from all input VCF files
 #' @export
 #' @examples
-#' df = arrange_gt_Data(vardir, ntlist = c('A','G','T','C'), annotated = 'yes')
-arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes'){
+#' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
+arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C')){
 
     fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')
 
     gt_list = c("ChromKey","POS","gt_AD","gt_DP")
+
+    sizes = read_reference_fasta_dna(reference_fasta)
 
     filelist = Sys.glob(glue("{vardir}/*.vcf"))
 
@@ -39,10 +42,10 @@ arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes')
           # $fix contains the INFO fields
           vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list), 'ANN')
 
-        } else(
+        } else{
           # $fix contains the INFO fields
           vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list))
-        )
+        }
 
         # $gt contains the genotype information. grab info we want
         vcf_gt = vcf_tidy$gt %>% select(all_of(gt_list))
@@ -76,9 +79,9 @@ arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes')
 
                 all_files = rbind(all_files, snp_df)
 
-                } else(print("No snps for sample: ", samplename))
+              } else{print("No snps for sample: ", samplename)}
 
-            }else(print(glue("No variant data: ", samplename)))
+            }else{print(glue("No variant data: ", samplename))}
 
         }
 
@@ -89,6 +92,8 @@ arrange_gt_data = function(vardir, ntlist=c('A','G','T','C'), annotated = 'yes')
                                          minor = ifelse(ALT_TYPE == 'minor', ALT, REF))
 
     all_files = all_files[!duplicated(all_files), ] %>% droplevels()
+
+    all_files = add_metadata(all_files, sizes, c('CHROM'), c('CHROM'))
 
     return(all_files)
 }
