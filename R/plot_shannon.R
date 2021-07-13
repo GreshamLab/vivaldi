@@ -3,18 +3,14 @@
 #' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
 #'
 #' @name plot_shannon
-#' @param vcf_df A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
+#' @param shannon_df A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
 #' @return Three plots showing the nt Shannon, chrom Shannon, and full genome Shannon calculations
 #' @export
 #' @examples
-#' plot_shannon(vcf_df)
-plot_shannon = function(vcf_df){
+#' plot_shannon(shannon_df)
+plot_shannon = function(shannon_df){
 
-    xlim = length(levels(factor(vcf_df$CHROM)))
-
-    xlim2 = length(levels(factor(vcf_df$sample)))
-
-    p1 = ggplot(vcf_df, aes(x=POS, y=shannon_ntpos)) +
+    p1 = ggplot(shannon_df, aes(x=POS, y=shannon_ntpos)) +
             geom_point(alpha=0.6) +
             theme_bw() +
             theme(legend.key = element_blank(),
@@ -24,7 +20,7 @@ plot_shannon = function(vcf_df){
 
     print(p1)
 
-    temp = vcf_df %>% select(CHROM, sample, shannon_chrom_perkb, genome_shannon_perkb)
+    temp = shannon_df %>% select(CHROM, sample, shannon_chrom_perkb, genome_shannon_perkb)
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
 
