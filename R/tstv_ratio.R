@@ -8,14 +8,30 @@
 #' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
 #' @export
 #' @examples
-#' tstv_ratio(df, 13000)
-tstv_ratio = function(df, genome_sites){
+#' tstv_ratio(df)
+tstv_ratio = function(df){
 
-    chrom_groups = c('sample','CHROM', "major", "minor","tstv")
+    snpeff = snpeff_info()
+
+    print
+
+    chrom_groups = c('sample','CHROM',"CHROM_SIZE","GENOME_SIZE","tstv")
 
     purine = c("G","A")
 
     pyrimidine = c("T","C")
+
+    if (length(intersect(colnames(df), snpeff)) > 0){
+
+      df = df %>% select(!all_of(c(snpeff)))
+
+      df = df[!duplicated(df), ] %>% droplevels()
+
+    } else{
+
+      df = df[!duplicated(df), ] %>% droplevels()
+
+    }
 
     df$tstv <- ifelse(df$major %in% purine &
                             df$minor %in% purine |
@@ -23,39 +39,27 @@ tstv_ratio = function(df, genome_sites){
                             df$minor %in% pyrimidine,
                       "transition","transversion")
 
-    tstv_chrom = TallyIt(df, chrom_groups, "tstv_count")
+    tstv_chrom = tally_it(df, chrom_groups, "tstv_chrom_count")
 
     # count numbers of ts and tv
-    tstv_df = tstv_chrom %>% #
+    tstv_df = tstv_chrom %>%
                 group_by(sample, tstv) %>%
-                mutate(tstv_genome_sum = sum(tstv_count)) %>% ungroup()
+                mutate(tstv_genome_count = sum(tstv_chrom_count)) %>% ungroup()
 
-    tstv_df$tstv_freq = tstv_df$tstv_genome_sum/genome_sites
+    tstv_df = tstv_df[!duplicated(tstv_df), ] %>% droplevels
 
-    tstv_cast = tstv_df %>% select(sample, tstv, tstv_freq) %>% droplevels()
+    tstv_df =  tstv_df %>% pivot_longer(cols = c("tstv_chrom_count","tstv_genome_count"),
+                                        names_to = "chrom_or_genome",
+                                        values_to = "tstv_count",
+                                      values_drop_na = FALSE)
 
-    tstv_cast = tstv_cast[!duplicated(tstv_cast), ] %>% droplevels
+    tstv_df =  tstv_df %>% pivot_wider(names_from = tstv, values_from = 'tstv_count', values_fill = 0)
 
-    tstv_cast = dcast(tstv_cast, sample~tstv, value.var = 'tstv_freq')
+    tstv_df$tstv_ratio = tstv_df$transition/tstv_df$transversion
 
-    # if no transitions transversions add 0
-    tstv_cast$transversion[is.na(tstv_cast$transversion)] = 0
+    tstv_df$tstv_ratio_perkb = ifelse(tstv_df$chrom_or_genome == 'tstv_chrom_count',
+                                      tstv_df$tstv_ratio/(tstv_df$CHROM_SIZE/1000),
+                                      tstv_df$tstv_ratio/(tstv_df$GENOME_SIZE/1000))
 
-    tstv_cast$transition[is.na(tstv_cast$transition)] = 0
-
-    # calculations of k2p distances
-    tstv_cast$w1 = (1-2*tstv_cast$transition - tstv_cast$transversion)
-
-    tstv_cast$w2 = 1-2*tstv_cast$transversion
-
-    tstv_cast$s = -(0.5)*log(tstv_cast$w1) + 0.25*log(tstv_cast$w2)
-
-    tstv_cast$v = -(0.5)*log(tstv_cast$w2)
-
-    tstv_cast$R = tstv_cast$s/tstv_cast$v
-
-    # calculating 'basic' ts/tv just to check k2p calculations removed tstv counts so mult by genome sites
-    tstv_cast$basic_tstv = (tstv_cast$transition*genome_sites)/(tstv_cast$transversion*genome_sites)
-
-    return(tstv_cast)
+    return(tstv_df)
 }
