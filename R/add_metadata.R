@@ -10,9 +10,13 @@
 #' @return A vcf dataframe with metadata included
 #' @export
 #' @examples
-#' add_metadata(vcf_df, metadf, c("CHROM"), c("segment"))
-add_metadata = function(vcf_df, metadf, by_vcf, by_meta){
+#' add_metadata(df, metadf, c("CHROM"), c("segment"))
+add_metadata = function(df, metadf, by_vcf, by_meta){
 
-    return(merge(vcf_df, metadf, by.x=all_of(by_vcf), by.y=all_of(by_meta), all.x = TRUE))
+    tmp = merge(df, metadf, by.x=all_of(by_vcf), by.y=all_of(by_meta), all.x = TRUE)
+
+    tmp = tmp[!duplicated(tmp), ] %>% droplevels()
+
+    return(tmp)
 
 }
