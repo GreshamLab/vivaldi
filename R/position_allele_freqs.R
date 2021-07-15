@@ -1,8 +1,17 @@
-# Plot to determine AF of variant of interest across all samples
-# User inputs variant dataframe, chromosome, nt position and save directory
-# segment and nt need to be in "quotes" when called in the function
+#' position_allele_freq
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+#'
+#' @name position_allele_freq
+#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
+#' @param segment Name of segment (must be in quotes)
+#' @param nt Position on segment (must be in quotes)
+#' @return A plot showing the the frequencies of the major and minor allele at the given position across all samples
+#' @export
+#' @examples
+#' position_allele_freqs(vardf,"H1N1_HA","439")
 
-variant_allele_freq = function(vardf,segment,nt){
+position_allele_freq = function(vardf,segment,nt){
   
   vardf = vardf %>% filter(CHROM == segment, POS == nt) %>% droplevels()
   
