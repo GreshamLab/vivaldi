@@ -13,6 +13,8 @@ snv_segment = function(vardf){
   
   sum_df = group_by(vardf, sample, CHROM, annotation) %>% tally()
   
+  sum_df = sum_df[!duplicated(sum_df), ] %>% droplevels()
+  
   plot = ggplot(sum_df, aes(x = sample , y = n, fill = annotation)) +
     geom_col() +
     facet_grid(~CHROM) +
