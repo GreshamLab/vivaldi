@@ -13,7 +13,7 @@ shared_snv_plot = function(vardf){
   
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
   
-  df = group_by(vardf, variant) %>% mutate(count = 1, totalsamp = sum(count))
+  df = group_by(vardf, variant) %>% mutate(count = 1, totalsamp = sum(count)) 
   
   df = df[!duplicated(df), ] %>% droplevels()
   
