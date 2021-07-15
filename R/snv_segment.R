@@ -1,5 +1,13 @@
-# Plot of SNVs per sample across segments
-# User inputs variant dataframe and save directory
+#' snv_segment
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and outputs plots
+#'
+#' @name snv_segment
+#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
+#' @return A bar plot showing the number of variants colored by their SNPEff annotation
+#' @export
+#' @examples
+#' snv_segment(vardf)
 
 snv_segment = function(vardf){
   
