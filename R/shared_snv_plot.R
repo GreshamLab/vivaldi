@@ -1,4 +1,3 @@
-
 #' shared_snv_plot
 #'
 #' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
