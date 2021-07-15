@@ -1,4 +1,3 @@
-
 #' shared_snv_table
 #'
 #' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs a table
