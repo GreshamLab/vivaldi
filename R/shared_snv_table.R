@@ -1,3 +1,15 @@
+
+#' shared_snv_table
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs a table
+#'
+#' @name shared_snv_table
+#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
+#' @return A table listing variants in order by how many samples they are found in 
+#' @export
+#' @examples
+#' shared_snv_plot(vardf)
+
 shared_snv_table = function(vardf){
   
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
