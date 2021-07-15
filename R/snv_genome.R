@@ -1,5 +1,14 @@
-# Plot of SNVs per sample across genome
-# User inputs variant dataframe and save directory
+
+#' snv_genome
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+#'
+#' @name snv_genome
+#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
+#' @return A bar plot showing the number of variants per sample colored by their SNPEff annotation
+#' @export
+#' @examples
+#' snv_genome(vardf)
 
 snv_genome = function(vardf){
   
