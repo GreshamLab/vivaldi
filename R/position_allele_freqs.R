@@ -15,6 +15,8 @@ position_allele_freq = function(vardf,segment,nt){
   
   vardf = vardf %>% filter(CHROM == segment, POS == nt) %>% droplevels()
   
+  vardf = vardf[!duplicated(vardf), ] %>% droplevels()
+  
   plot = ggplot(vardf, aes(x = sample)) +
     geom_point(aes(y = majorfreq, color = major)) +
     geom_point(aes(y = minorfreq, color = minor)) +
