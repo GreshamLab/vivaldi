@@ -15,6 +15,8 @@ shared_snv_plot = function(vardf){
   
   df = group_by(vardf, variant) %>% mutate(count = 1, totalsamp = sum(count))
   
+  df = df[!duplicated(df), ] %>% droplevels()
+  
   plot = ggplot(df, aes(x = POS, y = CHROM)) +
     geom_point(aes(size = totalsamp)) +
     ggtitle("Number of Samples Containing Each Variant") +
