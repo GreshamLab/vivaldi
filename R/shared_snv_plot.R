@@ -3,7 +3,7 @@
 #'
 #' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 #'
-#' @name snv_segment
+#' @name shared_snv_plot
 #' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
 #' @return A plot showing the location of variants and the number of samples that conatain each variant
 #' @export
