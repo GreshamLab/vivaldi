@@ -1,4 +1,13 @@
-# Calculating dN/dS ratio and plotting by segment
+#' dNdS_segment
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), caluculates dNdS, and outputs plots
+#'
+#' @name dNdS_segment
+#' @param vardf A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
+#' @return A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
+#' @export
+#' @examples
+#' dNdS_segment(vardf)
 
 dNdS_segment = function(annotation_df){
   
