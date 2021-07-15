@@ -1,5 +1,14 @@
-# Plot to determine how many samples contain a variant
-# User inputs variant dataframe, and save directory
+
+#' shared_snv_plot
+#'
+#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+#'
+#' @name snv_segment
+#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe 
+#' @return A plot showing the location of variants and the number of samples that conatain each variant
+#' @export
+#' @examples
+#' shared_snv_plot(vardf)
 
 shared_snv_plot = function(vardf){
   
