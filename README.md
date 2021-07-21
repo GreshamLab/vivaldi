@@ -11,3 +11,5 @@ To install this package:
 `install_github("GreshamLab/vivaldi")`
 
 Authors: Marrisa Knoll, Katherine Johnson, Mohammed Khalfan, David Gresham
+
+Email: <dg107@nyu.edu>
