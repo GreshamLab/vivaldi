@@ -11,8 +11,7 @@
 #' @export
 #' @examples
 #' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
-
-arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C')){
+arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C','-')){
 
     fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')
 
@@ -80,9 +79,9 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
                 all_files = rbind(all_files, snp_df)
 
-              } else{print("No snps for sample: ", samplename)}
+              } else{message("No snps for sample: ", samplename)}
 
-            }else{print(glue("No variant data: ", samplename))}
+            }else{message(glue("No variant data: ", samplename))}
 
         }
 
