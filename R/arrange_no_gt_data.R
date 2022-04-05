@@ -37,9 +37,9 @@ arrange_no_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist
     
     vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list))
     
-    DP = extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE) 
-    length(DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
-    DP_df = data.frame(DP)
+    gt_DP = extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE) 
+    length(gt_DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
+    DP_df = data.frame(gt_DP)
     
     AF = extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE)
     length(AF) == nrow(vcf_all)
