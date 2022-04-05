@@ -62,7 +62,7 @@ arrange_no_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist
         # one reference, one alt
         snp_df$DP = as.numeric(as.character(snp_df$DP))   # change to numeric to calc freq
         
-        snp_df$ALT_FREQ = as.numeric(as.character(snp_df$AF))
+        snp_df$ALT_FREQ = as.numeric(as.character(snp_df$AF)) # can't directly calculate AF ourselves based on depth, just have to go with what freebayes outputs
         
         snp_df$REF_FREQ =  as.numeric(as.character(1 - snp_df$ALT_FREQ))
         
