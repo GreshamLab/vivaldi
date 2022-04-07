@@ -17,7 +17,7 @@ arrange_gt_data_varscan = function(vardir, reference_fasta, annotated = 'yes', n
   
   gt_list = c("POS","gt_AD","gt_RD","gt_DP")
   
-  sizes = read_reference_fasta_dna(reference)
+  sizes = read_reference_fasta_dna(reference_fasta)
   
   filelist = Sys.glob(glue("{vardir}/*.vcf"))
   
