@@ -11,7 +11,7 @@ filter_variants(df, coverage_cutoff = 300, frequency_cutoff = 0.02)
 
 \item{coverage_cutoff}{The coverage cutoff for calling a SNV (default: 300x)}
 
-\item{frequency_cutoff}{Frequency cutoff for calling a SNV (default: 2%)}
+\item{frequency_cutoff}{Frequency cutoff for calling a SNV (default: 0.02)}
 }
 \value{
 A filtered VCF dataframe
