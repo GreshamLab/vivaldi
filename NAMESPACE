@@ -2,6 +2,8 @@
 
 export(add_metadata)
 export(arrange_gt_data)
+export(arrange_gt_data_varscan)
+export(arrange_no_gt_data)
 export(dNdS_segment)
 export(filter_variants)
 export(plot_shannon)

@@ -8,7 +8,7 @@ arrange_gt_data(
   vardir,
   reference_fasta,
   annotated = "yes",
-  ntlist = c("A", "G", "T", "C")
+  ntlist = c("A", "G", "T", "C", "-")
 )
 }
 \arguments{

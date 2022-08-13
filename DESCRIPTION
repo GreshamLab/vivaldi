@@ -15,7 +15,8 @@ Imports:
   readr,
   dplyr,
   ggplot2,
-  magrittr
+  magrittr,
+  seqinr
 Suggests: 
     knitr,
     rmarkdown

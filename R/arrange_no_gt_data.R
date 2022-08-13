@@ -2,7 +2,7 @@
 #'
 #' Reads in a directory of VCF files and converts them into a single dataframe for tools without GT information
 #'
-#' @name arrange_gt_data
+#' @name arrange_no_gt_data
 #' @param vardir Directory path containing vcf files
 #' @param reference_fasta Reference fasta file used for alignment
 #' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
@@ -10,7 +10,7 @@
 #' @return A large dataframe containing information from all input VCF files
 #' @export
 #' @examples
-#' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
+#' arrange_no_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
 arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C','-')){
   
   fix_list = c('CHROM','POS','ID','REF','ALT')
