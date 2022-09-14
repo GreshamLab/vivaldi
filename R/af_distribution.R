@@ -17,6 +17,4 @@ af_distribution = function(vardir){
           strip.background = element_rect(colour="black", fill="white"),
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
   print(plot)
-  ggsave(plot, filename = glue("{savedir}/AFDistributionPlot.pdf"),
-         width = 12, height = 13.2, limitsize=FALSE)
 }
