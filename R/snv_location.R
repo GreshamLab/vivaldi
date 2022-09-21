@@ -24,28 +24,26 @@ snv_location = function(df){
 
     }
 
-    plot4 = ggplot() +
-        geom_point(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
-                      aes(x=POS, y=minorfreq, color=minor)) +
+    plot4 = ggplot2::ggplot() +
+      ggplot2::geom_point(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+                          ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
-        geom_point(data = df %>% filter(ALT_TYPE == 'major') %>% droplevels(),
-                      aes(x=POS, y=majorfreq, color=major)) +
+      ggplot2::geom_point(data = df %>% filter(ALT_TYPE == 'major') %>% droplevels(),
+                          ggplot2::aes(x=POS, y=majorfreq, color=major)) +
 
-        geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
-                      aes(x=POS, y=minorfreq, color=minor)) +
+      ggplot2::geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+                        ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
-        geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
-                      aes(x=POS, y=minorfreq, color=minor)) +
+      ggplot2::geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+                        ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
-        theme_bw() +
+      ggplot2::theme_bw() +
 
-        theme(legend.key = element_blank(),
-                        strip.background = element_rect(colour="black", fill="white"),
-                        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-        facet_grid(sample~CHROM,  scales = 'free_x')
+      ggplot2::theme(legend.key = ggplot2::element_blank(),
+                        strip.background = ggplot2::element_rect(colour="black", fill="white"),
+                        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      ggplot2::facet_grid(sample~CHROM,  scales = 'free_x')
 
-    return(ggplotly(plot4))
-
-    #print(plot4)
+    return(plotly::ggplotly(plot4))
 
 }
