@@ -10,19 +10,6 @@
 #' shannon_entropy(df)
 shannon_entropy = function(df){
   ## only uses positions with minorvariants
-  snpeff = snpeff_info()
-
-  if (length(intersect(colnames(df), snpeff)) > 0){
-
-    df = df %>% select(!all_of(c(snpeff)))
-
-    df = df[!duplicated(df), ] %>% droplevels()
-
-  } else{
-
-    df = df[!duplicated(df), ] %>% droplevels()
-
-  }
 
   df$shannon_ntpos = (-(df$majorfreq)*(log2(df$majorfreq))) + (-(df$minorfreq)*(log2(df$minorfreq)))
 
