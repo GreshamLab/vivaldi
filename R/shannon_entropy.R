@@ -7,7 +7,7 @@
 #' @return A dataframe with Shannon entropy/kb calculations for the chroms and entire genome
 #' @export
 #' @examples
-#' shannon_entropy(df, 13000)
+#' shannon_entropy(df)
 shannon_entropy = function(df){
   ## only uses positions with minorvariants
   snpeff = snpeff_info()
