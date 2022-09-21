@@ -3,14 +3,14 @@
 #' Plots a distribution of all minor variants
 #'
 #' @name af_distribution
-#' @param vardir Directory path containing vcf files
+#' @param df A dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants)
 #' @return A plot with the distribution of all minor variants
 #' @export
 #' @examples
-#' af_distribution(vardir)
-af_distribution = function(vardir){
+#' af_distribution(df)
+af_distribution = function(df){
 
-  plot = ggplot2::ggplot(vardir, ggplot2::aes(x = minorfreq)) +
+  plot = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +
     ggplot2::geom_histogram(binwidth = 0.01) +
     ggplot2::ggtitle("Distrubution of minor allele frequencies") +
     ggplot2::theme(legend.key = ggplot2::element_blank(),
