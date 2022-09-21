@@ -48,12 +48,12 @@ tstv_ratio = function(df){
 
     tstv_df = tstv_df[!duplicated(tstv_df), ] %>% droplevels
 
-    tstv_df =  tstv_df %>% pivot_longer(cols = c("tstv_chrom_count","tstv_genome_count"),
+    tstv_df =  tstv_df %>% tidyr::pivot_longer(cols = c("tstv_chrom_count","tstv_genome_count"),
                                         names_to = "chrom_or_genome",
                                         values_to = "tstv_count",
                                       values_drop_na = FALSE)
 
-    tstv_df =  tstv_df %>% pivot_wider(names_from = tstv, values_from = 'tstv_count', values_fill = 0)
+    tstv_df =  tstv_df %>% tidyr::pivot_wider(names_from = tstv, values_from = 'tstv_count', values_fill = 0)
 
     tstv_df$tstv_ratio = tstv_df$transition/tstv_df$transversion
 
