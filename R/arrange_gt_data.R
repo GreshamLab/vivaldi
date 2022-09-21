@@ -29,13 +29,13 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
     for (filename in filelist){
 
-        samplename = basename(file_path_sans_ext(filename)) # grab sample name to append later
+        samplename = basename(tools::file_path_sans_ext(filename)) # grab sample name to append later
 
         message("Sample name is: ", samplename)
 
-        vcf_all = read.vcfR(file=filename)  # read in vcf file using vcfR
+        vcf_all = vcfR::read.vcfR(file=filename)  # read in vcf file using vcfR
 
-        vcf_tidy = vcfR2tidy(vcf_all)  # change into a tidy dataframe
+        vcf_tidy = vcfR::vcfR2tidy(vcf_all)  # change into a tidy dataframe
 
         if (annotated == 'yes'){
 
