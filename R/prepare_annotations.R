@@ -4,7 +4,7 @@
 #'
 #' @name prepare_annotations
 #' @param df A rearranged and annotated VCF dataframe
-#' @return A dataframe containing each annotation on a separate row
+#' @return A dataframe containing each annotation on a separate column
 #' @export
 #' @examples
 #' prepare_annotations(df)
