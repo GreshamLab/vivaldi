@@ -10,13 +10,13 @@
 #' plot_shannon(shannon_df)
 plot_shannon = function(shannon_df){
 
-    p1 = ggplot(shannon_df, aes(x=POS, y=shannon_ntpos)) +
-            geom_point(alpha=0.6) +
-            theme_bw() +
-            theme(legend.key = element_blank(),
-                        strip.background = element_rect(colour="black", fill="white"),
-                        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-        facet_grid(.~CHROM,  scales = 'free_x')
+    p1 = ggplot2::ggplot(shannon_df, ggplot2::aes(x=POS, y=shannon_ntpos)) +
+      ggplot2::geom_point(alpha=0.6) +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.key = ggplot2::element_blank(),
+                        strip.background = ggplot2::element_rect(colour="black", fill="white"),
+                        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      ggplot2::facet_grid(.~CHROM,  scales = 'free_x')
 
     print(p1)
 
@@ -24,13 +24,13 @@ plot_shannon = function(shannon_df){
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
 
-    p2 = ggplot(temp, aes(x=sample, y=shannon_chrom_perkb)) +
-            geom_point() +
-            theme_bw() +
-            theme(legend.key = element_blank(),
-                        strip.background = element_rect(colour="black", fill="white"),
-                        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-        facet_grid(.~CHROM)
+    p2 = ggplot2::ggplot(temp, ggplot2::aes(x=sample, y=shannon_chrom_perkb)) +
+      ggplot2::geom_point() +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.key = ggplot2::element_blank(),
+                        strip.background = ggplot2::element_rect(colour="black", fill="white"),
+                        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      ggplot2::facet_grid(.~CHROM)
 
     print(p2)
 
@@ -38,12 +38,12 @@ plot_shannon = function(shannon_df){
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
 
-    p3 = ggplot(temp, aes(x=sample, y=genome_shannon_perkb)) +
-            geom_point() +
-            theme_bw() +
-            theme(legend.key = element_blank(),
-                        strip.background = element_rect(colour="black", fill="white"),
-                        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+    p3 = ggplot2::ggplot(temp, ggplot2::aes(x=sample, y=genome_shannon_perkb)) +
+      ggplot2::geom_point() +
+      ggplot2::theme_bw() +
+      ggplot2::theme(legend.key = ggplot2::element_blank(),
+                        strip.background = ggplot2::element_rect(colour="black", fill="white"),
+                        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
 
     print(p3)
 
