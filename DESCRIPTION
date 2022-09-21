@@ -17,7 +17,9 @@ Imports:
   vcfR (>= 1.12.0),
   glue (>= 1.4.2),
   tidyr (>= 1.1.2),
-  plotly (>= 4.10.0)
+  plotly (>= 4.10.0),
+  dplyr (>=1.0.2),
+  tools
 Suggests: 
     knitr,
     rmarkdown
