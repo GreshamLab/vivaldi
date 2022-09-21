@@ -4,7 +4,6 @@
 #'
 #' @name tstv_ratio
 #' @param df The filtered and rearranged variant dataframe
-#' @param genome_sites The total size of the genome
 #' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
 #' @export
 #' @examples
