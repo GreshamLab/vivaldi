@@ -10,11 +10,11 @@
 #' af_distribution(vardir)
 af_distribution = function(vardir){
 
-  plot = ggplot(vardir, aes(x = minorfreq)) +
-    geom_histogram(binwidth = 0.01) +
-    ggtitle("Distrubution of minor allele frequencies") +
-    theme(legend.key = element_blank(),
-          strip.background = element_rect(colour="black", fill="white"),
-          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  plot = ggplot2::ggplot(vardir, ggplot2::aes(x = minorfreq)) +
+    ggplot2::geom_histogram(binwidth = 0.01) +
+    ggplot2::ggtitle("Distrubution of minor allele frequencies") +
+    ggplot2::theme(legend.key = ggplot2::element_blank(),
+          strip.background = ggplot2::element_rect(colour="black", fill="white"),
+          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
   print(plot)
 }
