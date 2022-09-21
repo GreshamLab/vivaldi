@@ -10,7 +10,7 @@
 #' read_reference_fasta_dna(reference_fasta="reference.fasta")
 read_reference_fasta_dna = function(reference_fasta){
 
-    f = read.fasta(file = reference_fasta, as.string = TRUE)
+    f = seqinr::read.fasta(file = reference_fasta, as.string = TRUE)
 
     fdf = as.data.frame(do.call(rbind, lapply(f, function(x) nchar(x[1]))))
 
