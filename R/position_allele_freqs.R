@@ -9,7 +9,7 @@
 #' @return A plot showing the the frequencies of the major and minor allele at the given position across all samples
 #' @export
 #' @examples
-#' position_allele_freqs(vardf,"H1N1_HA","439")
+#' position_allele_freq(vardf,"H1N1_HA","439")
 
 position_allele_freq = function(vardf,segment,nt){
   
