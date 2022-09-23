@@ -18,8 +18,7 @@ Imports:
   glue (>= 1.4.2),
   tidyr (>= 1.1.2),
   plotly (>= 4.10.0),
-  dplyr (>= 1.0.2),
-  tools
+  magrittr
 Suggests: 
     knitr,
     rmarkdown
