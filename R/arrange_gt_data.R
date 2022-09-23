@@ -87,7 +87,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
         }
 
     # rearranging the df
-    all_files = all_files %>% tidyverse::mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
+    all_files = all_files %>% dplyr::mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
                                          minorfreq = ifelse(ALT_TYPE == 'minor', ALT_FREQ, REF_FREQ),
                                          major = ifelse(ALT_TYPE == 'major', ALT, REF),
                                          minor = ifelse(ALT_TYPE == 'minor', ALT, REF))
