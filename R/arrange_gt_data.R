@@ -20,7 +20,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
     sizes = read_reference_fasta_dna(reference_fasta)
 
-    filelist = Sys.glob(stringr::glue("{vardir}/*.vcf"))
+    filelist = Sys.glob(glue::glue("{vardir}/*.vcf"))
 
     message("Length of input files: ", length(filelist))
 
@@ -82,7 +82,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
               } else{message("No snps for sample: ", samplename)}
 
-            }else{message(stringr::glue("No variant data: ", samplename))}
+            }else{message(glue::glue("No variant data: ", samplename))}
 
         }
 
