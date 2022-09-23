@@ -8,7 +8,7 @@
 #' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
 #' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
 #' @return A large dataframe containing information from all input VCF files
-#' @import dplyr
+#' @importFrom magrittr %>%
 #' @export
 #' @examples
 #' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
