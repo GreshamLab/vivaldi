@@ -21,7 +21,7 @@ read_reference_fasta_dna = function(reference_fasta){
     fdf = fdf %>% rename(CHROM_SIZE = V1) %>%
                     select(CHROM, CHROM_SIZE) %>%
                     arrange(desc(CHROM_SIZE)) %>%
-                    mutate(GENOME_SIZE = sum(CHROM_SIZE))
+                    tidyverse::mutate(GENOME_SIZE = sum(CHROM_SIZE))
 
     message("Number of chroms in fasta: ", nrow(fdf))
 
