@@ -18,7 +18,7 @@ shared_snv_plot = function(vardf){
   df = df[!duplicated(df), ] %>% droplevels()
 
   plot = ggplot2::ggplot(df, ggplot2::aes(x = POS, y = CHROM)) +
-    ggplot2::geom_point(ggplot2::aes(size = totalsamp)) +
+    ggplot2::geom_point(ggplot2::aes(color = totalsamp)) +
     ggplot2::ggtitle("Number of Samples Containing Each Variant") +
     ggplot2::scale_y_discrete(limits=rev) +
     ggplot2::theme(legend.key = ggplot2::element_blank(),
