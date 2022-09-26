@@ -8,7 +8,7 @@
 #' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
 #' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
 #' @return A large dataframe containing information from all input VCF files
-#' @import dplyr
+#' @importFrom magrittr %>%
 #' @export
 #' @examples
 #' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
@@ -20,7 +20,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
     sizes = read_reference_fasta_dna(reference_fasta)
 
-    filelist = Sys.glob(glue("{vardir}/*.vcf"))
+    filelist = Sys.glob(glue::glue("{vardir}/*.vcf"))
 
     message("Length of input files: ", length(filelist))
 
@@ -41,15 +41,15 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
         if (annotated == 'yes'){
 
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list), 'ANN')
+          vcf_fix = vcf_tidy$fix %>% dplyr::select(all_of(fix_list), 'ANN')
 
         } else{
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list))
+          vcf_fix = vcf_tidy$fix %>% dplyr::select(all_of(fix_list))
         }
 
         # $gt contains the genotype information. grab info we want
-        vcf_gt = vcf_tidy$gt %>% select(all_of(gt_list))
+        vcf_gt = vcf_tidy$gt %>% dplyr::select(all_of(gt_list))
 
         vcf_total = merge(vcf_fix, vcf_gt, by = c("ChromKey","POS"), all= TRUE)
 
@@ -82,12 +82,12 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
               } else{message("No snps for sample: ", samplename)}
 
-            }else{message(glue("No variant data: ", samplename))}
+            }else{message(glue::glue("No variant data: ", samplename))}
 
         }
 
     # rearranging the df
-    all_files = all_files %>% mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
+    all_files = all_files %>% dplyr::mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
                                          minorfreq = ifelse(ALT_TYPE == 'minor', ALT_FREQ, REF_FREQ),
                                          major = ifelse(ALT_TYPE == 'major', ALT, REF),
                                          minor = ifelse(ALT_TYPE == 'minor', ALT, REF))
