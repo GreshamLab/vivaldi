@@ -60,7 +60,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
             snp_df = vcf_total %>% dplyr::filter(REF %in% ntlist & ALT %in% ntlist) # only one ref and alt allele
 
-            snp_df = snp_df %>% separate(gt_AD, c("REF_COUNT","ALT_COUNT"), sep = '[,]') # IT WILL THROW AN ERROR IF THERE ARE MULT ALLELES
+            snp_df = snp_df %>% tidyr::separate(gt_AD, c("REF_COUNT","ALT_COUNT"), sep = '[,]') # IT WILL THROW AN ERROR IF THERE ARE MULT ALLELES
 
             mult_alt = vcf_total %>% dplyr::filter(REF %in% ntlist & !ALT %in% ntlist)  # mult alt alleles - need to use later!!
 
