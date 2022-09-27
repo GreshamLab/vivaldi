@@ -94,7 +94,5 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
     all_files = all_files[!duplicated(all_files), ] %>% droplevels()
 
-    all_files = add_metadata(all_files, sizes, c('CHROM'), c('CHROM'))
-
     return(all_files)
 }
