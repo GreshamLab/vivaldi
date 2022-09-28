@@ -10,19 +10,6 @@
 #' snv_location(df)
 snv_location = function(df){
 
-    snpeff = snpeff_info()
-
-    if (length(intersect(colnames(df), snpeff)) > 0){
-
-        df = df %>% select(!all_of(c(snpeff)))
-
-        df = df[!duplicated(df), ] %>% droplevels()
-
-      } else{
-
-        df = df[!duplicated(df), ] %>% droplevels()
-
-    }
 
     plot4 = ggplot2::ggplot() +
       ggplot2::geom_point(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
