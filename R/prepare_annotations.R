@@ -22,7 +22,7 @@ prepare_annotations = function(df){
 
         for (i in snpeff){
 
-          snpeff2 = c(snpeff2, glue("{i}2"))
+          snpeff2 = c(snpeff2, glue::glue("{i}2"))
 
         }
 
@@ -31,28 +31,28 @@ prepare_annotations = function(df){
         snpeff_length = length(snpeff)
 
         message(">2 annotations: ", list(levels(factor((df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length*2) %>%
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length*2) %>%
                   droplevels())$sample))))
 
         # building just an annotation df
         # 16 different features provided by snpeff see website for more info
         single_anno = df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
                   droplevels()
 
-        single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
+        single_anno = single_anno %>% tidyr::separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
 
         # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
         multi_anno = df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length + 1 &
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length + 1 &
                           lengths(gregexpr("[|]", df$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
-        multi_anno = multi_anno %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
+        multi_anno = multi_anno %>% tidyr::separate(ANN, snpeff_multi, "[|]") %>% droplevels()
 
-        multi_anno1 = multi_anno %>% select(!all_of(snpeff2)) # separate by first annotation
+        multi_anno1 = multi_anno %>% dplyr::select(!all_of(snpeff2)) # separate by first annotation
 
-        multi_anno2 = multi_anno %>% select(!all_of(snpeff)) # separate by second annotation
+        multi_anno2 = multi_anno %>% dplyr::select(!all_of(snpeff)) # separate by second annotation
 
         colnames(multi_anno2) = c(colnames(multi_anno1)) # change col names to match
 
