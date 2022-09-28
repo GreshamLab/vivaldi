@@ -40,7 +40,7 @@ prepare_annotations = function(df){
                     dplyr::filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
                   droplevels()
 
-        single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
+        single_anno = single_anno %>% tidyr::separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
 
         # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
         multi_anno = df %>%
@@ -48,7 +48,7 @@ prepare_annotations = function(df){
                           lengths(gregexpr("[|]", df$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
-        multi_anno = multi_anno %>% separate(ANN, snpeff_multi, "[|]") %>% droplevels()
+        multi_anno = multi_anno %>% tidyr::separate(ANN, snpeff_multi, "[|]") %>% droplevels()
 
         multi_anno1 = multi_anno %>% select(!all_of(snpeff2)) # separate by first annotation
 
