@@ -19,7 +19,7 @@ shannon_entropy = function(df){
 
   df$shannon_chrom_perkb = (df$chrom_shannon/(df$SegmentSize/1000))
 
-  df$genome_shannon_perkb = (df$genome_shannon/(df$GenomeSize/1000))
+  df$genome_shannon_perkb = (df$genome_shannon/GenomeSize/1000)
 
   return(df)
 
