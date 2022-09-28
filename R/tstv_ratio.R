@@ -57,7 +57,7 @@ tstv_ratio = function(df,genome_size){
     tstv_df$tstv_ratio = tstv_df$transition/tstv_df$transversion
 
     tstv_df$tstv_ratio_perkb = ifelse(tstv_df$chrom_or_genome == 'tstv_chrom_count',
-                                      tstv_df$tstv_ratio/(tstv_df$CHROM_SIZE/1000),
+                                      tstv_df$tstv_ratio/(tstv_df$SegmentSize/1000),
                                       tstv_df$tstv_ratio/(genome_size/1000))
 
     return(tstv_df)
