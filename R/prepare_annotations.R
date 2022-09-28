@@ -31,20 +31,20 @@ prepare_annotations = function(df){
         snpeff_length = length(snpeff)
 
         message(">2 annotations: ", list(levels(factor((df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length*2) %>%
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length*2) %>%
                   droplevels())$sample))))
 
         # building just an annotation df
         # 16 different features provided by snpeff see website for more info
         single_anno = df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) <= snpeff_length + 1) %>%
                   droplevels()
 
         single_anno = single_anno %>% separate(ANN, c(snpeff, 'errors'), "[|]") %>% droplevels()
 
         # two annotations will be more than 16 elements but less than 45 (which would indicate 3). In total it should be 30 elements
         multi_anno = df %>%
-                    filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length + 1 &
+                    dplyr::filter(lengths(gregexpr("[|]", df$ANN)) > snpeff_length + 1 &
                           lengths(gregexpr("[|]", df$ANN)) < snpeff_length*3) %>%
                   droplevels()
 
