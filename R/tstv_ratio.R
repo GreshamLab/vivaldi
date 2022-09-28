@@ -10,27 +10,11 @@
 #' tstv_ratio(df)
 tstv_ratio = function(df,genome_size){
 
-    snpeff = snpeff_info()
-
-    print
-
     chrom_groups = c('sample','CHROM',"SegmentSize","tstv")
 
     purine = c("G","A")
 
     pyrimidine = c("T","C")
-
-    if (length(intersect(colnames(df), snpeff)) > 0){
-
-      df = df %>% select(!all_of(c(snpeff)))
-
-      df = df[!duplicated(df), ] %>% droplevels()
-
-    } else{
-
-      df = df[!duplicated(df), ] %>% droplevels()
-
-    }
 
     df$tstv <- ifelse(df$major %in% purine &
                             df$minor %in% purine |
