@@ -16,9 +16,9 @@ merge_replicates = function(vardir, repdata, nameofrep1, nameofrep2,commoncols){
 
   df = merge(repdata,vardir, by.x = c("filename"), by.y = c("sample"))
 
-  df_rep1 = filter(df, replicate == nameofrep1)
+  df_rep1 = dplyr::filter(df, replicate == nameofrep1)
   # nameofrep1 must be given in ""
-  df_rep2 = filter(df, replicate == nameofrep2)
+  df_rep2 = dplyr::filter(df, replicate == nameofrep2)
   # nameofrep2 must be given in ""
 
   df_merged = merge(df_rep1, df_rep2, by = commoncols)
