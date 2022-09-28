@@ -29,8 +29,8 @@ merge_replicates = function(vardir, repdata, nameofrep1, nameofrep2,commoncols){
 
   # add weighted average using read counts
 
-  df_merged$weighted_minorfreq = (ALT_COUNT.x + ALT_COUNT.y) / (gt_DP.x + gt_DP.y)
-  df_merged$weighted_majorfreq = (REF_COUNT.x + REF_COUNT.y) / (gt_DP.x + gt_DP.y)
+  df_merged$weighted_minorfreq = (df_merged$ALT_COUNT.x + df_merged$ALT_COUNT.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+  df_merged$weighted_majorfreq = (df_merged$REF_COUNT.x + df_merged$REF_COUNT.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
 
   return(df_merged)
 
