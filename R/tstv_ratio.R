@@ -8,13 +8,13 @@
 #' @export
 #' @examples
 #' tstv_ratio(df)
-tstv_ratio = function(df){
+tstv_ratio = function(df,genome_size){
 
     snpeff = snpeff_info()
 
     print
 
-    chrom_groups = c('sample','CHROM',"CHROM_SIZE","GENOME_SIZE","tstv")
+    chrom_groups = c('sample','CHROM',"SegmentSize","tstv")
 
     purine = c("G","A")
 
@@ -58,7 +58,7 @@ tstv_ratio = function(df){
 
     tstv_df$tstv_ratio_perkb = ifelse(tstv_df$chrom_or_genome == 'tstv_chrom_count',
                                       tstv_df$tstv_ratio/(tstv_df$CHROM_SIZE/1000),
-                                      tstv_df$tstv_ratio/(tstv_df$GENOME_SIZE/1000))
+                                      tstv_df$tstv_ratio/(genome_size/1000))
 
     return(tstv_df)
 }
