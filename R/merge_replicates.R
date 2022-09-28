@@ -4,7 +4,7 @@
 #'
 #' @name merge_replicates
 #' @param vardir Data frame of variants
-#' @param vardir Data frame of replicate information
+#' @param repdata Data frame of replicate information
 #' @param nameofrep1 Name of variable representing the first replicate, must be written with quotes
 #' @param nameofrep2 Name of variable representing the second replicate
 #' @param commoncols List of columns to merge the replicates by
@@ -14,18 +14,19 @@
 #' merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
 merge_replicates = function(vardir, repdata, nameofrep1, nameofrep2,commoncols){
 
-  df = merge(vardir, repdata, by = c("sample"))
+  df = merge(repdata,vardir, by.x = c("filename"), by.y = c("sample"))
 
-  vardir_rep1 = filter(df, replicate == nameofrep1)
+  df_rep1 = filter(df, replicate == nameofrep1)
   # nameofrep1 must be given in ""
-  vardir_rep2 = filter(df, replicate == nameofrep2)
+  df_rep2 = filter(df, replicate == nameofrep2)
   # nameofrep2 must be given in ""
 
-  vardir_merged = merge(vardir_rep1, vardir_rep2, by = commoncols)
-  vardir_merged = vardir_merged[!duplicated(vardir_merged), ]
+  df_merged = merge(df_rep1, df_rep2, by = commoncols)
+  df_merged = df_merged[!duplicated(df_merged), ]
 
-  vardir_merged$avg_freq = (vardir_merged$minorfreq.x + vardir_merged$minorfreq.y) / 2
+  df_merged$minorfreq = (df_merged$minorfreq.x + df_merged$minorfreq.y) / 2
+  df_merged$majorfreq = (df_merged$majorfreq.x + df_merged$majorfreq.y) / 2
 
-  return(vardir_merged)
+  return(df_merged)
 
 }
