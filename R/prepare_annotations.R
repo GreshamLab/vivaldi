@@ -22,7 +22,7 @@ prepare_annotations = function(df){
 
         for (i in snpeff){
 
-          snpeff2 = c(snpeff2, glue("{i}2"))
+          snpeff2 = c(snpeff2, glue::glue("{i}2"))
 
         }
 
