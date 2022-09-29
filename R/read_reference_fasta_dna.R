@@ -7,7 +7,9 @@
 #' @return A dataframe containing the chroms and chrom lengths of a reference fasta
 #' @export
 #' @examples
+#' \dontrun{
 #' read_reference_fasta_dna(reference_fasta="reference.fasta")
+#' }
 read_reference_fasta_dna = function(reference_fasta){
 
     f = seqinr::read.fasta(file = reference_fasta, as.string = TRUE)

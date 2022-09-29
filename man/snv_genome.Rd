@@ -16,5 +16,7 @@ A bar plot showing the number of variants per sample colored by their SNPEff ann
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
 \examples{
+\dontrun{
 snv_genome(vardf)
+}
 }

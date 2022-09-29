@@ -9,7 +9,9 @@
 #' @return A filtered VCF dataframe
 #' @export
 #' @examples
+#' \dontrun{
 #' filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.02)
+#' }
 filter_variants = function(df, coverage_cutoff=300, frequency_cutoff=0.02){
 
     input_dim = nrow(df)

@@ -16,5 +16,7 @@ A dataframe containing the chroms and chrom lengths of a reference fasta
 Imports reference fasta, generates a dataframe with chroms and chrom lengths
 }
 \examples{
+\dontrun{
 read_reference_fasta_dna(reference_fasta="reference.fasta")
+}
 }

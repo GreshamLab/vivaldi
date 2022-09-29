@@ -4,10 +4,12 @@
 \alias{shannon_entropy}
 \title{shannon_entropy}
 \usage{
-shannon_entropy(df)
+shannon_entropy(df, genome_size)
 }
 \arguments{
 \item{df}{A rearranged vcf dataframe (arrange_gt_data)}
+
+\item{genome_size}{Size of whole genome being used}
 }
 \value{
 A dataframe with Shannon entropy/kb calculations for the chroms and entire genome
@@ -16,5 +18,7 @@ A dataframe with Shannon entropy/kb calculations for the chroms and entire genom
 Takes a rearranged vcf dataframe (arrange_gt_data) and calculates the Shannon entropy
 }
 \examples{
-shannon_entropy(df, 13000)
+\dontrun{
+shannon_entropy(df)
+}
 }

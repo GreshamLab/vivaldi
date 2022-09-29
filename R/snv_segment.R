@@ -7,7 +7,9 @@
 #' @return A bar plot showing the number of variants colored by their SNPEff annotation
 #' @export
 #' @examples
+#' \dontrun{
 #' snv_segment(vardf)
+#' }
 
 snv_segment = function(vardf){
 

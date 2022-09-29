@@ -11,7 +11,9 @@
 #' @return a data frame containing replicate information
 #' @export
 #' @examples
+#' \dontrun{
 #' merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
+#' }
 merge_replicates = function(vardir, repdata, nameofrep1, nameofrep2,commoncols){
 
   df = merge(repdata,vardir, by.x = c("filename"), by.y = c("sample"))

@@ -4,25 +4,27 @@
 \alias{merge_replicates}
 \title{merge_replicates}
 \usage{
-merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
+merge_replicates(vardir, repdata, nameofrep1, nameofrep2, commoncols)
 }
 \arguments{
-\item{vardir}{Directory path containing vcf files}
+\item{vardir}{Data frame of variants}
 
-\item{column}{Directory path containing vcf files}
+\item{repdata}{Data frame of replicate information}
 
-\item{nameofrep1}{Directory path containing vcf files}
+\item{nameofrep1}{Name of variable representing the first replicate, must be written with quotes}
 
-\item{nameofrep2}{Directory path containing vcf files}
+\item{nameofrep2}{Name of variable representing the second replicate}
 
-\item{commoncols}{Directory path containing vcf files}
+\item{commoncols}{List of columns to merge the replicates by}
 }
 \value{
-
+a data frame containing replicate information
 }
 \description{
 Merges replicate VCF files into a single dataframe
 }
 \examples{
+\dontrun{
 merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
+}
 }

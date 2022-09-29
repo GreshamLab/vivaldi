@@ -7,7 +7,9 @@
 #' @return A plot showing the location of variants and the number of samples that conatain each variant
 #' @export
 #' @examples
+#' \dontrun{
 #' shared_snv_plot(vardf)
+#' }
 
 shared_snv_plot = function(vardf){
 

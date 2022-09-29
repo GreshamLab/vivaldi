@@ -7,7 +7,9 @@
 #' @return A bar plot showing the number of variants per sample colored by their SNPEff annotation
 #' @export
 #' @examples
+#' \dontrun{
 #' snv_genome(vardf)
+#' }
 
 snv_genome = function(vardf){
 

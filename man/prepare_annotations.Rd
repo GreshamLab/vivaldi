@@ -10,11 +10,13 @@ prepare_annotations(df)
 \item{df}{A rearranged and annotated VCF dataframe}
 }
 \value{
-A dataframe containing each annotation on a separate row
+A dataframe containing each annotation on a separate column
 }
 \description{
 Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
 }
 \examples{
+\dontrun{
 prepare_annotations(df)
+}
 }

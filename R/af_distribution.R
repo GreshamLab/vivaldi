@@ -7,7 +7,9 @@
 #' @return A plot with the distribution of all minor variants
 #' @export
 #' @examples
+#' \dontrun{
 #' af_distribution(df)
+#' }
 af_distribution = function(df){
 
   plot = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +

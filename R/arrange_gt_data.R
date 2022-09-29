@@ -11,7 +11,9 @@
 #' @importFrom magrittr %>%
 #' @export
 #' @examples
+#' \dontrun{
 #' arrange_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
+#' }
 arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C','-')){
 
     fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')

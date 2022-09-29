@@ -11,7 +11,7 @@ filter_variants(df, coverage_cutoff = 300, frequency_cutoff = 0.02)
 
 \item{coverage_cutoff}{The coverage cutoff for calling a SNV (default: 300x)}
 
-\item{frequency_cutoff}{Frequency cutoff for calling a SNV (default: 0.02)}
+\item{frequency_cutoff}{Frequency cutoff for calling a SNV (default: 2\%)}
 }
 \value{
 A filtered VCF dataframe
@@ -20,5 +20,7 @@ A filtered VCF dataframe
 Filters single-nucleotide variants using a coverage and frequency cutoff
 }
 \examples{
+\dontrun{
 filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.02)
+}
 }

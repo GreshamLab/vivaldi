@@ -16,5 +16,7 @@ two plots showing the K2P and simple Ts/Tv ratios
 Plots Ts/Tv ratios
 }
 \examples{
+\dontrun{
 tstv_plot(tstv_df)
+}
 }

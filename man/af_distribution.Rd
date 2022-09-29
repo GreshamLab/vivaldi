@@ -4,10 +4,10 @@
 \alias{af_distribution}
 \title{af_distribution}
 \usage{
-af_distribution(vardir)
+af_distribution(df)
 }
 \arguments{
-\item{vardir}{Directory path containing vcf files}
+\item{df}{A dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants)}
 }
 \value{
 A plot with the distribution of all minor variants
@@ -16,5 +16,7 @@ A plot with the distribution of all minor variants
 Plots a distribution of all minor variants
 }
 \examples{
-af_distribution(vardir)
+\dontrun{
+af_distribution(df)
+}
 }

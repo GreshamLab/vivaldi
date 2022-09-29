@@ -7,7 +7,9 @@
 #' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
 #' @export
 #' @examples
+#' \dontrun{
 #' tstv_ratio(df)
+#' }
 tstv_ratio = function(df,genome_size){
 
     chrom_groups = c('sample','CHROM',"SegmentSize","tstv")
