@@ -5,13 +5,12 @@
 #' @name arrange_no_gt_data
 #' @param vardir Directory path containing vcf files
 #' @param reference_fasta Reference fasta file used for alignment
-#' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
 #' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
 #' @return A large dataframe containing information from all input VCF files
 #' @export
 #' @examples
 #' \dontrun{
-#' arrange_no_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
+#' arrange_no_gt_data(vardir, reference_fasta = reference)
 #' }
 arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C','-')){
 
