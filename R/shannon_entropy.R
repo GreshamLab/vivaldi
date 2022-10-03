@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' shannon_entropy(df)
+#' shannon_entropy(df,genome_size)
 #' }
 shannon_entropy = function(df,genome_size){
   ## only uses positions with minorvariants
