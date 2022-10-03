@@ -4,11 +4,12 @@
 #'
 #' @name tstv_ratio
 #' @param df The filtered and rearranged variant dataframe
+#' @param genome_size Size of whole genome being used
 #' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
 #' @export
 #' @examples
 #' \dontrun{
-#' tstv_ratio(df)
+#' tstv_ratio(df,genome_size)
 #' }
 tstv_ratio = function(df,genome_size){
 
