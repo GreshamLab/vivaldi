@@ -16,9 +16,9 @@ shannon_entropy = function(df,genome_size){
 
   df$shannon_ntpos = (-(df$majorfreq)*(log2(df$majorfreq))) + (-(df$minorfreq)*(log2(df$minorfreq)))
 
-  df = df %>% group_by(sample, CHROM, SegmentSize) %>% dplyr::mutate(chrom_shannon = sum(shannon_ntpos)) %>% dplyr::ungroup()
+  df = df %>% dplyr::group_by(sample, CHROM, SegmentSize) %>% dplyr::mutate(chrom_shannon = sum(shannon_ntpos)) %>% dplyr::ungroup()
 
-  df = df %>% group_by(sample) %>% dplyr::mutate(genome_shannon = sum(chrom_shannon)) %>% dplyr::ungroup()
+  df = df %>% dplyr::group_by(sample) %>% dplyr::mutate(genome_shannon = sum(chrom_shannon)) %>% dplyr::ungroup()
 
   df$shannon_chrom_perkb = (df$chrom_shannon/(df$SegmentSize/1000))
 
