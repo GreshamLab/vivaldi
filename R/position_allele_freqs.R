@@ -19,15 +19,15 @@ position_allele_freq = function(vardf,segment,nt){
 
   vardf = vardf[!duplicated(vardf), ] %>% droplevels()
 
-  plot = ggplot(vardf, aes(x = sample)) +
-    geom_point(aes(y = majorfreq, color = major)) +
-    geom_point(aes(y = minorfreq, color = minor)) +
-    ggtitle(paste0("Allele Frequencies at ",segment," Position ",nt)) +
-    ylab("Allele Frequency") +
-    scale_color_discrete(name = "Allele") +
-    theme(legend.key = element_blank(),
-        strip.background = element_rect(colour="black", fill="white"),
-        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+  plot = ggplot2::ggplot(vardf, ggplot2::aes(x = sample)) +
+    ggplot2::geom_point(aes(y = majorfreq, color = major)) +
+    ggplot2::geom_point(aes(y = minorfreq, color = minor)) +
+    ggplot2::ggtitle(paste0("Allele Frequencies at ",segment," Position ",nt)) +
+    ggplot2::ylab("Allele Frequency") +
+    ggplot2::scale_color_discrete(name = "Allele") +
+    ggplot2::theme(legend.key = ggplot2::element_blank(),
+        strip.background = ggplot2::element_rect(colour="black", fill="white"),
+        axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
 
   print(plot)
 }
