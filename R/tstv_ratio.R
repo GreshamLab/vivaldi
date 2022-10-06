@@ -29,8 +29,8 @@ tstv_ratio = function(df,genome_size){
 
     # count numbers of ts and tv
     tstv_df = tstv_chrom %>%
-                group_by(sample, tstv) %>%
-                mutate(tstv_genome_count = sum(tstv_chrom_count)) %>% ungroup()
+                dplyr::group_by(sample, tstv) %>%
+                dplyr::mutate(tstv_genome_count = sum(tstv_chrom_count)) %>% dplyr::ungroup()
 
     tstv_df = tstv_df[!duplicated(tstv_df), ] %>% droplevels
 
