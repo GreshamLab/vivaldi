@@ -13,7 +13,7 @@
 
 snv_genome = function(vardf){
 
-  sum_df = group_by(vardf, sample,annotation) %>% dplyr::tally()
+  sum_df = dplyr::group_by(vardf, sample,annotation) %>% dplyr::tally()
 
   sum_df = sum_df[!duplicated(sum_df), ] %>% droplevels()
 
