@@ -18,7 +18,7 @@ shared_snv_table = function(vardf){
 
   df = df[!duplicated(df), ] %>% droplevels()
 
-  ordered_df = select(df, CHROM,POS,REF,ALT,major,minor,annotation,feature_type,feature_id,protein_position,
+  ordered_df = dplyr::select(df, CHROM,POS,REF,ALT,major,minor,annotation,feature_type,feature_id,protein_position,
                       HGVS.p,majorfreq,minorfreq,variant,totalsamp) %>%
     dplyr::arrange(desc(totalsamp))
 
