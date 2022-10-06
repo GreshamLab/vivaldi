@@ -20,7 +20,7 @@ shared_snv_table = function(vardf){
 
   ordered_df = select(df, CHROM,POS,REF,ALT,major,minor,annotation,feature_type,feature_id,protein_position,
                       HGVS.p,majorfreq,minorfreq,variant,totalsamp) %>%
-    arrange(desc(totalsamp))
+    dplyr::arrange(desc(totalsamp))
 
   return(ordered_df)
 }
