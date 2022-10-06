@@ -14,16 +14,16 @@ snv_location = function(df){
 
 
     plot4 = ggplot2::ggplot() +
-      ggplot2::geom_point(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+      ggplot2::geom_point(data = df %>% dplyr::filter(ALT_TYPE == 'minor') %>% droplevels(),
                           ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
-      ggplot2::geom_point(data = df %>% filter(ALT_TYPE == 'major') %>% droplevels(),
+      ggplot2::geom_point(data = df %>% dplyr::filter(ALT_TYPE == 'major') %>% droplevels(),
                           ggplot2::aes(x=POS, y=majorfreq, color=major)) +
 
-      ggplot2::geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+      ggplot2::geom_rug(data = df %>% dplyr::filter(ALT_TYPE == 'minor') %>% droplevels(),
                         ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
-      ggplot2::geom_rug(data = df %>% filter(ALT_TYPE == 'minor') %>% droplevels(),
+      ggplot2::geom_rug(data = df %>% dplyr::filter(ALT_TYPE == 'minor') %>% droplevels(),
                         ggplot2::aes(x=POS, y=minorfreq, color=minor)) +
 
       ggplot2::theme_bw() +
