@@ -22,7 +22,7 @@ plot_shannon = function(shannon_df){
 
     print(p1)
 
-    temp = shannon_df %>% select(CHROM, sample, shannon_chrom_perkb, genome_shannon_perkb)
+    temp = shannon_df %>% dplyr::select(CHROM, sample, shannon_chrom_perkb, genome_shannon_perkb)
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
 
@@ -36,7 +36,7 @@ plot_shannon = function(shannon_df){
 
     print(p2)
 
-    temp = temp %>% select(-shannon_chrom_perkb, -CHROM)
+    temp = temp %>% dplyr::select(-shannon_chrom_perkb, -CHROM)
 
     temp = temp[!duplicated(temp), ] %>% droplevels()
 
