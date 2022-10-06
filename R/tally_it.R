@@ -28,7 +28,7 @@ tally_it = function(df, groupit, new_colname){
 
     }
 
-    count_df = df %>% group_by_at(vars(all_of(groupit))) %>% tally()
+    count_df = df %>% group_by_at(vars(all_of(groupit))) %>% dplyr::tally()
 
     colnames(count_df)[colnames(count_df) == 'n'] = new_colname
 
