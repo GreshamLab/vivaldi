@@ -15,7 +15,7 @@
 
 position_allele_freq = function(vardf,segment,nt){
 
-  vardf = vardf %>% filter(CHROM == segment, POS == nt) %>% droplevels()
+  vardf = vardf %>% dplyr::filter(CHROM == segment, POS == nt) %>% droplevels()
 
   vardf = vardf[!duplicated(vardf), ] %>% droplevels()
 

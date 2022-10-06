@@ -12,7 +12,7 @@
 #' }
 tstv_plot = function(df){
 
-    p1 = df %>% filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%
+    p1 = df %>% dplyr::filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%
           ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
@@ -24,7 +24,7 @@ tstv_plot = function(df){
 
     print(p1)
 
-    p2 = df %>% filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%
+    p2 = df %>% dplyr::filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%
       ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio_perkb)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
@@ -36,7 +36,7 @@ tstv_plot = function(df){
 
     print(p2)
 
-    p3 = df %>% filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
+    p3 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
       ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
@@ -49,7 +49,7 @@ tstv_plot = function(df){
 
     print(p3)
 
-    p4 = df %>% filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
+    p4 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
       ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio_perkb)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
