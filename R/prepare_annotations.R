@@ -52,9 +52,9 @@ prepare_annotations = function(df){
 
         multi_anno = multi_anno %>% tidyr::separate(ANN, snpeff_multi, "[|]") %>% droplevels()
 
-        multi_anno1 = multi_anno %>% dplyr::select(!all_of(snpeff2)) # separate by first annotation
+        multi_anno1 = multi_anno %>% dplyr::select(!tidyselect::all_of(snpeff2)) # separate by first annotation
 
-        multi_anno2 = multi_anno %>% dplyr::select(!all_of(snpeff)) # separate by second annotation
+        multi_anno2 = multi_anno %>% dplyr::select(!tidyselect::all_of(snpeff)) # separate by second annotation
 
         colnames(multi_anno2) = c(colnames(multi_anno1)) # change col names to match
 

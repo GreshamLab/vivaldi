@@ -43,15 +43,15 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
         if (annotated == 'yes'){
 
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% dplyr::select(all_of(fix_list), 'ANN')
+          vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list), 'ANN')
 
         } else{
           # $fix contains the INFO fields
-          vcf_fix = vcf_tidy$fix %>% dplyr::select(all_of(fix_list))
+          vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
         }
 
         # $gt contains the genotype information. grab info we want
-        vcf_gt = vcf_tidy$gt %>% dplyr::select(all_of(gt_list))
+        vcf_gt = vcf_tidy$gt %>% dplyr::select(tidyselect::all_of(gt_list))
 
         vcf_total = merge(vcf_fix, vcf_gt, by = c("ChromKey","POS"), all= TRUE)
 

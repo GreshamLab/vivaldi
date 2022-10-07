@@ -18,7 +18,7 @@ tally_it = function(df, groupit, new_colname){
 
     if (length(intersect(colnames(df), snpeff)) > 0){
 
-      df = df %>% dplyr::select(!all_of(c(snpeff)))
+      df = df %>% dplyr::select(!tidyselect::all_of(c(snpeff)))
 
       df = df[!duplicated(df), ] %>% droplevels()
 
@@ -28,7 +28,7 @@ tally_it = function(df, groupit, new_colname){
 
     }
 
-    count_df = df %>% dplyr::group_by_at(dplyr::vars(all_of(groupit))) %>% dplyr::tally()
+    count_df = df %>% dplyr::group_by_at(dplyr::vars(tidyselect::all_of(groupit))) %>% dplyr::tally()
 
     colnames(count_df)[colnames(count_df) == 'n'] = new_colname
 
