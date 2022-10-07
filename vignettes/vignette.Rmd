@@ -1,0 +1,190 @@
+---
+title: "vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(vivaldi)
+library(kableExtra)
+```
+
+```{r}
+# Set variables that we will use
+
+vardir = "C:/Users/mk5636/Desktop/Vivaldi/annotated_vcfs_timo/"
+seg_sizes = 'C:/Users/mk5636/Desktop/Vivaldi/SegmentSize.csv'
+sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
+genome_size = 13133
+SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1_MP","H1N1_NS")
+
+```
+
+
+## Load VCF files into a dataframe
+```{r}
+VCF_DF = arrange_gt_data(vardir, ref = "C:/Users/mk5636/Desktop/Vivaldi/H1N1.fa", annotated = 'yes')
+#todo: merge three arrange_* functions into a single function
+```
+
+```{r}
+kable(head(VCF_DF))
+```
+
+```{r}
+dim(VCF_DF)
+```
+
+
+## Filter out variants based on coverage and/or frequency cutoffs
+```{r}
+# Use default coverage (300) and frequency (0.02) cutoffs 
+# or set custom values
+cov_cutoff = 400
+freq_cutoff = 0.02
+DF_filt = filter_variants(VCF_DF)
+#DF_filt = filter_variants(VCF_DF, coverage_cutoff=cov_cutoff, frequency_cutoff=freq_cutoff)
+```
+
+
+```{r}
+kable(head(DF_filt))
+```
+
+```{r}
+dim(DF_filt)
+```
+
+## Format SNPeff information
+```{r}
+DF_filt = prepare_annotations(DF_filt)
+```
+
+
+```{r}
+kable(head(DF_filt))
+```
+
+```{r}
+dim(DF_filt)
+```
+
+## Add metadata (segment and genome size)
+```{r}
+DF_filt = add_metadata(DF_filt, sizes, c('CHROM'), c('segment'))
+kable(head(DF_filt))
+```
+```{r}
+dim(DF_filt)
+```
+
+## Merge Replicates
+```{r}
+rep_info = "C:/Users/mk5636/Desktop/Vivaldi/reps.csv"
+replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
+cols = c("sample","CHROM","ChromKey","POS","REF","ALT","allele",
+         "annotation","putative_impact","gene_name","gene_id","feature_type","feature_id","transcript_biotype",
+         "rank_total", "HGVS.c","HGVS.p","cDNA_position","CDS_position","protein_position","distance_to_feature",
+         "errors","ALT_TYPE","major","minor","SegmentSize","STRAIN")
+DF_filt_reps = merge_replicates(DF_filt,replicates,"rep1","rep2",cols)
+```
+
+## Calculate Shannon entropy
+```{r}
+DF_filt_reps = shannon_entropy(DF_filt_reps,genome_size)
+kable(head(DF_filt_reps))
+```
+
+```{r}
+dim(DF_filt_reps)
+
+```
+
+## Count number of SNVs
+```{r}
+# Across segments:
+group_list_seg = c('sample','CHROM', "SegmentSize")
+seg_count = tally_it(DF_filt_reps, group_list_seg, "snv_count")
+kable(head(seg_count))
+```
+
+```{r}
+# Across genome:
+group_list_gen = c('sample')
+gen_count = tally_it(DF_filt_reps, group_list_gen, "snv_count")
+kable(head(gen_count))
+```
+
+## Calculate Transitions/Transversions Ratio
+```{r}
+tstv_df = tstv_ratio(DF_filt_reps,genome_size)
+kable(head(tstv_df))
+```
+
+# Plot location of SNVs across segments
+```{r}
+# if you want to have your chrom/segments in certain order must reorder before plotting:
+#library(plotly)
+DF_filt_reps$CHROM = factor(DF_filt_reps$CHROM, levels = SEGMENTS)
+snv_location(DF_filt_reps)
+```
+
+## Plot number of SNVs per sample
+```{r}
+snv_genome(DF_filt_reps)
+```
+
+## Plot number of SNVs per sample per segment
+```{r}
+snv_segment(DF_filt_reps)
+```
+
+## Plot shannon entropy per sample and per segment
+```{r}
+# makes 3 plots
+plot_shannon(DF_filt_reps)
+```
+
+## Determine if variants are shared among samples
+```{r}
+shared_snv_plot(DF_filt_reps)
+```
+
+## Print dataframe of variants shared among samples for further analysis
+```{r}
+shared_snv_table(DF_filt_reps)
+```
+
+## Isolate variant of interest and plot AF at that position in all samples
+```{r}
+# provide the df, segment, and variant position
+position_allele_freq(DF_filt_reps,"H1N1_HA", "1007")
+```
+
+## Plot TsTv
+```{r}
+# compute ratios
+DF_tstv = tstv_ratio(DF_filt_reps,genome_size)
+# plot
+tstv_plot(DF_tstv)
+```
+
+## Calculate dNdS ratio and plot per sample per segment
+```{r}
+##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
+```
+
+## Plot distribution of all minor variant frequencies
+```{r}
+af_distribution(DF_filt_reps)
+```
