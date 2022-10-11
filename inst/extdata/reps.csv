@@ -1,0 +1,9 @@
+filename,replicate,sample
+H1N1-random3_m1_AF_random-a1_frac_0.01_BWA_timo_custom.ann,rep1,a_1
+H1N1-random3_m1_AF_random-a2_frac_0.01_BWA_timo_custom.ann,rep1,a_2
+H1N1-random3_m1_AF_random-a3_frac_0.01_BWA_timo_custom.ann,rep1,a_3
+H1N1-random4_m1_AF_random-a4_frac_0.01_BWA_timo_custom.ann,rep1,b_1
+H1N1-random3_m2_AF_random-a1_frac_0.01_BWA_timo_custom.ann,rep2,a_1
+H1N1-random3_m2_AF_random-a2_frac_0.01_BWA_timo_custom.ann,rep2,a_2
+H1N1-random3_m2_AF_random-a3_frac_0.01_BWA_timo_custom.ann,rep2,a_3
+H1N1-random4_m2_AF_random-a4_frac_0.01_BWA_timo_custom.ann,rep2,b_1
