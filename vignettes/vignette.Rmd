@@ -7,6 +7,11 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+This notebook is to show you how to use the package Vivaldi to analyze viral single nucleotide variants from next generation sequencing methods (e.g. Illumina). This vignette takes variant data in the form of VCF files and performs several widely-used analyses and generates plots for a preliminary investigation of the variants found. Users are encouraged to continue their own analyses afterwards in order to address more specific questions with their data. 
+
+# Set up
+
+## Load Vivaldi pacakge and requirements
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -19,34 +24,40 @@ library(vivaldi)
 library(kableExtra)
 ```
 
+## Vignette data set
+The data used in this vignette are simulated influenza genomes with known mutations generated at random frequencies. (More description here)
+
+## Set path for variant data and metadata
+Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. If relevant, the user should also supply a .csv file containing information about sequencing replicates containing 3 columns: the filename of both replicates, which replicate the sample represents, and the new sample name for the merged replicates. The user should also give a string containing the segments in the desired order for plots. 
 ```{r}
 # Set variables that we will use
 
 vardir = "C:/Users/mk5636/Desktop/Vivaldi/annotated_vcfs_timo/"
+
 seg_sizes = 'C:/Users/mk5636/Desktop/Vivaldi/SegmentSize.csv'
+rep_info = "C:/Users/mk5636/Desktop/Vivaldi/reps.csv"
+
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
+replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
+
 genome_size = 13133
 SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1_MP","H1N1_NS")
-
 ```
 
+# Step 1: Loading in data and arranging 
 
 ## Load VCF files into a dataframe
+The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not conatin GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
 ```{r}
 VCF_DF = arrange_gt_data(vardir, ref = "C:/Users/mk5636/Desktop/Vivaldi/H1N1.fa", annotated = 'yes')
 #todo: merge three arrange_* functions into a single function
-```
 
-```{r}
 kable(head(VCF_DF))
-```
-
-```{r}
 dim(VCF_DF)
 ```
 
-
 ## Filter out variants based on coverage and/or frequency cutoffs
+This function provides the user with the opportunity to filter the variants by frequency or coverage of the ALT allele. Based on (our paper), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. 
 ```{r}
 # Use default coverage (300) and frequency (0.02) cutoffs 
 # or set custom values
@@ -54,137 +65,134 @@ cov_cutoff = 400
 freq_cutoff = 0.02
 DF_filt = filter_variants(VCF_DF)
 #DF_filt = filter_variants(VCF_DF, coverage_cutoff=cov_cutoff, frequency_cutoff=freq_cutoff)
-```
 
-
-```{r}
 kable(head(DF_filt))
-```
-
-```{r}
 dim(DF_filt)
 ```
 
 ## Format SNPeff information
+This function takes the one large annotation column containing annotation information from SNPeff and separates them out into individual columns with one attribute each.
 ```{r}
 DF_filt = prepare_annotations(DF_filt)
-```
 
-
-```{r}
 kable(head(DF_filt))
-```
-
-```{r}
 dim(DF_filt)
 ```
 
 ## Add metadata (segment and genome size)
+Here, we add in information about the sizes of the segments, which will allow us to do downstream calculations like tstv, dNdS, and others. The user must provide both the variant dataframe and the loaded metadata dataaframe, as well as the names of the columns to merge by in both. 
 ```{r}
 DF_filt = add_metadata(DF_filt, sizes, c('CHROM'), c('segment'))
+
 kable(head(DF_filt))
-```
-```{r}
 dim(DF_filt)
 ```
 
 ## Merge Replicates
+Sequencing in replicate allow us to keep only those variants found in both runs, as any sequencing or PCR errors are extremely unlikely to be found in independent experiments. For this function, the user must provide the variant dataframe and the loaded replicates dataframe. In addition, whatever name the user provides for the replicates (ex. "Rep1", "r1", "rep1", etc) must be provided in quotes, as well as a list of columns that should be used to merge the two dataframes. This should contain any columns that are expected to be identical between the two replicates, such as the segment and nucleotide position of the variant as well as any SNPeff annotation information. It should not contain replicate-specific information such as the allele frequency of the variant. We calculate the average allele frequency for both the ALT and REF allele, as well as the weighted average, which considers the number of reads for each replicate as well. We expect these to be generally similar, unless one of the replicates has significantly higher coverage per sample than the other.
 ```{r}
-rep_info = "C:/Users/mk5636/Desktop/Vivaldi/reps.csv"
-replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
 cols = c("sample","CHROM","ChromKey","POS","REF","ALT","allele",
          "annotation","putative_impact","gene_name","gene_id","feature_type","feature_id","transcript_biotype",
          "rank_total", "HGVS.c","HGVS.p","cDNA_position","CDS_position","protein_position","distance_to_feature",
          "errors","ALT_TYPE","major","minor","SegmentSize","STRAIN")
+
 DF_filt_reps = merge_replicates(DF_filt,replicates,"rep1","rep2",cols)
+
+# if you want to have your chrom/segments in certain order must reorder before plotting:
+DF_filt_reps$CHROM = factor(DF_filt_reps$CHROM, levels = SEGMENTS)
 ```
+
+# Step 2: Calculations
 
 ## Calculate Shannon entropy
+Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different caluclations. The user must provide the variant dataframe and the length of the genome they are working with. 
 ```{r}
 DF_filt_reps = shannon_entropy(DF_filt_reps,genome_size)
+
 kable(head(DF_filt_reps))
-```
-
-```{r}
 dim(DF_filt_reps)
-
 ```
 
 ## Count number of SNVs
+The function tally_it() allows the user to count the number of variants over a given set of variables. These variables should be provided as a list and then passed into the function in addition to the name, in quotes, for the new column containing the number of variants. For example, to get the sum of variants on every segment, the user should construct as list containing the name of the sample column and the name of the segment column and pass that list into the function. 
 ```{r}
 # Across segments:
 group_list_seg = c('sample','CHROM', "SegmentSize")
 seg_count = tally_it(DF_filt_reps, group_list_seg, "snv_count")
-kable(head(seg_count))
-```
 
-```{r}
+kable(head(seg_count))
+
+
 # Across genome:
 group_list_gen = c('sample')
 gen_count = tally_it(DF_filt_reps, group_list_gen, "snv_count")
+
 kable(head(gen_count))
 ```
 
-## Calculate Transitions/Transversions Ratio
+## Calculate Transitions/Transversions Ratio 
+The transistion/transversion rate is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be caluclated by segment and over the whole genome. 
 ```{r}
 tstv_df = tstv_ratio(DF_filt_reps,genome_size)
 kable(head(tstv_df))
 ```
 
-# Plot location of SNVs across segments
+# Step 3: Generate plots
+
+## Plot location of SNVs across segments
+This function takes the variant dataframe and generates a large, interactive plot of all of the variants. The plot will be faceted by each segment for each individual sample. The user can scroll over each point in the plot to get information about that variant, including the nucleotide change and the position on the segment.
 ```{r}
-# if you want to have your chrom/segments in certain order must reorder before plotting:
 #library(plotly)
-DF_filt_reps$CHROM = factor(DF_filt_reps$CHROM, levels = SEGMENTS)
 snv_location(DF_filt_reps)
 ```
 
-## Plot number of SNVs per sample
+## Plot number of SNVs per sample and per segment
+The snv_genome() function will take the variant dataframe and generate a plot of the number of variants per genome and colors them by their SNPeff annotation, while the snv_segment() function will generate the same plot but faceted by segment. 
 ```{r}
 snv_genome(DF_filt_reps)
-```
-
-## Plot number of SNVs per sample per segment
-```{r}
 snv_segment(DF_filt_reps)
 ```
 
+## Plot TsTv
+This function will take the variant dataframe and generates 4 plots: the Ts/Tv ratio across the genome, the ratio across each segment, and both plots normalized by kb. 
+```{r}
+tstv_plot(DF_tstv)
+```
+
 ## Plot shannon entropy per sample and per segment
+This function takes the variant dataframe and generates three plots: the shannon entropy value for every variant, the sum of these values over each segment, and the sum over the entire genome. A higher Shannon entropy value indicates more diversity. 
 ```{r}
 # makes 3 plots
 plot_shannon(DF_filt_reps)
 ```
 
 ## Determine if variants are shared among samples
+This function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
 ```{r}
 shared_snv_plot(DF_filt_reps)
 ```
 
 ## Print dataframe of variants shared among samples for further analysis
+This function takes the variant dataframe and creates a new table, listing the variants in descending order of how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
 ```{r}
 shared_snv_table(DF_filt_reps)
 ```
 
 ## Isolate variant of interest and plot AF at that position in all samples
+This function allows users to focus on a single variant of interest and track the allele frequency of the ALT and the REF allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
 ```{r}
 # provide the df, segment, and variant position
 position_allele_freq(DF_filt_reps,"H1N1_HA", "1007")
 ```
 
-## Plot TsTv
-```{r}
-# compute ratios
-DF_tstv = tstv_ratio(DF_filt_reps,genome_size)
-# plot
-tstv_plot(DF_tstv)
-```
-
 ## Calculate dNdS ratio and plot per sample per segment
+The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be appox. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonsymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
 ```{r}
 ##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
 ```
 
 ## Plot distribution of all minor variant frequencies
+This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be scewed to very low frequency variants (< 10%). 
 ```{r}
 af_distribution(DF_filt_reps)
 ```
