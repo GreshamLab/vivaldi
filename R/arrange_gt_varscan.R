@@ -55,7 +55,7 @@ arrange_gt_data_varscan = function(vardir, reference_fasta, annotated = 'yes', n
     vcf_total = merge(vcf_fix, vcf_gt, by = c("POS"), all= TRUE)
 
     # if variants exist
-    if (nrow(vcf_total>0)){
+    if (nrow(vcf_total) > 0){
 
       vcf_total$sample = samplename
 
