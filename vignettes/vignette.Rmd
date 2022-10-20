@@ -31,11 +31,9 @@ The data used in this vignette are simulated influenza genomes with known mutati
 Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. If relevant, the user should also supply a .csv file containing information about sequencing replicates containing 3 columns: the filename of both replicates, which replicate the sample represents, and the new sample name for the merged replicates. The user should also give a string containing the segments in the desired order for plots. 
 ```{r}
 # Set variables that we will use
-
-vardir = "C:/Users/mk5636/Desktop/Vivaldi/annotated_vcfs_timo/"
-
-seg_sizes = 'C:/Users/mk5636/Desktop/Vivaldi/SegmentSize.csv'
-rep_info = "C:/Users/mk5636/Desktop/Vivaldi/reps.csv"
+vardir = system.file("extdata", "vcfs", package="vivaldi") 
+seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
+rep_info = system.file("extdata", "reps.csv", package="vivaldi")
 
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
 replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
@@ -49,7 +47,7 @@ SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1
 ## Load VCF files into a dataframe
 The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not conatin GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
 ```{r}
-VCF_DF = arrange_gt_data(vardir, ref = "C:/Users/mk5636/Desktop/Vivaldi/H1N1.fa", annotated = 'yes')
+VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 #todo: merge three arrange_* functions into a single function
 
 kable(head(VCF_DF))
