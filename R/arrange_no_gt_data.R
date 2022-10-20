@@ -50,7 +50,7 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
     vcf_fix = cbind(vcf_fix, AF_df)
 
     # if variants exist
-    if (nrow(vcf_fix>0)){
+    if (nrow(vcf_fix) > 0){
 
       vcf_fix$sample = samplename
 
