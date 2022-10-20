@@ -3,7 +3,7 @@
 #' Merges replicate VCF files into a single dataframe
 #'
 #' @name merge_replicates
-#' @param vardir Data frame of variants
+#' @param vardf Data frame of variants
 #' @param repdata Data frame of replicate information
 #' @param nameofrep1 Name of variable representing the first replicate, must be written with quotes
 #' @param nameofrep2 Name of variable representing the second replicate
@@ -12,11 +12,11 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
+#' merge_replicates(vardf, column, nameofrep1, nameofrep2, commoncols)
 #' }
-merge_replicates = function(vardir, repdata, nameofrep1, nameofrep2,commoncols){
+merge_replicates = function(vardf, repdata, nameofrep1, nameofrep2,commoncols){
 
-  df = merge(repdata,vardir, by.x = c("filename"), by.y = c("sample"))
+  df = merge(repdata,vardf, by.x = c("filename"), by.y = c("sample"))
 
   df_rep1 = dplyr::filter(df, replicate == nameofrep1)
   # nameofrep1 must be given in ""
