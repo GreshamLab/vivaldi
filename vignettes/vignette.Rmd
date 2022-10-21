@@ -131,8 +131,8 @@ kable(head(gen_count))
 ## Calculate Transitions/Transversions Ratio 
 The transistion/transversion rate is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be caluclated by segment and over the whole genome. 
 ```{r}
-tstv_df = tstv_ratio(DF_filt_reps,genome_size)
-kable(head(tstv_df))
+DF_tstv = tstv_ratio(DF_filt_reps,genome_size)
+kable(head(DF_tstv))
 ```
 
 # Step 3: Generate plots
