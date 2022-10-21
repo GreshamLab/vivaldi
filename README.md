@@ -13,3 +13,9 @@ To install this package:
 Authors: Marrisa Knoll, Katherine Johnson, Mohammed Khalfan, David Gresham
 
 Email: <dg107@nyu.edu>
+
+------------------------------------------------------------------------
+
+If you use vivaldi in published research, please cite:
+
+Roder, A. E., et al. "Optimized Quantification of Intrahost Viral Diversity in SARS-CoV-2 and Influenza Virus Sequence Data." bioRxiv (2022): 2021-05
