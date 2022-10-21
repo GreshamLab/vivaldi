@@ -1,0 +1,21 @@
+citHeader("To cite vivaldi in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "Optimized Quantification of Intrahost Viral Diversity in SARS-CoV-2 and Influenza Virus Sequence Data",
+  author   = personList(as.person("Roder AE"),
+                 as.person("Johnson KEE"), as.person("Knoll M"), as.person("Khalfan M"),
+                 as.person("Wang B"), as.person("Schultz-Cherry S"), as.person("Banakis S"),
+                 as.person("Kreitman A"), as.person("Mederos C"), as.person("Youn J-H"),
+                 as.person("Mercado R"), as.person("Wang W"), as.person("Ruchnewitz D"),
+                 as.person("Samanovic MI"), as.person("Mulligan MJ"), as.person("Lassig M"),
+                 as.person("Łuksza M"), as.person("Das S"), as.person("Gresham D"),
+                 as.person("Ghedin E")),
+  journal  = 'bioRxiv',
+  year     = '2022',
+  volume   = ,
+  number   = ,
+  pages    = ,
+  url      = 'https://www.biorxiv.org/content/early/2022/08/16/2021.05.05.442873',
+  textVersion = paste("Roder, A. E., et al.", "Optimized Quantification of Intrahost Viral Diversity in SARS-CoV-2 and Influenza Virus Sequence Data.", "bioRxiv (2022): 2021-05", "URL https://www.biorxiv.org/content/early/2022/08/16/2021.05.05.442873")
+)
