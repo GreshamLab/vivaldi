@@ -16,8 +16,6 @@ arrange_no_gt_data(
 \item{reference_fasta}{Reference fasta file used for alignment}
 
 \item{ntlist}{Nucleotides (default A, T, G, C) used for finding multiple alt alleles}
-
-\item{annotated}{Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")}
 }
 \value{
 A large dataframe containing information from all input VCF files
@@ -27,6 +25,6 @@ Reads in a directory of VCF files and converts them into a single dataframe for 
 }
 \examples{
 \dontrun{
-arrange_no_gt_data(vardir, reference_fasta = reference, annotated = 'yes')
+arrange_no_gt_data(vardir, reference_fasta = reference)
 }
 }

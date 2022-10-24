@@ -8,6 +8,8 @@ tstv_ratio(df, genome_size)
 }
 \arguments{
 \item{df}{The filtered and rearranged variant dataframe}
+
+\item{genome_size}{Size of whole genome being used}
 }
 \value{
 A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
@@ -17,6 +19,6 @@ Inputs a filtered and rearranged vcf dataframe and calculates the transition/tra
 }
 \examples{
 \dontrun{
-tstv_ratio(df)
+tstv_ratio(df,genome_size)
 }
 }

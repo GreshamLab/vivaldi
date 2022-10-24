@@ -7,7 +7,7 @@
 dNdS_segment(annotation_df)
 }
 \arguments{
-\item{vardf}{A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations}
+\item{annotation_df}{A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations}
 }
 \value{
 A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
@@ -17,6 +17,6 @@ Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_
 }
 \examples{
 \dontrun{
-dNdS_segment(vardf)
+dNdS_segment(annotation_df)
 }
 }

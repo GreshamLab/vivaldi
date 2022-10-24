@@ -4,10 +4,10 @@
 \alias{merge_replicates}
 \title{merge_replicates}
 \usage{
-merge_replicates(vardir, repdata, nameofrep1, nameofrep2, commoncols)
+merge_replicates(vardf, repdata, nameofrep1, nameofrep2, commoncols)
 }
 \arguments{
-\item{vardir}{Data frame of variants}
+\item{vardf}{Data frame of variants}
 
 \item{repdata}{Data frame of replicate information}
 
@@ -25,6 +25,6 @@ Merges replicate VCF files into a single dataframe
 }
 \examples{
 \dontrun{
-merge_replicates(vardir, column, nameofrep1, nameofrep2, commoncols)
+merge_replicates(vardf, column, nameofrep1, nameofrep2, commoncols)
 }
 }

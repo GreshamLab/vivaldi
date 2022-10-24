@@ -19,6 +19,6 @@ Takes a rearranged vcf dataframe (arrange_gt_data) and calculates the Shannon en
 }
 \examples{
 \dontrun{
-shannon_entropy(df)
+shannon_entropy(df,genome_size)
 }
 }
