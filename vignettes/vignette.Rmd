@@ -45,7 +45,7 @@ SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1
 # Step 1: Loading in data and arranging 
 
 ## Load VCF files into a dataframe
-The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not conatin GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
+The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not contain GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
 ```{r}
 VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 #todo: merge three arrange_* functions into a single function
@@ -78,7 +78,7 @@ dim(DF_filt)
 ```
 
 ## Add metadata (segment and genome size)
-Here, we add in information about the sizes of the segments, which will allow us to do downstream calculations like tstv, dNdS, and others. The user must provide both the variant dataframe and the loaded metadata dataaframe, as well as the names of the columns to merge by in both. 
+Here, we add in information about the sizes of the segments, which will allow us to do downstream calculations like tstv, dNdS, and others. The user must provide both the variant dataframe and the loaded metadata dataframe, as well as the names of the columns to merge by in both. 
 ```{r}
 DF_filt = add_metadata(DF_filt, sizes, c('CHROM'), c('segment'))
 
@@ -103,7 +103,7 @@ DF_filt_reps$CHROM = factor(DF_filt_reps$CHROM, levels = SEGMENTS)
 # Step 2: Calculations
 
 ## Calculate Shannon entropy
-Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different caluclations. The user must provide the variant dataframe and the length of the genome they are working with. 
+Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different calculations. The user must provide the variant dataframe and the length of the genome they are working with. 
 ```{r}
 DF_filt_reps = shannon_entropy(DF_filt_reps,genome_size)
 
@@ -129,7 +129,7 @@ kable(head(gen_count))
 ```
 
 ## Calculate Transitions/Transversions Ratio 
-The transistion/transversion rate is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be caluclated by segment and over the whole genome. 
+The transition/transversion rate is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
 ```{r}
 DF_tstv = tstv_ratio(DF_filt_reps,genome_size)
 kable(head(DF_tstv))
@@ -184,13 +184,13 @@ position_allele_freq(DF_filt_reps,"H1N1_HA", "1007")
 ```
 
 ## Calculate dNdS ratio and plot per sample per segment
-The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be appox. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonsymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
+The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be approx. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
 ```{r}
 ##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
 ```
 
 ## Plot distribution of all minor variant frequencies
-This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be scewed to very low frequency variants (< 10%). 
+This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be skewed to very low frequency variants (< 10%). 
 ```{r}
 af_distribution(DF_filt_reps)
 ```

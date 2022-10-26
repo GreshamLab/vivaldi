@@ -1,6 +1,6 @@
 #' dNdS_segment
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), caluculates dNdS, and outputs plots
+#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), calculates dNdS, and outputs plots
 #'
 #' @name dNdS_segment
 #' @param annotation_df A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
