@@ -19,7 +19,8 @@ Imports:
   tidyr (>= 1.1.2),
   plotly (>= 4.10.0),
   dplyr (>= 1.0.2),
-  magrittr
+  magrittr (>=2.0.1),
+  tidyselect (>= 1.1.2)
 Suggests: 
     knitr,
     rmarkdown
