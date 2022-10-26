@@ -4,8 +4,8 @@ Title: Viral Variant Location and Diversity
 Version: 0.1.0
 Author: Marissa Knoll, Katherine Johnson, Mohammed Khalfan, David Gresham
 Maintainer: The package maintainer <dg107@nyu.edu>
-Description: The vivaldi package provides functions for analyzing minor alleles in Illumina sequencing data of viral genomes.
-    Functions in vivaldi primarily operate on vcf files.
+Description: The 'vivaldi' package provides functions for analyzing minor alleles in Illumina sequencing data of viral genomes.
+    Functions in 'vivaldi' primarily operate on vcf files.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
