@@ -6,6 +6,9 @@ Authors@R: c(
     person("Marissa", "Knoll", role = "aut"),
     person("Katherine", "Johnson", role = "aut"),
     person("Mohammed", "Khalfan", role = "aut"),
+    person("Eric", "Borenstein", role = "aut"),
+    person("Marissa", "Knoll", role = "aut"),
+    person("Elodie", "Ghedin", role= "aut"),
     person("David", "Gresham", , "dg107@nyu.edu", role = c("aut", "cre"))
   )
 Description: The 'vivaldi' package provides functions for analyzing minor
