@@ -75,10 +75,39 @@ VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package
 kable(head(VCF_DF))
 dim(VCF_DF)
 ```
-The VCF_DF dataframe now contains all cariants from all of the files. ChromKey gives the 
+The VCF_DF dataframe now contains all variants from all of the files. Columns contain:
+* sample: name of the sample the variant was found in (pulled from VCF file name)
+* CHROM: segment the variant was found on
+* POS: nucleotide position of the variant
+* REF: nucleotide found at this position in the reference genome provided ("ref = ")
+* ALT: nucleotide found at this position in the sample 
+* ANN: annotation information from SNPeff, not yet formatted 
+* gt_DP: total number of reads (i.e. depth) that cover this position
+* REF_COUNT: number of reads that include the REF nucleotide
+* ALT_COUNT: number of reads that include the ALT nucleotide
+* REF_FREQ: frequency of the reference nucleotide, calculated as the REF_COUNT divided by the gt_DP
+* ALT_FREQ: frequency of the alternate nucleotide, calculated as the ALT_COUNT divided by the gt_DP
+* ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labelled a major; if found at frequencies < 50%, it is labelled a minor.
+* major: major nucleotide
+* minor: minor nucleotide
+* majorfreq: frequency of the major nucleotide
+* minorfreq: frequency of the minor nucleotide
+* majorcount: number of reads containing the major nucleotide
+* minorcount: number of reads containing the minor nucleotide
+
+## Merge Replicates
+Sequencing in replicate allow us to keep only those variants found in both runs, as any sequencing or PCR errors are extremely unlikely to be found in independent experiments. For this function, the user must provide the variant dataframe and the loaded replicates dataframe. In addition, whatever name the user provides for the replicates (ex. "Rep1", "r1", "rep1", etc) must be provided in quotes, as well as a list of columns that should be used to merge the two dataframes. This should contain any columns that are expected to be identical between the two replicates, such as the segment and nucleotide position of the variant as well as any SNPeff annotation information. It should not contain replicate-specific information such as the allele frequency of the variant. We calculate the average allele frequency for both the ALT and REF allele, as well as the weighted average, which considers the number of reads for each replicate as well. We expect these to be generally similar, unless one of the replicates has significantly higher coverage per sample than the other.
+```{r}
+cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
+
+DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
+
+# if you want to have your segments in certain order must reorder before plotting:
+DF_reps$CHROM = factor(DF_reps$CHROM, levels = SEGMENTS)
+```
 
 ## Filter out variants based on coverage and/or frequency cutoffs
-This function provides the user with the opportunity to filter the variants by frequency or coverage of the ALT allele. Based on (our paper), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. 
+This function filters the variants by frequency or coverage of the ALT allele. Based on (our paper), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. 
 ```{r}
 # Use default coverage (300) and frequency (0.02) cutoffs 
 # or set custom values
@@ -109,19 +138,6 @@ kable(head(DF_filt))
 dim(DF_filt)
 ```
 
-## Merge Replicates
-Sequencing in replicate allow us to keep only those variants found in both runs, as any sequencing or PCR errors are extremely unlikely to be found in independent experiments. For this function, the user must provide the variant dataframe and the loaded replicates dataframe. In addition, whatever name the user provides for the replicates (ex. "Rep1", "r1", "rep1", etc) must be provided in quotes, as well as a list of columns that should be used to merge the two dataframes. This should contain any columns that are expected to be identical between the two replicates, such as the segment and nucleotide position of the variant as well as any SNPeff annotation information. It should not contain replicate-specific information such as the allele frequency of the variant. We calculate the average allele frequency for both the ALT and REF allele, as well as the weighted average, which considers the number of reads for each replicate as well. We expect these to be generally similar, unless one of the replicates has significantly higher coverage per sample than the other.
-```{r}
-cols = c("sample","CHROM","ChromKey","POS","REF","ALT","allele",
-         "annotation","putative_impact","gene_name","gene_id","feature_type","feature_id","transcript_biotype",
-         "rank_total", "HGVS.c","HGVS.p","cDNA_position","CDS_position","protein_position","distance_to_feature",
-         "errors","ALT_TYPE","major","minor","SegmentSize","STRAIN")
-
-DF_filt_reps = merge_replicates(DF_filt,replicates,"rep1","rep2",cols)
-
-# if you want to have your chrom/segments in certain order must reorder before plotting:
-DF_filt_reps$CHROM = factor(DF_filt_reps$CHROM, levels = SEGMENTS)
-```
 
 # Step 2: Calculations
 

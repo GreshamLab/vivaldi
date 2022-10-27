@@ -26,13 +26,19 @@ merge_replicates = function(vardf, repdata, nameofrep1, nameofrep2,commoncols){
   df_merged = merge(df_rep1, df_rep2, by = commoncols)
   df_merged = df_merged[!duplicated(df_merged), ]
 
-  df_merged$minorfreq = (df_merged$minorfreq.x + df_merged$minorfreq.y) / 2
-  df_merged$majorfreq = (df_merged$majorfreq.x + df_merged$majorfreq.y) / 2
+  if (nrow(df_merged) > 0){
 
-  # add weighted average using read counts
+    df_merged$minorfreq = (df_merged$minorfreq.x + df_merged$minorfreq.y) / 2
+    df_merged$majorfreq = (df_merged$majorfreq.x + df_merged$majorfreq.y) / 2
 
-  df_merged$weighted_minorfreq = (df_merged$minorcount.x + df_merged$minorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
-  df_merged$weighted_majorfreq = (df_merged$majorcount.x + df_merged$majorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+    # add weighted average using read counts
+
+    df_merged$weighted_minorfreq = (df_merged$minorcount.x + df_merged$minorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+    df_merged$weighted_majorfreq = (df_merged$majorcount.x + df_merged$majorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+
+
+  } else{message("Merging columns do not match: ")}
+
 
   return(df_merged)
 
