@@ -46,7 +46,7 @@ SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1
 
 ## Load VCF files into a dataframe
 The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not contain GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
-```{r}
+```{r, include = FALSE}
 VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 #todo: merge three arrange_* functions into a single function
 
