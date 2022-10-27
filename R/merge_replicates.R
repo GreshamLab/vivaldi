@@ -31,8 +31,8 @@ merge_replicates = function(vardf, repdata, nameofrep1, nameofrep2,commoncols){
 
   # add weighted average using read counts
 
-  df_merged$weighted_minorfreq = (df_merged$ALT_COUNT.x + df_merged$ALT_COUNT.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
-  df_merged$weighted_majorfreq = (df_merged$REF_COUNT.x + df_merged$REF_COUNT.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+  df_merged$weighted_minorfreq = (df_merged$minorcount.x + df_merged$minorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
+  df_merged$weighted_majorfreq = (df_merged$majorcount.x + df_merged$majorcount.y) / (df_merged$gt_DP.x + df_merged$gt_DP.y)
 
   return(df_merged)
 

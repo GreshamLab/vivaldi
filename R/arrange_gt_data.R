@@ -92,7 +92,9 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
     all_files = all_files %>% dplyr::mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
                                          minorfreq = ifelse(ALT_TYPE == 'minor', ALT_FREQ, REF_FREQ),
                                          major = ifelse(ALT_TYPE == 'major', ALT, REF),
-                                         minor = ifelse(ALT_TYPE == 'minor', ALT, REF))
+                                         minor = ifelse(ALT_TYPE == 'minor', ALT, REF),
+                                         majorcount = ifelse(ALT_TYPE == "major", ALT_COUNT,REF_COUNT),
+                                         minorcount = ifelse(ALT_TYPE == "minor", ALT_COUNT,REF_COUNT))
 
     all_files = all_files[!duplicated(all_files), ] %>% droplevels()
 
