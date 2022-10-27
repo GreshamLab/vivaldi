@@ -26,7 +26,6 @@ Imports:
     seqinr (>= 4.2-8),
     tidyr (>= 1.1.2),
     tidyselect (>= 1.1.2),
-    tidyverse (>= 1.3.0),
     vcfR (>= 1.12.0)
 Suggests: 
     kableExtra,
