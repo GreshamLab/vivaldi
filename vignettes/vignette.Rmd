@@ -7,11 +7,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This notebook is to show you how to use the package Vivaldi to analyze viral single nucleotide variants from next generation sequencing methods (e.g. Illumina). This vignette takes variant data in the form of VCF files and performs several widely-used analyses and generates plots for a preliminary investigation of the variants found. Users are encouraged to continue their own analyses afterwards in order to address more specific questions with their data. 
+This notebook demonstrates the use of the package "Vivaldi" to analyze viral single nucleotide variants from next generation sequencing data (e.g. Illumina). This vignette takes variant data in the form of VCF files generated using the MAD2 pipeline (https://github.com/gencorefacility/MAD2) and the variant callers timo and iVar. It performs analyses to summarize genetic diversity. 
 
-# Set up
+# Table of Contents
+* Load package
+* Step 1: Set path for variant data and metadata
+* Step 2: Loading data and arranging
+    + arrange_data()
+    + filter_variants()
+    + prepare_annotations()
+    + add_metadata()
+    + merge_replicates()
+* Step 3: Calculations & Plots
+    + 
 
-## Load Vivaldi pacakge and requirements
+# Load Vivaldi pacakge
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -19,6 +29,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+The vivaldi package is available on Cran and is loaded as follows: 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
@@ -27,25 +38,36 @@ library(kableExtra)
 ## Vignette data set
 The data used in this vignette are simulated influenza genomes with known mutations generated at random frequencies. (More description here)
 
-## Set path for variant data and metadata
-Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. If relevant, the user should also supply a .csv file containing information about sequencing replicates containing 3 columns: the filename of both replicates, which replicate the sample represents, and the new sample name for the merged replicates. The user should also give a string containing the segments in the desired order for plots. 
+# Step 1: Set path for variant data and metadata
+
+The data used in this vignette is included with the package. For running their own data, users should set give the path to those files here. 
 ```{r}
 # Set variables that we will use
 vardir = system.file("extdata", "vcfs", package="vivaldi") 
+```
+
+Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. Useres should also set a variable with the total length of their viral genome. 
+```{r}
 seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
-rep_info = system.file("extdata", "reps.csv", package="vivaldi")
-
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
-replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
-
 genome_size = 13133
+```
+
+If relevant, the user should also supply a .csv file containing information about sequencing replicates containing 3 columns: the filename of both replicates, which replicate the sample represents, and the new sample name for the merged replicates. 
+```{r}
+rep_info = system.file("extdata", "reps.csv", package="vivaldi")
+replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
+```
+
+If working with a segmented genome, users should also give a string containing the segments in the desired order for plots. 
+```{r}
 SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1_MP","H1N1_NS")
 ```
 
-# Step 1: Loading in data and arranging 
+# Step 2: Loading in data and arranging 
 
 ## Load VCF files into a dataframe
-The first step of the work flow is to load the VCF files into R and extract the important information. There are currently two potential functions to use at this stage, we hope to merge them into a single function in the future. For VCF files that contain GT information, use the arrange_gt_data() function. For VCF files that do not contain GT information, use the arrange_no_gt_data() function. In both cases, the result is a tidy dataframe that contains the sample name, pulled from the file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
+The first step of the work flow is to load the VCF files into R and extract the important information. The output of this function is a tidy dataframe that contains the sample name, pulled from the VCF file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
 ```{r, include = FALSE}
 VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 #todo: merge three arrange_* functions into a single function
@@ -53,6 +75,7 @@ VCF_DF = arrange_gt_data(vardir, ref = system.file("extdata", "H1N1.fa", package
 kable(head(VCF_DF))
 dim(VCF_DF)
 ```
+The VCF_DF dataframe now contains all cariants from all of the files. ChromKey gives the 
 
 ## Filter out variants based on coverage and/or frequency cutoffs
 This function provides the user with the opportunity to filter the variants by frequency or coverage of the ALT allele. Based on (our paper), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. 
