@@ -13,7 +13,7 @@ dNdS_segment(annotation_df)
 A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
 }
 \description{
-Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), caluculates dNdS, and outputs plots
+Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), calculates dNdS, and outputs plots
 }
 \examples{
 \dontrun{
