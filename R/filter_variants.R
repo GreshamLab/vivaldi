@@ -17,7 +17,7 @@ filter_variants = function(df, coverage_cutoff=200, frequency_cutoff=0.03){
     input_dim = nrow(df)
     # using ALT_FREQ in case there isn't a 'minor variant' present, it still keeps consensus changes from ref
     # loop assures this function works on data with and without replicates
-    if ("ALT_FREQ" %in% names(df) = TRUE){
+    if ("ALT_FREQ" %in% names(df)){
 
       df = df %>% dplyr::filter(ALT_FREQ >= frequency_cutoff &
                                   gt_DP >= coverage_cutoff)
