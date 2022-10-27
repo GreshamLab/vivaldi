@@ -1,4 +1,7 @@
 # vivaldi
+  <!-- badges: start -->
+  [![R-CMD-check](https://github.com/GreshamLab/vivaldi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GreshamLab/vivaldi/actions/workflows/R-CMD-check.yaml)
+  <!-- badges: end -->
 
 *vivaldi* (**Vi**ral **Va**riant **L**ocation **a**nd **D**iversity) is an R package for analyzing viral genomes using next generation DNA sequencing.
 

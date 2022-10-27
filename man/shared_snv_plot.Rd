@@ -10,7 +10,7 @@ shared_snv_plot(vardf)
 \item{vardf}{A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe}
 }
 \value{
-A plot showing the location of variants and the number of samples that conatain each variant
+A plot showing the location of variants and the number of samples that contain each variant
 }
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
