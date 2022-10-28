@@ -36,7 +36,7 @@ library(kableExtra)
 ```
 
 ## Vignette data set
-The data used in this vignette are simulated influenza genomes with known mutations generated at random frequencies. (More description here)
+The data used in this vignette are simulated influenza genomes with known mutations generated at random frequencies. These VCF files have also been annotated using SNPeff before running "Vivaldi". 
 
 # Step 1: Set path for variant data and metadata
 
@@ -196,7 +196,7 @@ kable(head(DF_tstv))
 ```
 
 ## Plot TsTv
-This function will take the variant dataframe and generates 4 plots: the Ts/Tv ratio across the genome, the ratio across each segment, and both plots normalized by kb. 
+This function will take the variant dataframe and generates 3 plots: the Ts/Tv ratio across the genome, the ratio across each segment, and the ratio across each segment normalized by kilobase. 
 ```{r}
 tstv_plot(DF_tstv)
 ```
@@ -232,11 +232,11 @@ This function takes the variant dataframe and generates a plot that annotates th
 ```{r}
 shared_snv_plot(DF_filt)
 
-# Alternatively, to compare only a select number of samples, provide a list with their names
-samplelist = c("a_1_fb","a_1_iv") # this must be called samplelist
-shared_snv_plot(DF_filt, list = "yes", name = samplelist)
+# Alternatively, to compare only a select number of samples, provide a character vector with their names
+samplelist = c("a_1_fb","a_1_iv")
+shared_snv_plot(DF_filt, samples = samplelist)
 ```
-By default, this plot asks if the variant is shared across all samples. To 
+By default, this plot asks if the variant is shared across all samples. To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to pull only those samples before tallying. 
 
 
 ## Print dataframe of variants shared among samples for further analysis
@@ -246,8 +246,9 @@ shared_snv_table(DF_filt)
 ```
 
 ## Isolate variant of interest and plot AF at that position in all samples
-This function allows users to focus on a single variant of interest and track the allele frequency of the ALT and the REF allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
+This function allows users to focus on a single variant of interest and track the allele frequency of the major and the minor allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
 ```{r}
 # provide the df, segment, and variant position
 position_allele_freq(DF_filt,"H1N1_HA", "1007")
 ```
+This function is particularly useful to identify changes in allele frequency over time, if working with time series data, or between individuals in a transmission chain. If a variant is seen to rise in frequency over time, that is a potential indication of positive selection. If a variant is transmitted between individuals, it may also indicate some functional advantage. However, as transmission bottlenecks are thought to be relatively narrow for most viruses, a variant's presence may also simply indicate a variant "lucky" enough to become part of the founding population for the next infection. 
