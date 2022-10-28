@@ -4,7 +4,7 @@
 \alias{filter_variants}
 \title{filter_variants}
 \usage{
-filter_variants(df, coverage_cutoff = 300, frequency_cutoff = 0.02)
+filter_variants(df, coverage_cutoff = 300, frequency_cutoff = 0.03)
 }
 \arguments{
 \item{df}{A rearranged VCF dataframe (rearranged using the arrange_gt_data function)}
@@ -21,6 +21,6 @@ Filters single-nucleotide variants using a coverage and frequency cutoff
 }
 \examples{
 \dontrun{
-filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.02)
+filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.03)
 }
 }
