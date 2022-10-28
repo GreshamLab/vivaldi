@@ -231,7 +231,13 @@ dNdS_segment(DF_filt)
 This function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
 ```{r}
 shared_snv_plot(DF_filt)
+
+# Alternatively, to compare only a select number of samples, provide a list with their names
+samplelist = c("a_1_fb","a_1_iv") # this must be called samplelist
+shared_snv_plot(DF_filt, list = "yes", name = samplelist)
 ```
+By default, this plot asks if the variant is shared across all samples. To 
+
 
 ## Print dataframe of variants shared among samples for further analysis
 This function takes the variant dataframe and creates a new table, listing the variants in descending order of how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
