@@ -164,7 +164,7 @@ kable(head(seg_count))
 
 # Alternatively, to count across genomes:
 group_list_gen = c('sample')
-gen_count = tally_it(DF_filt_reps, group_list_gen, "snv_count")
+gen_count = tally_it(DF_filt, group_list_gen, "snv_count")
 
 kable(head(gen_count))
 ```
