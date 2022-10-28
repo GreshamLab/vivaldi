@@ -172,7 +172,7 @@ kable(head(gen_count))
 ## Calculate Shannon entropy
 Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different calculations. The user must provide the variant dataframe and the length of the genome they are working with. 
 ```{r}
-DF_filt_reps = shannon_entropy(DF_filt_reps,genome_size)
+DF_filt_reps = shannon_entropy(DF_filt,genome_size)
 
 kable(head(DF_filt_reps))
 dim(DF_filt_reps)
