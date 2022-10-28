@@ -211,16 +211,20 @@ dim(DF_filt)
 ```
 
 ## Plot shannon entropy per sample and per segment
-This function takes the variant dataframe and generates three plots: the shannon entropy value for every variant, the sum of these values over each segment, and the sum over the entire genome. A higher Shannon entropy value indicates more diversity. 
+This function takes the variant dataframe and generates three plots. The first plot reports the Shannon entropy, or amount of diversity, at each position in the genome at which a variant was found. These values are then summed over each segment - plot 2 - and each genome - plot 3 - in order to compare between samples. A higher value indicates more diversity. 
 ```{r}
 # makes 3 plots
 plot_shannon(DF_filt)
 ```
 
+
 ## Calculate dNdS ratio and plot per sample per protein product
 The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations per nonsynonymous sites, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations per synonymous sites, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be approx. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
 ```{r}
 ##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
+SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1", "H1N1_PA.1", "H1N1_HA.1" ,"H1N1_NP.1", "H1N1_NA.1", 
+                "H1N1_M1.1", "H1N1_M1.2", "H1N1_NS.1", "H1N1_NS.2")
+dNdS_segment(DF_filt)
 ```
 
 ## Determine if variants are shared among samples
