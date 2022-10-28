@@ -153,6 +153,12 @@ dim(DF_filt)
 
 # Step 3: Calculations & Generating plots
 
+## Plot distribution of all minor variant frequencies
+This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be skewed to very low frequency variants (< 10%). 
+```{r}
+af_distribution(DF_filt)
+```
+
 ## Count number of SNVs
 The function tally_it() allows the user to count the number of variants over a given set of variables. These variables should be provided as a vector and then passed into the function in addition to the name, in quotes, for the new column containing the number of variants. For example, to get the sum of variants on every segment, the user should construct a vector containing the name of the sample column and the name of the segment column and pass that list into the function. 
 ```{r}
@@ -164,41 +170,29 @@ kable(head(seg_count))
 
 # Alternatively, to count across genomes:
 group_list_gen = c('sample')
-gen_count = tally_it(DF_filt_reps, group_list_gen, "snv_count")
+gen_count = tally_it(DF_filt, group_list_gen, "snv_count")
 
 kable(head(gen_count))
 ```
 
-## Calculate Shannon entropy
-Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different calculations. The user must provide the variant dataframe and the length of the genome they are working with. 
-```{r}
-DF_filt_reps = shannon_entropy(DF_filt_reps,genome_size)
-
-kable(head(DF_filt_reps))
-dim(DF_filt_reps)
-```
-
-## Calculate Transition/Transversion Ratio 
-The transition/transversion ratio is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
-```{r}
-DF_tstv = tstv_ratio(DF_filt_reps,genome_size)
-kable(head(DF_tstv))
-```
-
-# Step 3: Generate plots
-
 ## Plot location of SNVs across segments
 This function takes the variant dataframe and generates a large, interactive plot of all of the variants. The plot will be faceted by each segment for each individual sample. The user can scroll over each point in the plot to get information about that variant, including the nucleotide change and the position on the segment.
 ```{r}
-#library(plotly)
-snv_location(DF_filt_reps)
+snv_location(DF_filt)
 ```
 
 ## Plot number of SNVs per sample and per segment
 The snv_genome() function will take the variant dataframe and generate a plot of the number of variants per genome and colors them by their SNPeff annotation, while the snv_segment() function will generate the same plot but faceted by segment. 
 ```{r}
-snv_genome(DF_filt_reps)
-snv_segment(DF_filt_reps)
+snv_genome(DF_filt)
+snv_segment(DF_filt)
+```
+
+## Calculate Transition/Transversion Ratio 
+The transition/transversion ratio is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
+```{r}
+DF_tstv = tstv_ratio(DF_filt,genome_size)
+kable(head(DF_tstv))
 ```
 
 ## Plot TsTv
@@ -207,40 +201,43 @@ This function will take the variant dataframe and generates 4 plots: the Ts/Tv r
 tstv_plot(DF_tstv)
 ```
 
+## Calculate Shannon entropy
+Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different calculations. The user must provide the variant dataframe and the length of the genome they are working with. 
+```{r}
+DF_filt = shannon_entropy(DF_filt,genome_size)
+
+kable(head(DF_filt))
+dim(DF_filt)
+```
+
 ## Plot shannon entropy per sample and per segment
 This function takes the variant dataframe and generates three plots: the shannon entropy value for every variant, the sum of these values over each segment, and the sum over the entire genome. A higher Shannon entropy value indicates more diversity. 
 ```{r}
 # makes 3 plots
-plot_shannon(DF_filt_reps)
+plot_shannon(DF_filt)
+```
+
+## Calculate dNdS ratio and plot per sample per protein product
+The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations per nonsynonymous sites, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations per synonymous sites, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be approx. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
+```{r}
+##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
 ```
 
 ## Determine if variants are shared among samples
 This function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
 ```{r}
-shared_snv_plot(DF_filt_reps)
+shared_snv_plot(DF_filt)
 ```
 
 ## Print dataframe of variants shared among samples for further analysis
 This function takes the variant dataframe and creates a new table, listing the variants in descending order of how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
 ```{r}
-shared_snv_table(DF_filt_reps)
+shared_snv_table(DF_filt)
 ```
 
 ## Isolate variant of interest and plot AF at that position in all samples
 This function allows users to focus on a single variant of interest and track the allele frequency of the ALT and the REF allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
 ```{r}
 # provide the df, segment, and variant position
-position_allele_freq(DF_filt_reps,"H1N1_HA", "1007")
-```
-
-## Calculate dNdS ratio and plot per sample per segment
-The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be approx. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
-```{r}
-##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
-```
-
-## Plot distribution of all minor variant frequencies
-This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be skewed to very low frequency variants (< 10%). 
-```{r}
-af_distribution(DF_filt_reps)
+position_allele_freq(DF_filt,"H1N1_HA", "1007")
 ```
