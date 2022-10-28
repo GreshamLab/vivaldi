@@ -12,11 +12,20 @@
 #' }
 af_distribution = function(df){
 
-  plot = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +
+  p1 = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +
     ggplot2::geom_histogram(binwidth = 0.01) +
     ggplot2::ggtitle("Distrubution of minor allele frequencies") +
     ggplot2::theme(legend.key = ggplot2::element_blank(),
           strip.background = ggplot2::element_rect(colour="black", fill="white"),
           axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
-  print(plot)
+  print(p1)
+
+  p2 = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +
+    ggplot2::geom_histogram(binwidth = 0.01) +
+    ggplot2::facet_grid(~sample) +
+    ggplot2::ggtitle("Distrubution of minor allele frequencies") +
+    ggplot2::theme(legend.key = ggplot2::element_blank(),
+                   strip.background = ggplot2::element_rect(colour="black", fill="white"),
+                   axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
+  print(p2)
 }
