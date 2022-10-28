@@ -233,8 +233,7 @@ This function takes the variant dataframe and generates a plot that annotates th
 shared_snv_plot(DF_filt)
 
 # Alternatively, to compare only a select number of samples, provide a character vector with their names
-samplelist = c("a_1_fb","a_1_iv")
-shared_snv_plot(DF_filt, samples = samplelist)
+shared_snv_plot(DF_filt, samples = c("a_1_fb","a_1_iv"))
 ```
 By default, this plot asks if the variant is shared across all samples. To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to pull only those samples before tallying. 
 

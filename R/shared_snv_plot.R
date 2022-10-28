@@ -9,12 +9,14 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' shared_snv_plot(vardf)
+#' shared_snv_plot(vardf, samples = unique(DF_filt$sample))
 #' }
 
 shared_snv_plot = function(vardf, samples = unique(DF_filt$sample)){
 
     vardf = dplyr::filter(vardf, sample %in% samples)
+
+    vardf = vardf[!duplicated(vardf), ] %>% droplevels()
 
     vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
 
