@@ -20,16 +20,16 @@ dNdS_segment = function(annotation_df){
   df_dS = dplyr::filter(annotation_df, annotation == "synonymous_variant") %>%
     dplyr::group_by(sample, feature_id) %>% droplevels() %>% dplyr::tally()
 
-  df = dplyr::merge(df_dN, df_dS,  by = c("sample","feature_id")) %>% dplyr::select(sample,feature_id,n.x,n.y)
+  df = merge(df_dN, df_dS,  by = c("sample","feature_id")) %>% dplyr::select(sample,feature_id,n.x,n.y)
   df$dNdS = (df$n.x) / (df$n.y)
 
-  plot = dplyr::ggplot(df,dplyr:: aes(x = sample , y = dNdS)) +
-    dplyr::geom_point() +
-    dplyr::facet_grid(~feature_id) +
-    dplyr::ggtitle("dNdS Ratio Per Splice Form") +
-    dplyr::theme(legend.key = element_blank(),
+  plot = ggplot2::ggplot(df,ggplot2::aes(x = sample , y = dNdS)) +
+    ggplot2::geom_point() +
+    ggplot2::facet_grid(~feature_id) +
+    ggplot2::ggtitle("dNdS Ratio Per Splice Form") +
+    ggplot2::theme(legend.key = element_blank(),
           strip.background = element_rect(colour="black", fill="white"),
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
-  dplyr::print(plot)
+  print(plot)
 }
