@@ -27,9 +27,9 @@ dNdS_segment = function(annotation_df){
     ggplot2::geom_point() +
     ggplot2::facet_grid(~feature_id) +
     ggplot2::ggtitle("dNdS Ratio Per Splice Form") +
-    ggplot2::theme(legend.key = element_blank(),
-          strip.background = element_rect(colour="black", fill="white"),
-          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+    ggplot2::theme(legend.key = ggplot2::element_blank(),
+          strip.background = ggplot2::element_rect(colour="black", fill="white"),
+          axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
 
   print(plot)
 }
