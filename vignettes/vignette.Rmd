@@ -19,7 +19,18 @@ This notebook demonstrates the use of the package "Vivaldi" to analyze viral sin
     + prepare_annotations()
     + add_metadata()
 * Step 3: Calculations & Plots
-    + 
+    + af_distribution()
+    + tally_it()
+    + snv_location()
+    + snv_genome()
+    + snv_segment()
+    + tstv_ratio()
+    + shannon_entropy()
+    + plot_shannon()
+    + dNdS_segment()
+    + shared_snv_plot()
+    + shared_snv_table()
+    + position_allele_freq()
 
 # Load Vivaldi pacakge
 ```{r, include = FALSE}
@@ -235,6 +246,7 @@ shared_snv_plot(DF_filt)
 # Alternatively, to compare only a select number of samples, provide a character vector with their names
 shared_snv_plot(DF_filt, samples = c("a_1_fb","a_1_iv"))
 ```
+
 By default, this plot asks if the variant is shared across all samples. To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to pull only those samples before tallying. 
 
 
@@ -250,4 +262,5 @@ This function allows users to focus on a single variant of interest and track th
 # provide the df, segment, and variant position
 position_allele_freq(DF_filt,"H1N1_HA", "1007")
 ```
+
 This function is particularly useful to identify changes in allele frequency over time, if working with time series data, or between individuals in a transmission chain. If a variant is seen to rise in frequency over time, that is a potential indication of positive selection. If a variant is transmitted between individuals, it may also indicate some functional advantage. However, as transmission bottlenecks are thought to be relatively narrow for most viruses, a variant's presence may also simply indicate a variant "lucky" enough to become part of the founding population for the next infection. 
