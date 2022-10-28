@@ -24,19 +24,7 @@ tstv_plot = function(df){
 
     print(p1)
 
-    p2 = df %>% dplyr::filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%
-      ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio_perkb)) +
-      ggplot2::geom_point() +
-      ggplot2::theme_bw() +
-      ggplot2::ggtitle("Genome Ts/Tv per kb") +
-      ggplot2::ylab("Transition/Transversion ratio per genome kb") +
-      ggplot2::theme(legend.key = ggplot2::element_blank(),
-            strip.background = ggplot2::element_rect(colour="black", fill="white"),
-            axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1))
-
-    print(p2)
-
-    p3 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
+    p2 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
       ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
@@ -47,9 +35,9 @@ tstv_plot = function(df){
             axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1)) +
       ggplot2::facet_grid(.~CHROM)
 
-    print(p3)
+    print(p2)
 
-    p4 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
+    p3 = df %>% dplyr::filter(chrom_or_genome == 'tstv_chrom_count') %>% droplevels() %>%
       ggplot2::ggplot(., ggplot2::aes(x=sample, y=tstv_ratio_perkb)) +
       ggplot2::geom_point() +
       ggplot2::theme_bw() +
@@ -61,6 +49,6 @@ tstv_plot = function(df){
       ggplot2::facet_grid(.~CHROM)
 
 
-    print(p4)
+    print(p3)
 
 }
