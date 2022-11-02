@@ -57,7 +57,7 @@ The data used in this vignette is included with the package. For running their o
 vardir = system.file("extdata", "vcfs", package="vivaldi") 
 ```
 
-Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. Useres should also set a variable with the total length of their viral genome. 
+Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. Users should also set a variable with the total length of their viral genome. 
 ```{r}
 seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
@@ -134,7 +134,7 @@ ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq, y = weighted_minorfreq)) + 
 This function calculates both the average allele frequency, as well as the weighted average allele frequency, for the major and minor allele. The average is calculated by simply taking the mean of the frequency from both replicates. The weighted average is calculated by adding the number of reads containing either the major or minor nucleotide from both replicates and dividing by the total number of reads. The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.
 
 ## Filter out variants based on coverage and/or frequency cutoffs
-This function filters the variants by frequency or coverage of the ALT allele. Based on a benchmarking study performed by our lab (https://www.biorxiv.org/content/10.1101/2021.05.05.442873v2), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. If data includes repliccates, the function checks to make sure each replicate passes the cutoffs. 
+This function filters the variants by frequency or coverage of the ALT allele. Based on a benchmarking study performed by our lab (https://www.biorxiv.org/content/10.1101/2021.05.05.442873v2), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. If data includes replicates, the function checks to make sure each replicate passes the cutoffs. 
 ```{r}
 # Use default coverage (200) and frequency (0.03) cutoffs 
 DF_filt = filter_variants(DF_reps)
