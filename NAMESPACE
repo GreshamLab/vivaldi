@@ -2,6 +2,7 @@
 
 export(add_metadata)
 export(af_distribution)
+export(arrange_data)
 export(arrange_gt_data)
 export(arrange_gt_data_varscan)
 export(arrange_no_gt_data)
