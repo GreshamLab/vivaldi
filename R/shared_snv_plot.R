@@ -22,6 +22,8 @@ shared_snv_plot = function(vardf, samples = unique(DF_filt$sample)){
 
     df = dplyr::group_by(vardf, variant) %>% dplyr::mutate(count = 1, totalsamp = sum(count))
 
+    df$totalsamp = factor(df$totalsamp)
+
     df = df[!duplicated(df), ] %>% droplevels()
 
     plot = ggplot2::ggplot(df, ggplot2::aes(x = POS, y = CHROM)) +
