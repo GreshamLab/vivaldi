@@ -88,11 +88,11 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
         } else{message("No snps for sample: ", samplename)}
 
-      }else{message(glue::glue("No variant data: ", samplename))}
+      } else{message(glue::glue("No variant data: ", samplename))}
 
       # EXTRACT INFORMATION FROM VCF FILES WITHOUT GT INFORMATION
 
-    }else(){
+    } else{
 
       vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
 
@@ -140,7 +140,7 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
 
           } else{message("No snps for sample: ", samplename)}
 
-        }else{message(glue("No variant data: ", samplename))}
+        } else{message(glue("No variant data: ", samplename))}
 
       }
 
