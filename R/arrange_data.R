@@ -123,7 +123,7 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
 
           snp_df = vcf_fix %>% dplyr::filter(REF %in% ntlist & ALT %in% ntlist) # only one ref and alt allele
 
-          mult_alt = vcf_fix %>% fdplyr::ilter(REF %in% ntlist & !ALT %in% ntlist)  # mult alt alleles - need to use later!!
+          mult_alt = vcf_fix %>% dplyr::filter(REF %in% ntlist & !ALT %in% ntlist)  # mult alt alleles - need to use later!!
 
           if (nrow(snp_df) > 0){
 
