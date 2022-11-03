@@ -22,7 +22,7 @@ read_reference_fasta_dna = function(reference_fasta){
 
     fdf = fdf %>% dplyr::rename(CHROM_SIZE = V1) %>%
                     dplyr::select(CHROM, CHROM_SIZE) %>%
-                    dplyr::arrange(desc(CHROM_SIZE)) %>%
+                    dplyr::arrange(dplyr::desc(CHROM_SIZE)) %>%
                     dplyr::mutate(GENOME_SIZE = sum(CHROM_SIZE))
 
     message("Number of chroms in fasta: ", nrow(fdf))

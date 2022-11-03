@@ -18,7 +18,7 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
   sizes = read_reference_fasta_dna(reference_fasta)
 
-  filelist = Sys.glob(glue("{vardir}/*.vcf"))
+  filelist = Sys.glob(glue::glue("{vardir}/*.vcf"))
 
   message("Length of input files: ", length(filelist))
 
@@ -28,21 +28,21 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
   for (filename in filelist){
 
-    samplename = basename(file_path_sans_ext(filename)) # grab sample name to append later
+    samplename = basename(tools::file_path_sans_ext(filename)) # grab sample name to append later
 
     message("Sample name is: ", samplename)
 
-    vcf_all = read.vcfR(file=filename)  # read in vcf file using vcfR
+    vcf_all = vcfR::read.vcfR(file=filename)  # read in vcf file using vcfR
 
-    vcf_tidy = vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
+    vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
 
-    vcf_fix = vcf_tidy$fix %>% select(all_of(fix_list))
+    vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
 
-    gt_DP = extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE)
+    gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE)
     length(gt_DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
     DP_df = data.frame(gt_DP)
 
-    AF = extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE)
+    AF = vcfR::extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE)
     length(AF) == nrow(vcf_all)
     AF_df = data.frame(AF)
 
@@ -54,9 +54,9 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
       vcf_fix$sample = samplename
 
-      snp_df = vcf_fix %>% filter(REF %in% ntlist & ALT %in% ntlist) # only one ref and alt allele
+      snp_df = vcf_fix %>% dplyr::filter(REF %in% ntlist & ALT %in% ntlist) # only one ref and alt allele
 
-      mult_alt = vcf_fix %>% filter(REF %in% ntlist & !ALT %in% ntlist)  # mult alt alleles - need to use later!!
+      mult_alt = vcf_fix %>% dplyr::filter(REF %in% ntlist & !ALT %in% ntlist)  # mult alt alleles - need to use later!!
 
       if (nrow(snp_df) > 0){
 
@@ -73,12 +73,12 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
       } else{message("No snps for sample: ", samplename)}
 
-    }else{message(glue("No variant data: ", samplename))}
+    }else{message(glue::glue("No variant data: ", samplename))}
 
   }
 
   # rearranging the df
-  all_files = all_files %>% mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
+  all_files = all_files %>% dplyr::mutate(majorfreq = ifelse(ALT_TYPE == 'major', ALT_FREQ, REF_FREQ),
                                    minorfreq = ifelse(ALT_TYPE == 'minor', ALT_FREQ, REF_FREQ),
                                    major = ifelse(ALT_TYPE == 'major', ALT, REF),
                                    minor = ifelse(ALT_TYPE == 'minor', ALT, REF))

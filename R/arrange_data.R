@@ -140,7 +140,7 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
 
           } else{message("No snps for sample: ", samplename)}
 
-        } else{message(glue("No variant data: ", samplename))}
+        } else{message(glue::glue("No variant data: ", samplename))}
 
       }
 
