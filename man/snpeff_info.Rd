@@ -12,6 +12,3 @@ Returns vector containing information in snpeff annotations
 \description{
 Returns vector containing information in snpeff annotations
 }
-\examples{
-snpeff_info()
-}

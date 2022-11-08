@@ -15,8 +15,3 @@ A plot showing the location and frequency of SNVs found across samples
 \description{
 Reads in the vcf dataframe and generates a plot showing the frequency and location of SNVs
 }
-\examples{
-\dontrun{
-snv_location(df)
-}
-}

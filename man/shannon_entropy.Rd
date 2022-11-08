@@ -17,8 +17,3 @@ A dataframe with Shannon entropy/kb calculations for the chroms and entire genom
 \description{
 Takes a rearranged vcf dataframe (arrange_gt_data) and calculates the Shannon entropy
 }
-\examples{
-\dontrun{
-shannon_entropy(df,genome_size)
-}
-}

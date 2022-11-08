@@ -19,8 +19,3 @@ A filtered VCF dataframe
 \description{
 Filters single-nucleotide variants using a coverage and frequency cutoff
 }
-\examples{
-\dontrun{
-filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.03)
-}
-}

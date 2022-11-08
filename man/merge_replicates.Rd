@@ -23,8 +23,3 @@ a data frame containing replicate information
 \description{
 Merges replicate VCF files into a single dataframe
 }
-\examples{
-\dontrun{
-merge_replicates(vardf, column, nameofrep1, nameofrep2, commoncols)
-}
-}

@@ -15,8 +15,3 @@ A plot showing the dN/dS ratio for each splice form (rather than segment) for ea
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and annotated (prepare_annotations), calculates dNdS, and outputs plots
 }
-\examples{
-\dontrun{
-dNdS_segment(annotation_df)
-}
-}

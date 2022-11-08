@@ -15,8 +15,3 @@ A table listing variants in order by how many samples they are found in
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs a table
 }
-\examples{
-\dontrun{
-shared_snv_plot(vardf)
-}
-}

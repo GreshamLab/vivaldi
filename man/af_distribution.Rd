@@ -15,8 +15,3 @@ A plot with the distribution of all minor variants
 \description{
 Plots a distribution of all minor variants
 }
-\examples{
-\dontrun{
-af_distribution(df)
-}
-}

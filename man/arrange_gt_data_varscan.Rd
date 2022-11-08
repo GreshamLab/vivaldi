@@ -26,8 +26,3 @@ A large dataframe containing information from all input VCF files
 \description{
 Reads in a directory of VCF files and converts them into a single dataframe
 }
-\examples{
-\dontrun{
-arrange_gt_data_varscan(vardir, reference_fasta = reference, annotated = 'yes')
-}
-}

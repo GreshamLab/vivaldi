@@ -19,8 +19,3 @@ A plot showing the the frequencies of the major and minor allele at the given po
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
-\examples{
-\dontrun{
-position_allele_freq(vardf,"H1N1_HA","439")
-}
-}

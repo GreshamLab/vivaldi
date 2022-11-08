@@ -21,8 +21,3 @@ A vcf dataframe with metadata included
 \description{
 Adds metadata information to the vcf dataframe
 }
-\examples{
-\dontrun{
-add_metadata(df, metadf, c("CHROM"), c("segment"))
-}
-}

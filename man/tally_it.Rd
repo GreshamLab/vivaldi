@@ -19,8 +19,3 @@ A dataframe with columns from the 'groupit' vector and the number of times each 
 \description{
 Groups the input vcf data frame using a list of variables and tallies the number of occurrences
 }
-\examples{
-\dontrun{
-tally_it(df, c("sample","CHROM"), "snv_count")
-}
-}

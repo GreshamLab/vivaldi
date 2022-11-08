@@ -23,8 +23,3 @@ A large dataframe containing information from all input VCF files
 \description{
 Reads in a directory of VCF files and converts them into a single dataframe for tools without GT information
 }
-\examples{
-\dontrun{
-arrange_no_gt_data(vardir, reference_fasta = reference)
-}
-}

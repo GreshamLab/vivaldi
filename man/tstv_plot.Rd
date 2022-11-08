@@ -15,8 +15,3 @@ two plots showing the K2P and simple Ts/Tv ratios
 \description{
 Plots Ts/Tv ratios
 }
-\examples{
-\dontrun{
-tstv_plot(tstv_df)
-}
-}

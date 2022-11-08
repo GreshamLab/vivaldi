@@ -17,8 +17,3 @@ A dataframe containing the calculated transition/transversion ratio (R or basic_
 \description{
 Inputs a filtered and rearranged vcf dataframe and calculates the transition/transversion ratio
 }
-\examples{
-\dontrun{
-tstv_ratio(df,genome_size)
-}
-}

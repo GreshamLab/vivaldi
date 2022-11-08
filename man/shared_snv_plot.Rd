@@ -17,8 +17,3 @@ A plot showing the location of variants and the number of samples that contain e
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
-\examples{
-\dontrun{
-shared_snv_plot(vardf, samples = unique(DF_filt$sample))
-}
-}
