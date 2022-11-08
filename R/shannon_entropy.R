@@ -7,10 +7,6 @@
 #' @param genome_size Size of whole genome being used
 #' @return A dataframe with Shannon entropy/kb calculations for the chroms and entire genome
 #' @export
-#' @examples
-#' \dontrun{
-#' shannon_entropy(df,genome_size)
-#' }
 shannon_entropy = function(df,genome_size){
   ## only uses positions with minorvariants
 

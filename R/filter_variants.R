@@ -8,10 +8,6 @@
 #' @param frequency_cutoff Frequency cutoff for calling a SNV (default: 3\%)
 #' @return A filtered VCF dataframe
 #' @export
-#' @examples
-#' \dontrun{
-#' filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.03)
-#' }
 filter_variants = function(df, coverage_cutoff=200, frequency_cutoff=0.03){
 
     input_dim = nrow(df)

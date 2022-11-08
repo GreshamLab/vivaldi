@@ -6,10 +6,6 @@
 #' @param df A dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants)
 #' @return A plot with the distribution of all minor variants
 #' @export
-#' @examples
-#' \dontrun{
-#' af_distribution(df)
-#' }
 af_distribution = function(df){
 
   p1 = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +

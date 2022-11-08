@@ -7,10 +7,6 @@
 #' @return A table listing variants in order by how many samples they are found in
 #' @export
 #' @examples
-#' \dontrun{
-#' shared_snv_plot(vardf)
-#' }
-
 shared_snv_table = function(vardf){
 
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)

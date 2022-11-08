@@ -8,10 +8,6 @@
 #' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
 #' @return A large dataframe containing information from all input VCF files
 #' @export
-#' @examples
-#' \dontrun{
-#' arrange_no_gt_data(vardir, reference_fasta = reference)
-#' }
 arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C','-')){
 
   fix_list = c('CHROM','POS','ID','REF','ALT')

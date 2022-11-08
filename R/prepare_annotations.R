@@ -6,10 +6,6 @@
 #' @param df A rearranged and annotated VCF dataframe
 #' @return A dataframe containing each annotation on a separate column
 #' @export
-#' @examples
-#' \dontrun{
-#' prepare_annotations(df)
-#' }
 prepare_annotations = function(df){
 
     if (!"ANN" %in% colnames(df)){

@@ -7,11 +7,6 @@
 #' @param samples A vector of samples to be compared (default:all samples in DF_filt)
 #' @return A plot showing the location of variants and the number of samples that contain each variant
 #' @export
-#' @examples
-#' \dontrun{
-#' shared_snv_plot(vardf, samples = unique(DF_filt$sample))
-#' }
-
 shared_snv_plot = function(vardf, samples = unique(DF_filt$sample)){
 
     vardf = dplyr::filter(vardf, sample %in% samples)

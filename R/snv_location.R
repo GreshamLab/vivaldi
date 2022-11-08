@@ -6,10 +6,6 @@
 #' @param df A rearranged (arrange_gt_data)
 #' @return A plot showing the location and frequency of SNVs found across samples
 #' @export
-#' @examples
-#' \dontrun{
-#' snv_location(df)
-#' }
 snv_location = function(df){
 
 

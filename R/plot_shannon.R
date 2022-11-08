@@ -6,10 +6,6 @@
 #' @param shannon_df A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
 #' @return Three plots showing the nt Shannon, chrom Shannon, and full genome Shannon calculations
 #' @export
-#' @examples
-#' \dontrun{
-#' plot_shannon(shannon_df)
-#' }
 plot_shannon = function(shannon_df){
 
     p1 = ggplot2::ggplot(shannon_df, ggplot2::aes(x=POS, y=shannon_ntpos)) +

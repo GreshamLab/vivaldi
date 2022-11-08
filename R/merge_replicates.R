@@ -10,10 +10,6 @@
 #' @param commoncols List of columns to merge the replicates by
 #' @return a data frame containing replicate information
 #' @export
-#' @examples
-#' \dontrun{
-#' merge_replicates(vardf, column, nameofrep1, nameofrep2, commoncols)
-#' }
 merge_replicates = function(vardf, repdata, nameofrep1, nameofrep2,commoncols){
 
   df = merge(repdata,vardf, by.x = c("filename"), by.y = c("sample"))

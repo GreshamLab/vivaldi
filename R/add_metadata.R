@@ -9,10 +9,6 @@
 #' @param by_meta A vector of column names in the metadata dataframe that should be used to merge the metadata with the vcf data
 #' @return A vcf dataframe with metadata included
 #' @export
-#' @examples
-#' \dontrun{
-#' add_metadata(df, metadf, c("CHROM"), c("segment"))
-#' }
 add_metadata = function(df, metadf, by_vcf, by_meta){
 
     tmp = merge(df, metadf, by.x=tidyselect::all_of(by_vcf), by.y=tidyselect::all_of(by_meta), all.x = TRUE)

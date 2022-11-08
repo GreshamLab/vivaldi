@@ -8,11 +8,6 @@
 #' @param nt Position on segment (must be in quotes)
 #' @return A plot showing the the frequencies of the major and minor allele at the given position across all samples
 #' @export
-#' @examples
-#' \dontrun{
-#' position_allele_freq(vardf,"H1N1_HA","439")
-#' }
-
 position_allele_freq = function(vardf,segment,nt){
 
   vardf = vardf %>% dplyr::filter(CHROM == segment, POS == nt) %>% droplevels()

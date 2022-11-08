@@ -6,10 +6,6 @@
 #' @param df TsTv dataframe generated using the tstv_ratio function
 #' @return two plots showing the K2P and simple Ts/Tv ratios
 #' @export
-#' @examples
-#' \dontrun{
-#' tstv_plot(tstv_df)
-#' }
 tstv_plot = function(df){
 
     p1 = df %>% dplyr::filter(chrom_or_genome == 'tstv_genome_count') %>% droplevels() %>%

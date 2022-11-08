@@ -8,10 +8,6 @@
 #' @param new_colname The name of the count column
 #' @return A dataframe with columns from the 'groupit' vector and the number of times each unique grouping occurs in the data
 #' @export
-#' @examples
-#' \dontrun{
-#' tally_it(df, c("sample","CHROM"), "snv_count")
-#' }
 tally_it = function(df, groupit, new_colname){
 
     snpeff = snpeff_info()
