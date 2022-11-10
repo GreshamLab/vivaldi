@@ -7,7 +7,7 @@
 #' @param reference_fasta Reference fasta file used for alignment
 #' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
 #' @param ntlist Nucleotides (default A, T, G, C) used for finding multiple alt alleles
-#' @verbose set verbosity of the vcfR commands
+#' @param verbose set verbosity of the vcfR commands
 #' @return A large dataframe containing information from all input VCF files
 #' @importFrom magrittr %>%
 #' @export
