@@ -20,6 +20,8 @@ arrange_data(
 \item{annotated}{Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")}
 
 \item{ntlist}{Nucleotides (default A, T, G, C) used for finding multiple alt alleles}
+
+\item{verbose}{set verbosity of the vcfR commands}
 }
 \value{
 A large dataframe containing information from all input VCF files
