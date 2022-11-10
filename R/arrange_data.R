@@ -10,7 +10,7 @@
 #' @return A large dataframe containing information from all input VCF files
 #' @importFrom magrittr %>%
 #' @export
-arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C','-')){
+arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A','G','T','C','-'), verbose = FALSE){
 
   fix_list = c('ChromKey','CHROM','POS','ID','REF','ALT')
 
@@ -32,13 +32,13 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
 
     message("Sample name is: ", samplename)
 
-    vcf_all = vcfR::read.vcfR(file=filename)  # read in vcf file using vcfR
+    vcf_all = vcfR::read.vcfR(file = filename, verbose = verbose)  # read in vcf file using vcfR
 
     # EXTRACT INFORMATION FROM VCF FILES WITH GT INFORMATION
 
     if(nrow(vcf_all@gt) > 1){
 
-      vcf_tidy = vcfR::vcfR2tidy(vcf_all)
+      vcf_tidy = vcfR::vcfR2tidy(vcf_all, verbose = verbose)
 
       if (annotated == 'yes'){
 
@@ -90,7 +90,7 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
 
     } else{
 
-      vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
+      vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE, verbose = verbose)  # change into a tidy dataframe
 
       if (annotated == 'yes'){
 
@@ -101,11 +101,11 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
         # $fix contains the INFO fields
         vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
 
-        gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE)
+        gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE, verbose = verbose)
         length(gt_DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
         DP_df = data.frame(gt_DP)
 
-        AF = vcfR::extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE)
+        AF = vcfR::extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE, verbose = verbose)
         length(AF) == nrow(vcf_all)
         AF_df = data.frame(AF)
 
