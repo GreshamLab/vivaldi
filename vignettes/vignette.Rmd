@@ -74,7 +74,7 @@ replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c("")
 
 ## Load VCF files into a dataframe
 The first step of the work flow is to load the VCF files into R and extract the important information. The output of this function is a tidy dataframe that contains the sample name, pulled from the VCF file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
-```{r}
+```{r message=FALSE, warning=FALSE}
 VCF_DF = arrange_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 kable(head(VCF_DF))
 dim(VCF_DF)
