@@ -9,9 +9,21 @@ The standard input is a vcf file.
 
 To install this package:
 
-`library(devtools)`
+## Installation
 
-`install_github("GreshamLab/vivaldi")`
+``` r
+install.packages("vivaldi")
+```
+
+### Development version
+
+To get a bug fix or to use a feature from the development version, you
+can install the development version of vivaldi from GitHub.
+
+``` r
+# install.packages("devtools")
+devtools::install_github("GreshamLab/vivaldi")
+```
 
 Authors: Marrisa Knoll, Katherine Johnson, Megan Hockman, Eric Borenstein, Mohammed Khalfan, Elodie Ghedin, David Gresham
 
