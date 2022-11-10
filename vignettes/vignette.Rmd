@@ -1,6 +1,8 @@
 ---
-title: "vignette"
-output: rmarkdown::html_vignette
+title: "Vivaldi"
+output:
+  html_document:
+    toc: true
 vignette: >
   %\VignetteIndexEntry{vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -8,29 +10,6 @@ vignette: >
 ---
 
 This notebook demonstrates the use of the package "Vivaldi" to analyze viral single nucleotide variants from next generation sequencing data (e.g. Illumina). This vignette takes variant data in the form of VCF files generated using the MAD2 pipeline (https://github.com/gencorefacility/MAD2) and the variant callers timo and iVar. It performs analyses to summarize genetic diversity. 
-
-# Table of Contents
-* Load package
-* Step 1: Set path for variant data and metadata
-* Step 2: Loading data and arranging
-    + merge_replicates()
-    + arrange_data()
-    + filter_variants()
-    + prepare_annotations()
-    + add_metadata()
-* Step 3: Calculations & Plots
-    + af_distribution()
-    + tally_it()
-    + snv_location()
-    + snv_genome()
-    + snv_segment()
-    + tstv_ratio()
-    + shannon_entropy()
-    + plot_shannon()
-    + dNdS_segment()
-    + shared_snv_plot()
-    + shared_snv_table()
-    + position_allele_freq()
 
 # Load Vivaldi pacakge
 ```{r, include = FALSE}
@@ -40,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The vivaldi package is available on Cran and is loaded as follows: 
+The vivaldi package is available on CRAN and is loaded as follows: 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
