@@ -8,7 +8,8 @@ arrange_data(
   vardir,
   reference_fasta,
   annotated = "yes",
-  ntlist = c("A", "G", "T", "C", "-")
+  ntlist = c("A", "G", "T", "C", "-"),
+  verbose = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ arrange_data(
 \item{annotated}{Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")}
 
 \item{ntlist}{Nucleotides (default A, T, G, C) used for finding multiple alt alleles}
+  
+\item{verbose}{set verbosity of the vcfR commands}
 }
 \value{
 A large dataframe containing information from all input VCF files
