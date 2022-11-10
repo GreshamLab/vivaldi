@@ -6,7 +6,6 @@
 #' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
 #' @return A table listing variants in order by how many samples they are found in
 #' @export
-#' @examples
 shared_snv_table = function(vardf){
 
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
