@@ -7,8 +7,6 @@
 
 The standard input is a vcf file.
 
-To install this package:
-
 ## Installation
 
 ``` r
