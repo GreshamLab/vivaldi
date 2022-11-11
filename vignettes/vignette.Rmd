@@ -126,7 +126,7 @@ ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) +
 ### Compare the similarity between the average allele frequency and the weighted average allele frequency
 
 `merge_replicates()` calculates two average allele frequency values both the average allele frequency, as well as the weighted average allele frequency, for the major and minor allele. 
-* The **average** is calculated by simply taking the mean of the alelle frequnece estimates from both replicates. 
+* The **average** is calculated by simply taking the mean of the allele frequency estimates from both replicates. 
 * The **weighted average** is calculated by adding the number of reads containing either the major or minor nucleotide from both replicates and dividing by the total number of reads. 
 
 The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.
