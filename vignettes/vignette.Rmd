@@ -1,5 +1,5 @@
 ---
-title: "Vivaldi"
+title: "Vivaldi vignette"
 output:
   html_document:
     toc: true
@@ -9,9 +9,10 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This notebook demonstrates the use of the package "Vivaldi" to analyze viral single nucleotide variants from next generation sequencing data (e.g. Illumina). This vignette takes variant data in the form of VCF files generated using the MAD2 pipeline (https://github.com/gencorefacility/MAD2) and the variant callers timo and iVar. It performs analyses to summarize genetic diversity. 
+This notebook demonstrates the use of the package *vivaldi* to analyze viral single nucleotide variants from Illumina sequencing.  The *vivaldi* package provides tools for visualizing and summarizing allele frequency information, and genetic diversity, in heterogeneous viral genomes.  
 
-# Load Vivaldi pacakge
+This vignette takes variant data in the form of VCF files generated using the [MAD2](https://github.com/gencorefacility/MAD2) genome alignment and variation calling pipeline.  The vcf files are generated using the variant callers *timo* and *iVar*; however, the functions are designed to work with all variant callers. 
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -19,58 +20,70 @@ knitr::opts_chunk$set(
 )
 ```
 
-The vivaldi package is available on CRAN and is loaded as follows: 
+# Load the Vivaldi pacakge
+
+The **vivaldi** package is available on CRAN and is loaded as follows.  We also load *kableExtra* for rendering tables in vignette 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
 ```
 
 ## Vignette data set
-The data used in this vignette are simulated influenza genomes with known mutations generated at random frequencies. These VCF files have also been annotated using SNPeff before running "Vivaldi". 
+The data used in this vignette are simulated influenza genomes with specified variants at random frequencies. The VCF files have been annotated using *SNPeff* before running *Vivaldi*. 
 
 # Step 1: Set path for variant data and metadata
 
-The data used in this vignette is included with the package. For running their own data, users should set give the path to those files here. 
+The data used in this vignette is included with the package. To run your own data, users should set the path to those files. 
+
 ```{r}
-# Set variables that we will use
 vardir = system.file("extdata", "vcfs", package="vivaldi") 
 ```
 
-Metadata used for the calculations includes a .csv file containing the lengths of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. Users should also set a variable with the total length of their viral genome. 
+Metadata used for the calculations includes a `.csv` file containing the length of each of the viral segments. For non-segmented viruses, simply report the whole length of the genome. Users should also set a variable with the total length of the viral genome (i.e. the sum of the segment lengths). 
+
 ```{r}
 seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
 genome_size = 13133
 ```
 
-If relevant, the user should also supply a .csv file containing information about sequencing replicates containing 3 columns: the name of each VCF file, which replicate the sample represents, and the new sample name for the merged replicates. 
+The user should also supply a `.csv` file with sample information containing 3 columns:
+* the unique name of each VCF file 
+* which unique replicate number for the sample  
+* the sample name to be used for the merged replicate data 
+
 ```{r}
 rep_info = system.file("extdata", "reps.csv", package="vivaldi")
 replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
+head(replicates)
 ```
 
-# Step 2: Loading in data and arranging 
+# Step 2: Loading data and arranging 
 
 ## Load VCF files into a dataframe
-The first step of the work flow is to load the VCF files into R and extract the important information. The output of this function is a tidy dataframe that contains the sample name, pulled from the VCF file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify annotated = "no" for either function. 
+
+The first step is performed using `arrange_data()` to load the VCF files into R, extract the important information. and arrange data as a tidy dataframe. The dataframe contains the sample name, pulled from the VCF file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify `annotated = "no"`. 
+
 ```{r message=FALSE, warning=FALSE}
 VCF_DF = arrange_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 kable(head(VCF_DF))
 dim(VCF_DF)
 ```
-The VCF_DF dataframe now contains all variants from all of the files. Columns contain:
-* sample: name of the sample the variant was found in (pulled from VCF file name)
+
+The VCF_DF dataframe  contains all variants from all of the files. The columns are:
+
+* sample: sample name (pulled from VCF file name)
 * CHROM: segment the variant was found on
 * POS: nucleotide position of the variant
-* REF: nucleotide found at this position in the reference genome provided ("ref = ")
+* REF: nucleotide found at this position in the reference genome used for alignment ("ref = ")
 * ALT: nucleotide found at this position in the sample 
 * ANN: annotation information from SNPeff, not yet formatted 
 * gt_DP: total number of reads (i.e. depth) that cover this position
 * REF_COUNT: number of reads that include the REF nucleotide
 * ALT_COUNT: number of reads that include the ALT nucleotide
-* REF_FREQ: frequency of the reference nucleotide, calculated as the REF_COUNT divided by the gt_DP
-* ALT_FREQ: frequency of the alternate nucleotide, calculated as the ALT_COUNT divided by the gt_DP
-* ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labelled a major; if found at frequencies < 50%, it is labelled a minor.
+* REF_FREQ: frequency of the reference nucleotide, calculated using REF_COUNT / gt_DP
+* ALT_FREQ: frequency of the alternate nucleotide, calculated using ALT_COUNT / gt_DP
+* ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labelled as major; if found at frequencies < 50%, it is labelled as minor.
 * major: major nucleotide
 * minor: minor nucleotide
 * majorcount: number of reads containing the major nucleotide
@@ -78,37 +91,51 @@ The VCF_DF dataframe now contains all variants from all of the files. Columns co
 * majorfreq: frequency of the major nucleotide
 * minorfreq: frequency of the minor nucleotide
 
-If working with a segmented genome, users should also give a vector containing the segments in the desired order for plots. 
+If working with a segmented genome, users should provide a vector containing the segments in the desired order for plotting.
+
 ```{r}
 SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1_MP","H1N1_NS")
 VCF_DF$CHROM = factor(VCF_DF$CHROM, levels = SEGMENTS)
 ```
 
-## Merge Replicates
-Sequencing in replicate improves the accuracy of variant calling, as we can require a variant to be found in both runs, as any sequencing or PCR errors are unlikely to be found in independent experiments. 
+## Merging Replicate Sequence Data
 
-For this function, the user must provide the variant dataframe (output of the arrange_data() function) and the replicates dataframe. Additional information that is required is:
-* the name of replicates 1 and 2 from the replicates dataframe (ex. "Rep1", "r1", "rep1", etc), which must be provided in quotes
-* a vector containing the names of the columns that should be used to merge the two dataframes
+Performing technical replicates of library preparation and DNA sequencing improves the accuracy of variant calling as sequencing or RT-PCR errors are unlikely to occur at the same site in independent experiments. 
 
- Note: This vector should contain any columns that are expected to be identical between the two replicates, such as the segment and nucleotide position of the variant. It should not contain replicate-specific information such as the allele frequency of the variant. 
+For this function, the user must provide the variant dataframe (output of the `arrange_data() function`) and the replicates dataframe. Additional information that is required is:
+* the name used for replicates 1 and 2 from the replicates dataframe (ex. "Rep1", "r1", "rep1", etc), which must be provided in quotes
+* a vector containing the names of the columns that should be used to merge the two dataframes.  This vector must contain columns that are identical between the two replicates, such as the segment and nucleotide position of the variant. It should not contain replicate-specific information such as the allele frequency of the variant.
+
+The `merge_replicates()` functions generates a dataframe with variants that are found in both sequencing replicates. It excludes variants that are only found in one replicate
+
 ```{r}
 cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
 
 DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
 ```
-Each row of this dataframe contains the information from a variant found in both replicates. If a variant is only found in one replicate, it will not be contained in this dataframe.
 
-### Compare the allele frequencies between replicate 1 & 2
+### Compare the allele frequencies between replicate 1 and 2
+
+Visual analysis of the variation in allele frequency estimations from the two sequencing experiments is informative about the technical variation.
+
 ```{r}
-ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) + ggplot2::geom_point()
+ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) + 
+  ggplot2::geom_point()
 ```
 
 ### Compare the similarity between the average allele frequency and the weighted average allele frequency
+
+`merge_replicates()` calculates two average allele frequency values both the average allele frequency, as well as the weighted average allele frequency, for the major and minor allele. 
+* The **average** is calculated by simply taking the mean of the alelle frequnece estimates from both replicates. 
+* The **weighted average** is calculated by adding the number of reads containing either the major or minor nucleotide from both replicates and dividing by the total number of reads. 
+
+The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.
+
 ```{r}
 ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq, y = weighted_minorfreq)) + ggplot2::geom_point()
 ```
-This function calculates both the average allele frequency, as well as the weighted average allele frequency, for the major and minor allele. The average is calculated by simply taking the mean of the frequency from both replicates. The weighted average is calculated by adding the number of reads containing either the major or minor nucleotide from both replicates and dividing by the total number of reads. The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.
+
+DAVID HAS STOPPED HERE ON THURSDAY NOVEMBER 10
 
 ## Filter out variants based on coverage and/or frequency cutoffs
 This function filters the variants by frequency or coverage of the ALT allele. Based on a benchmarking study performed by our lab (https://www.biorxiv.org/content/10.1101/2021.05.05.442873v2), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. If data includes replicates, the function checks to make sure each replicate passes the cutoffs. 
