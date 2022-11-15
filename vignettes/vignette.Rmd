@@ -264,7 +264,10 @@ tstv_plot(DF_tstv)
 ```
 
 ## Calculate Shannon entropy
-Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over either a segment or over the entire genome. These values can then be normalized by kb in order to compare across different segments or samples. As a result, this function outputs a dataframe with five new columns reflecting these different calculations. The user must provide the variant dataframe and the length of the genome they are working with. 
+
+Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over 1) a segment or 2) the entire genome. These values can then be normalized by sequence length (kb) in order to compare across different segments or samples. 
+
+The `shannon_entropy()` function modifies the dataframe to add five new columns contaiining these values. The user must provide the variant dataframe and the length of the genome.  
 ```{r}
 DF_filt = shannon_entropy(DF_filt,genome_size)
 
@@ -273,44 +276,59 @@ dim(DF_filt)
 ```
 
 ## Plot shannon entropy per sample and per segment
-This function takes the variant dataframe and generates three plots. The first plot reports the Shannon entropy, or amount of diversity, at each position in the genome at which a variant was found. These values are then summed over each segment - plot 2 - and each genome - plot 3 - in order to compare between samples. A higher value indicates more diversity. 
+The `plot_shannon()` function takes the variant dataframe and generates three plots.
+
+ 1. The Shannon entropy, or amount of diversity, at each position in the genome at which a variant was found. 
+ 2. The Shannon entropy summed over each segment 
+ 3. The Shannon entropy summed over each genome 
+
+A higher value indicates more diversity. 
 ```{r}
-# makes 3 plots
 plot_shannon(DF_filt)
 ```
 
 
 ## Calculate dNdS ratio and plot per sample per protein product
-The dN/dS ratio is commonly used to test for a bias in amino acid conversions. dN counts the number of nonsynonymous mutations per nonsynonymous sites, or nucleotide changes that result in an amino acid change in the resulting protein product. dS counts the number of synonymous mutations per synonymous sites, which don't result in an amino acid change and are not expected to be under strong selection. Under neutral evolution, the dN/dS is expected to be approx. equal to 1, while a ratio > 1 indicates an enrichment of nonsynonymous changes, a hallmark of positive selection, and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. The user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants, otherwise this metric will not accurately reflect the true value.  
+
+The dN/dS ratio is commonly used to test for a bias in amino acid conversions. 
+* dN counts the number of nonsynonymous mutations per codon, defined as nucleotide changes that result in an amino acid change in the protein product. 
+* dS counts the number of synonymous mutations per synonymous sites, defined as nucleotide changes that don't result in an amino acid change 
+A dN/dS ratio > 1 indicates an enrichment of nonsynonymous changes and a ratio < 1 indicates a depletion of nonsynonymous changes, a hallmark of negative or purifying selection. 
+
+To use the `dNdS_segment()` function the user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants..  
 ```{r}
-##dNdS_segment ## SAYS NEEDS dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
 SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1", "H1N1_PA.1", "H1N1_HA.1" ,"H1N1_NP.1", "H1N1_NA.1", 
                 "H1N1_M1.1", "H1N1_M1.2", "H1N1_NS.1", "H1N1_NS.2")
 dNdS_segment(DF_filt)
 ```
 
-## Determine if variants are shared among samples
-This function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
+## Identify variants shared among samples
+
+The `shared_snv_plot()` function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
+By default the function assesses sharing across all samples.
 ```{r}
 shared_snv_plot(DF_filt)
+```
 
-# Alternatively, to compare only a select number of samples, provide a character vector with their names
+
+To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to use only those samples. 
+```{r}
 shared_snv_plot(DF_filt, samples = c("a_1_fb","a_1_iv"))
 ```
 
-By default, this plot asks if the variant is shared across all samples. To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to pull only those samples before tallying. 
-
 
 ## Print dataframe of variants shared among samples for further analysis
-This function takes the variant dataframe and creates a new table, listing the variants in descending order of how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
+
+The `shared_snv_table()` function takes the variant dataframe and creates a new table, listing the variants in descending order of frequency how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
+
 ```{r}
 shared_snv_table(DF_filt)
 ```
 
 ## Isolate variant of interest and plot AF at that position in all samples
-This function allows users to focus on a single variant of interest and track the allele frequency of the major and the minor allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
+The `position_allele_freq()` function allows users to focus on a single variant of interest and track the allele frequency of the major and the minor allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
+
 ```{r}
-# provide the df, segment, and variant position
 position_allele_freq(DF_filt,"H1N1_HA", "1007")
 ```
 
