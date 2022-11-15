@@ -26,10 +26,11 @@ The **vivaldi** package is available on CRAN and is loaded as follows.  We also 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
+library(tidyverse)
 ```
 
 ## Vignette data set
-The data used in this vignette are simulated influenza genomes with specified variants at random frequencies. The VCF files have been annotated using *SNPeff* before running *Vivaldi*. 
+The data used in this vignette are simulated influenza genomes with specified variants at random frequencies. The data comprises 12 sampes that were sequenced twice resulting in 24 VCF files that have been annotated using *SNPeff*. 
 
 # Step 1: Set path for variant data and metadata
 
@@ -48,6 +49,7 @@ genome_size = 13133
 ```
 
 The user should also supply a `.csv` file with sample information containing 3 columns:
+
 * the unique name of each VCF file 
 * which unique replicate number for the sample  
 * the sample name to be used for the merged replicate data 
@@ -55,6 +57,7 @@ The user should also supply a `.csv` file with sample information containing 3 c
 ```{r}
 rep_info = system.file("extdata", "reps.csv", package="vivaldi")
 replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
+dim(replicates)
 head(replicates)
 ```
 
@@ -64,13 +67,18 @@ head(replicates)
 
 The first step is performed using `arrange_data()` to load the VCF files into R, extract the important information. and arrange data as a tidy dataframe. The dataframe contains the sample name, pulled from the VCF file name, and information about the reference and alternative allele. If the VCF has not previously been annotated by SNPeff (recommended), the user should specify `annotated = "no"`. 
 
+Once the data has been arranged we can see that there are a total of 2,493 variants across the 24 samples.  Each sample has between 95 - 110 variants.
+
 ```{r message=FALSE, warning=FALSE}
 VCF_DF = arrange_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 kable(head(VCF_DF))
 dim(VCF_DF)
+VCF_DF %>%
+  group_by(sample) %>%
+  summarise(n = n())
 ```
 
-The VCF_DF dataframe  contains all variants from all of the files. The columns are:
+The VCF_DF dataframe contains all information from the VCF files. The 18 columns are:
 
 * sample: sample name (pulled from VCF file name)
 * CHROM: segment the variant was found on
@@ -91,32 +99,54 @@ The VCF_DF dataframe  contains all variants from all of the files. The columns a
 * majorfreq: frequency of the major nucleotide
 * minorfreq: frequency of the minor nucleotide
 
-If working with a segmented genome, users should provide a vector containing the segments in the desired order for plotting.
+If working with a segmented genome, users should provide a vector containing the names of the segments in the desired order for plotting.
 
 ```{r}
 SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1_MP","H1N1_NS")
 VCF_DF$CHROM = factor(VCF_DF$CHROM, levels = SEGMENTS)
 ```
 
+
+## 
+
+```{r}
+
+```
+
+
+
 ## Merging Replicate Sequence Data
 
 Performing technical replicates of library preparation and DNA sequencing improves the accuracy of variant calling as sequencing or RT-PCR errors are unlikely to occur at the same site in independent experiments. 
 
-For this function, the user must provide the variant dataframe (output of the `arrange_data() function`) and the replicates dataframe. Additional information that is required is:
-* the name used for replicates 1 and 2 from the replicates dataframe (ex. "Rep1", "r1", "rep1", etc), which must be provided in quotes
-* a vector containing the names of the columns that should be used to merge the two dataframes.  This vector must contain columns that are identical between the two replicates, such as the segment and nucleotide position of the variant. It should not contain replicate-specific information such as the allele frequency of the variant.
+For this function, the user must provide the variant dataframe (i.e. the output of the `arrange_data() function`) and the replicates dataframe. Additional information that is required is:
+* the exact name used for replicates 1 and 2 from the replicates dataframe (e.g. "Rep1", "r1", "rep1", etc), which must be provided in quotes
+* a vector containing the names of the columns that should be used to merge the two dataframes.  This vector must contain columns that have identical values for the two replicates, such as the segment and nucleotide position of the variant. It should not contain replicate-specific information such as the allele frequency of the variant.
 
-The `merge_replicates()` functions generates a dataframe with variants that are found in both sequencing replicates. It excludes variants that are only found in one replicate
+The `merge_replicates()` functions generates a dataframe with all variants that are found in both sequencing replicates. It excludes variants that are only found in one replicate.
 
+In the merged dataframe information from replicate 1 is denoted with a `.x` suffix.  Information from replicate 2 is denoted with a `.y` suffix.  
+
+In addition, average frequencies are computed from the two replicates.
+
+Our dataframe now contains the 12 unique samples with between 82 - 99 variants.  These variants were detected in both sequencing replicates whereas variants in only a single replicate were removed. 
 ```{r}
 cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
 
 DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
+
+head(DF_reps)
+dim(DF_reps)
+DF_reps %>%
+  group_by(sample) %>%
+  summarise(n = n())
 ```
 
 ### Compare the allele frequencies between replicate 1 and 2
 
-Visual analysis of the variation in allele frequency estimations from the two sequencing experiments is informative about the technical variation.
+Visual analysis of the variation in allele frequency estimations from the two sequencing experiments is informative about the technical variation in allele frequency estimation.
+
+This plot also makes clear that all variants were detected in both replicates. 
 
 ```{r}
 ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) + 
@@ -125,20 +155,19 @@ ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) +
 
 ### Compare the similarity between the average allele frequency and the weighted average allele frequency
 
-`merge_replicates()` calculates two average allele frequency values both the average allele frequency, as well as the weighted average allele frequency, for the major and minor allele. 
+`merge_replicates()` calculates two average allele frequency values: 1) the average allele frequency and 2) the weighted average allele frequency, for the major and minor allele. 
 * The **average** is calculated by simply taking the mean of the allele frequency estimates from both replicates. 
 * The **weighted average** is calculated by adding the number of reads containing either the major or minor nucleotide from both replicates and dividing by the total number of reads. 
 
-The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.
+The average and the weighted average should be similar unless one of the replicates has significantly higher coverage per sample than the other.  In this case we can see that these two average estimated are very similar.  However, in the case of variable sequence depth a weighted average may be more appropriate.
 
 ```{r}
 ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq, y = weighted_minorfreq)) + ggplot2::geom_point()
 ```
 
-DAVID HAS STOPPED HERE ON THURSDAY NOVEMBER 10
-
 ## Filter out variants based on coverage and/or frequency cutoffs
-This function filters the variants by frequency or coverage of the ALT allele. Based on a benchmarking study performed by our lab (https://www.biorxiv.org/content/10.1101/2021.05.05.442873v2), we recommend 1% allele frequency and no coverage cutoff for sequencing data with replicates. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200X coverage for data without replicates. If data includes replicates, the function checks to make sure each replicate passes the cutoffs. 
+This function filters the variants by frequency or coverage of the ALT allele. Based on a benchmarking study performed by our lab (https://www.biorxiv.org/content/10.1101/2021.05.05.442873v2), when using replicate sequencing data we recommend removing variants with less than 1% allele frequency and not imposing a sequence coverage cutoff. For sequencing data without replicates, a much more stringent filtering step is recommended to ensure confidence in the variants called. We suggest a 3% allele frequency and 200x coverage for data without replicates. If data includes replicates, the function checks to make sure each replicate passes the cutoffs.
+
 ```{r}
 # Use default coverage (200) and frequency (0.03) cutoffs 
 DF_filt = filter_variants(DF_reps)
@@ -149,7 +178,7 @@ dim(DF_filt)
 ```
 
 ## Format SNPeff information
-This function takes the one large annotation column containing annotation information from SNPeff and separates them out into individual columns with one attribute each.
+Until this point, SNPeff annotations are contained within a single column.  The function `prepare_annotation()` separates this information into individual columns with one attribute each.
 ```{r}
 DF_filt = prepare_annotations(DF_filt)
 
@@ -158,7 +187,9 @@ dim(DF_filt)
 ```
 
 ## Add metadata
-Here, we add in information about the sizes of the segments, which will allow us to do downstream calculations like tstv, dNdS, and others. The user must provide both the variant dataframe and the loaded metadata dataframe, as well as the names of the columns to merge by in both. 
+
+We add information about the sizes of the segments which is necessary for downstream calculations such as transition:transversion (tstv) and dNdS. The variant dataframe and metadata dataframe are required, as well as the names of the columns to define the merge. 
+
 ```{r}
 DF_filt = add_metadata(DF_filt, sizes, c('CHROM'), c('segment'))
 
@@ -166,52 +197,68 @@ kable(head(DF_filt))
 dim(DF_filt)
 ```
 
-# Step 3: Calculations & Generating plots
+# Step 3: Calculations and Visualization
 
 ## Plot distribution of all minor variant frequencies
-This function takes the variant dataframe and generates a plot showing the distribution of the the minor variants (appearing in less than 50% of the reads for any sample). For many viruses, we expect the distribution to be skewed to very low frequency variants (< 10%). 
+The function `af_distribution()` takes the variant dataframe and generates a plot showing the distribution of the the minor variants (defined as those variants at frequency less than 50% in a sample). 
+
 ```{r}
 af_distribution(DF_filt)
 ```
 
 ## Count number of SNVs
-The function tally_it() allows the user to count the number of variants over a given set of variables. These variables should be provided as a vector and then passed into the function in addition to the name, in quotes, for the new column containing the number of variants. For example, to get the sum of variants on every segment, the user should construct a vector containing the name of the sample column and the name of the segment column and pass that list into the function. 
+
+The function `tally_it()` allows the user to count the number of variants over a given set of variables. These variables should be provided as a vector and then passed into the function in addition to the name, in quotes, for the new column containing the number of variants.  The user should construct a vector containing the name of the sample column and the name of the segment column and pass that list into the function. 
+
+For example, to get the sum of variants on every segment:
 ```{r}
 group_list_seg = c('sample','CHROM', "SegmentSize")
 seg_count = tally_it(DF_filt, group_list_seg, "snv_count")
 
-kable(head(seg_count))
+kable(seg_count)
+```
 
-
-# Alternatively, to count across genomes:
+To count across genomes:
+```{r}
 group_list_gen = c('sample')
 gen_count = tally_it(DF_filt, group_list_gen, "snv_count")
 
-kable(head(gen_count))
+kable(gen_count)
 ```
 
+
 ## Plot location of SNVs across segments
-This function takes the variant dataframe and generates a large, interactive plot of all of the variants. The plot will be faceted by each segment for each individual sample. The user can scroll over each point in the plot to get information about that variant, including the nucleotide change and the position on the segment.
+This `snv_location()` function takes the variant dataframe and generates a large, interactive plot of all of the variants. The plot is faceted by each segment for each individual sample. The user can scroll over each point in the plot to get information about that variant, including the nucleotide change and the position on the segment.
 ```{r}
 snv_location(DF_filt)
 ```
 
 ## Plot number of SNVs per sample and per segment
-The snv_genome() function will take the variant dataframe and generate a plot of the number of variants per genome and colors them by their SNPeff annotation, while the snv_segment() function will generate the same plot but faceted by segment. 
+The `snv_genome()` function takes the variant dataframe and generates a plot of the number of variants per genome and colors them by their SNPeff annotation. 
 ```{r}
 snv_genome(DF_filt)
+```
+
+The `snv_segment()` function generates the same plot faceted by segment.
+```{r}
 snv_segment(DF_filt)
 ```
 
+
 ## Calculate Transition/Transversion Ratio 
-The transition/transversion ratio is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. Here, the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
+The transition/transversion ratio is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. To use the function `tstv_ratio()` the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
 ```{r}
 DF_tstv = tstv_ratio(DF_filt,genome_size)
 kable(head(DF_tstv))
 ```
 
 ## Plot TsTv
-This function will take the variant dataframe and generates 3 plots: the Ts/Tv ratio across the genome, the ratio across each segment, and the ratio across each segment normalized by kilobase. 
+The function `tstv_plot()` takes the variant dataframe and generates 3 plots: 
+
+1. the Ts/Tv ratio across the genome 
+2. the ratio across each segment
+3. the ratio across each segment normalized by kilobase
+
 ```{r}
 tstv_plot(DF_tstv)
 ```
