@@ -30,7 +30,7 @@ library(tidyverse)
 ```
 
 ## Vignette data set
-The data used in this vignette are simulated influenza genomes with specified variants at random frequencies. The data comprises 12 sampes that were sequenced twice resulting in 24 VCF files that have been annotated using *SNPeff*. 
+The data used in this vignette are simulated influenza genomes with specified variants at random frequencies. The data comprises of 12 samples that were sequenced twice resulting in 24 VCF files that have been annotated using *SNPeff*. 
 
 # Step 1: Set path for variant data and metadata
 
@@ -267,7 +267,7 @@ tstv_plot(DF_tstv)
 
 Shannon entropy is a commonly used metric to describe the amount of genetic diversity in sequencing data. It is calculated by considering the frequency of the ALT and REF allele at every position and then summing those values over 1) a segment or 2) the entire genome. These values can then be normalized by sequence length (kb) in order to compare across different segments or samples. 
 
-The `shannon_entropy()` function modifies the dataframe to add five new columns contaiining these values. The user must provide the variant dataframe and the length of the genome.  
+The `shannon_entropy()` function modifies the dataframe to add five new columns containing these values. The user must provide the variant dataframe and the length of the genome.  
 ```{r}
 DF_filt = shannon_entropy(DF_filt,genome_size)
 
