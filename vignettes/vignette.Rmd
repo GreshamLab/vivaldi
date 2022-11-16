@@ -106,15 +106,6 @@ SEGMENTS = c("H1N1_PB2","H1N1_PB1","H1N1_PA","H1N1_HA","H1N1_NP","H1N1_NA","H1N1
 VCF_DF$CHROM = factor(VCF_DF$CHROM, levels = SEGMENTS)
 ```
 
-
-## 
-
-```{r}
-
-```
-
-
-
 ## Merging Replicate Sequence Data
 
 Performing technical replicates of library preparation and DNA sequencing improves the accuracy of variant calling as sequencing or RT-PCR errors are unlikely to occur at the same site in independent experiments. 
