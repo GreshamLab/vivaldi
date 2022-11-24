@@ -58,7 +58,7 @@ The user should also supply a `.csv` file with sample information containing 3 c
 rep_info = system.file("extdata", "reps.csv", package="vivaldi")
 replicates = read.csv(file = rep_info, header = T, sep = ",", na.strings = c(""))
 dim(replicates)
-head(replicates)
+kable(head(replicates))
 ```
 
 # Step 2: Loading data and arranging 
@@ -126,7 +126,7 @@ cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
 
 DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
 
-head(DF_reps)
+kable(head(DF_reps))
 dim(DF_reps)
 DF_reps %>%
   group_by(sample) %>%
@@ -137,7 +137,24 @@ DF_reps %>%
 
 Visual analysis of the variation in allele frequency estimations from the two sequencing experiments is informative about the technical variation in allele frequency estimation.
 
-This plot also makes clear that all variants were detected in both replicates. 
+Here we generate a plot comparing the allele frequency of variants between replicates 1 and 2 *without* removing variants that were only found in one replicate. These are visualized as zero values along the x or y axes. 
+```{r}
+df = merge(replicates,VCF_DF, by.x = c("filename"), by.y = c("sample"))
+
+df_rep1 = dplyr::filter(df, replicate == "rep1")
+df_rep2 = dplyr::filter(df, replicate == "rep2")
+
+df_merged_keep = merge(df_rep1, df_rep2, by = cols, all = TRUE)
+df_merged_keep = df_merged_keep[!duplicated(df_merged_keep), ]
+
+df_merged_keep$minorfreq.x[is.na(df_merged_keep$minorfreq.x)] = 0
+df_merged_keep$minorfreq.y[is.na(df_merged_keep$minorfreq.y)] = 0
+
+ggplot2::ggplot(df_merged_keep, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) + 
+  ggplot2::geom_point()
+```
+
+Here, we generate the same plot from the merged dataframe *with* removing variants that were only found in one replicate. This serves as a visual check that these variants are removed from downstream analyses.  
 
 ```{r}
 ggplot2::ggplot(DF_reps, ggplot2::aes(x = minorfreq.x, y = minorfreq.y)) + 
@@ -164,7 +181,7 @@ This function filters the variants by frequency or coverage of the ALT allele. B
 DF_filt = filter_variants(DF_reps)
 
 # To run with custom values, specify these in the function
-kable(head(DF_filt,coverage_cutoff = 400, freq_cutoff = 0.02))
+kable(head(DF_filt,coverage_cutoff = 0, freq_cutoff = 0.01))
 dim(DF_filt)
 ```
 
