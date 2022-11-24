@@ -337,7 +337,7 @@ shared_snv_table(DF_filt)
 The `position_allele_freq()` function allows users to focus on a single variant of interest and track the allele frequency of the major and the minor allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
 
 ```{r}
-position_allele_freq(DF_filt,"H1N1_HA", "1007")
+position_allele_freq(DF_filt,"H1N1_NP", "1247")
 ```
 
 This function is particularly useful to identify changes in allele frequency over time, if working with time series data, or between individuals in a transmission chain. If a variant is seen to rise in frequency over time, that is a potential indication of positive selection. If a variant is transmitted between individuals, it may also indicate some functional advantage. However, as transmission bottlenecks are thought to be relatively narrow for most viruses, a variant's presence may also simply indicate a variant "lucky" enough to become part of the founding population for the next infection. 
