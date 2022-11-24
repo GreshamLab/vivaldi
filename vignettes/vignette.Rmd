@@ -194,15 +194,45 @@ kable(head(DF_filt))
 dim(DF_filt)
 ```
 
+## Remove duplicate variants in NS and MP 
+
+Since the NS and M segments in influenza have splice variants, the variants on these two segments will be double counted. To prevent inaccurate counting of these variants, we remove duplicates before continuing with downstream analysis. 
+```{r}
+DF_filt_ns = filter(DF_filt, feature_id != "H1N1_NS.1" & feature_id != "H1N1_NS.2" & 
+                      feature_id != "H1N1_M1.1" & feature_id != "H1N1_M1.2")
+
+DF_filt_s = filter(DF_filt, feature_id == "H1N1_NS.1" | feature_id == "H1N1_NS.2" | 
+                          feature_id =="H1N1_M1.1" | feature_id =="H1N1_M1.2")
+
+DF_filt_s_unique = DF_filt_s %>% dplyr::group_by(sample,CHROM,POS,REF,ALT) %>% 
+  dplyr::mutate(count = 1, totalsamp = sum(count)) %>%
+  filter(totalsamp == 1) %>%
+  ungroup()
+
+# if variants are duplicated, only take those from NS.1 or M.1
+DF_filt_s_double = DF_filt_s %>% dplyr::group_by(sample,CHROM,POS,REF,ALT) %>% 
+  dplyr::mutate(count = 1, totalsamp = sum(count)) %>%
+  filter(totalsamp > 1) %>%
+  filter(feature_id == "H1N1_NS.1" | feature_id =="H1N1_M1.1") %>%
+  ungroup() %>%
+  dplyr::select(!(count:totalsamp))
+  
+DF_filt_s_all = rbind(DF_filt_s_unique,DF_filt_s_double)
+DF_filt_s_all = DF_filt_s_all[!duplicated(DF_filt_s_all), ] %>% droplevels()
+
+DF_filt_SNVs = rbind(DF_filt_s_all,DF_filt_ns)
+```
+
+
 ## Add metadata
 
 We add information about the sizes of the segments which is necessary for downstream calculations such as transition:transversion (tstv) and dNdS. The variant dataframe and metadata dataframe are required, as well as the names of the columns to define the merge. 
 
 ```{r}
-DF_filt = add_metadata(DF_filt, sizes, c('CHROM'), c('segment'))
+DF_filt_SNVs = add_metadata(DF_filt_SNVs, sizes, c('CHROM'), c('segment'))
 
-kable(head(DF_filt))
-dim(DF_filt)
+kable(head(DF_filt_SNVs))
+dim(DF_filt_SNVs)
 ```
 
 # Step 3: Calculations and Visualization
@@ -211,7 +241,7 @@ dim(DF_filt)
 The function `af_distribution()` takes the variant dataframe and generates a plot showing the distribution of the the minor variants (defined as those variants at frequency less than 50% in a sample). 
 
 ```{r}
-af_distribution(DF_filt)
+af_distribution(DF_filt_SNVs)
 ```
 
 ## Count number of SNVs
@@ -221,7 +251,7 @@ The function `tally_it()` allows the user to count the number of variants over a
 For example, to get the sum of variants on every segment:
 ```{r}
 group_list_seg = c('sample','CHROM', "SegmentSize")
-seg_count = tally_it(DF_filt, group_list_seg, "snv_count")
+seg_count = tally_it(DF_filt_SNVs, group_list_seg, "snv_count")
 
 kable(seg_count)
 ```
@@ -229,7 +259,7 @@ kable(seg_count)
 To count across genomes:
 ```{r}
 group_list_gen = c('sample')
-gen_count = tally_it(DF_filt, group_list_gen, "snv_count")
+gen_count = tally_it(DF_filt_SNVs, group_list_gen, "snv_count")
 
 kable(gen_count)
 ```
@@ -238,25 +268,25 @@ kable(gen_count)
 ## Plot location of SNVs across segments
 This `snv_location()` function takes the variant dataframe and generates a large, interactive plot of all of the variants. The plot is faceted by each segment for each individual sample. The user can scroll over each point in the plot to get information about that variant, including the nucleotide change and the position on the segment.
 ```{r}
-snv_location(DF_filt)
+snv_location(DF_filt_SNVs)
 ```
 
 ## Plot number of SNVs per sample and per segment
 The `snv_genome()` function takes the variant dataframe and generates a plot of the number of variants per genome and colors them by their SNPeff annotation. 
 ```{r}
-snv_genome(DF_filt)
+snv_genome(DF_filt_SNVs)
 ```
 
 The `snv_segment()` function generates the same plot faceted by segment.
 ```{r}
-snv_segment(DF_filt)
+snv_segment(DF_filt_SNVs)
 ```
 
 
 ## Calculate Transition/Transversion Ratio 
 The transition/transversion ratio is commonly used to test for a bias in nucleotide conversions. Transitions are expected to be more common. To use the function `tstv_ratio()` the user must provide the variant dataframe and the length of the genome, as this ratio will be calculated by segment and over the whole genome. 
 ```{r}
-DF_tstv = tstv_ratio(DF_filt,genome_size)
+DF_tstv = tstv_ratio(DF_filt_SNVs,genome_size)
 kable(head(DF_tstv))
 ```
 
@@ -277,10 +307,10 @@ Shannon entropy is a commonly used metric to describe the amount of genetic dive
 
 The `shannon_entropy()` function modifies the dataframe to add five new columns containing these values. The user must provide the variant dataframe and the length of the genome.  
 ```{r}
-DF_filt = shannon_entropy(DF_filt,genome_size)
+DF_filt_SNVs = shannon_entropy(DF_filt_SNVs,genome_size)
 
-kable(head(DF_filt))
-dim(DF_filt)
+kable(head(DF_filt_SNVs))
+dim(DF_filt_SNVs)
 ```
 
 ## Plot shannon entropy per sample and per segment
@@ -292,7 +322,7 @@ The `plot_shannon()` function takes the variant dataframe and generates three pl
 
 A higher value indicates more diversity. 
 ```{r}
-plot_shannon(DF_filt)
+plot_shannon(DF_filt_SNVs)
 ```
 
 
@@ -310,18 +340,20 @@ SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1", "H1N1_PA.1", "H1N1_HA.1" ,"H1N1_NP.1
 dNdS_segment(DF_filt)
 ```
 
+For this calculation, we want to use the aminio acid information contained in DF_filt, rather than the SNV information from DF_filt_SNVs. 
+
 ## Identify variants shared among samples
 
 The `shared_snv_plot()` function takes the variant dataframe and generates a plot that annotates the variants based on the number of times it appears in independent samples. The darker the color of the point, the more samples that variant is found in. Depending on the context of the user's experimental design, a variant that is found in many samples could be an indication of convergent evolution and would potentially be a good starting point for deeper investigation. 
 By default the function assesses sharing across all samples.
 ```{r}
-shared_snv_plot(DF_filt)
+shared_snv_plot(DF_filt_SNVs)
 ```
 
 
 To specify only a subset of samples to compare, pass the names of those samples into the function, which will tell the function to use only those samples. 
 ```{r}
-shared_snv_plot(DF_filt, samples = c("a_1_fb","a_1_iv"))
+shared_snv_plot(DF_filt_SNVs, samples = c("a_1_fb","a_1_iv"))
 ```
 
 
@@ -330,14 +362,14 @@ shared_snv_plot(DF_filt, samples = c("a_1_fb","a_1_iv"))
 The `shared_snv_table()` function takes the variant dataframe and creates a new table, listing the variants in descending order of frequency how many samples they are found in. This function is meant to simplify further investigation of visual patterns in the previous plot. 
 
 ```{r}
-shared_snv_table(DF_filt)
+shared_snv_table(DF_filt_SNVs)
 ```
 
 ## Isolate variant of interest and plot AF at that position in all samples
 The `position_allele_freq()` function allows users to focus on a single variant of interest and track the allele frequency of the major and the minor allele in all samples it is found in. To run, the user must provide the variant dataframe and the segment name and nucleotide position, in quotes, of the variant they are interested in. This can be run for any variant found in the sequencing data. 
 
 ```{r}
-position_allele_freq(DF_filt,"H1N1_NP", "1247")
+position_allele_freq(DF_filt_SNVs,"H1N1_NP", "1247")
 ```
 
 This function is particularly useful to identify changes in allele frequency over time, if working with time series data, or between individuals in a transmission chain. If a variant is seen to rise in frequency over time, that is a potential indication of positive selection. If a variant is transmitted between individuals, it may also indicate some functional advantage. However, as transmission bottlenecks are thought to be relatively narrow for most viruses, a variant's presence may also simply indicate a variant "lucky" enough to become part of the founding population for the next infection. 
