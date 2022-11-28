@@ -45,6 +45,10 @@ Metadata used for the calculations includes a `.csv` file containing the length 
 ```{r}
 seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
+
+#select only the relevant segment sizes for H1N1
+sizes = filter(sizes, STRAIN ==  "H1N1")
+
 genome_size = 13133
 ```
 
