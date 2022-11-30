@@ -32,7 +32,7 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
     vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
 
-    if (annotated = 'yes'){
+    if (annotated == 'yes'){
 
       # $fix contains the INFO fields
       vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list), 'ANN')
