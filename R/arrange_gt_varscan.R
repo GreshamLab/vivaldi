@@ -35,7 +35,7 @@ arrange_gt_data_varscan = function(vardir, reference_fasta, annotated = 'yes', n
 
     vcf_tidy = vcfR::vcfR2tidy(vcf_all)  # change into a tidy dataframe
 
-    if (annotated == 'yes'){
+    if (annotated = 'yes'){
 
       # $fix contains the INFO fields
       vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list), 'ANN')

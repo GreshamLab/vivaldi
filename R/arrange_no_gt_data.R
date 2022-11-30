@@ -32,7 +32,15 @@ arrange_no_gt_data = function(vardir, reference_fasta, ntlist=c('A','G','T','C',
 
     vcf_tidy = vcfR::vcfR2tidy(vcf_all, info_only = TRUE)  # change into a tidy dataframe
 
-    vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
+    if (annotated = 'yes'){
+
+      # $fix contains the INFO fields
+      vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list), 'ANN')
+
+    } else{
+      # $fix contains the INFO fields
+      vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
+    }
 
     gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE)
     length(gt_DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
