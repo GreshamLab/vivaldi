@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Load the Vivaldi pacakge
+# Load the Vivaldi package
 
 The **vivaldi** package is available on CRAN and is loaded as follows.  We also use `tidyverse` for data wrangling and `kableExtra` for rendering tables in vignette 
 ```{r setup}
@@ -97,7 +97,7 @@ The VCF_DF dataframe contains all information from the VCF files. The 18 columns
 * ALT_COUNT: number of reads that include the ALT nucleotide
 * REF_FREQ: frequency of the reference nucleotide, calculated using REF_COUNT / gt_DP
 * ALT_FREQ: frequency of the alternate nucleotide, calculated using ALT_COUNT / gt_DP
-* ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labelled as major; if found at frequencies < 50%, it is labelled as minor.
+* ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labeled as major; if found at frequencies < 50%, it is labeled as minor.
 * major: major frequency nucleotide (>=0.5)
 * minor: minor frequency nucleotide (<0.5)
 * majorcount: number of reads containing the major nucleotide
