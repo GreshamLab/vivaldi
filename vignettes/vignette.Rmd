@@ -98,8 +98,8 @@ The VCF_DF dataframe contains all information from the VCF files. The 18 columns
 * REF_FREQ: frequency of the reference nucleotide, calculated using REF_COUNT / gt_DP
 * ALT_FREQ: frequency of the alternate nucleotide, calculated using ALT_COUNT / gt_DP
 * ALT_TYPE: categorization of the alternate nucleotide. If found at frequencies > 50%, it is labelled as major; if found at frequencies < 50%, it is labelled as minor.
-* major: major frequnecy nucleotide (>=0.5)
-* minor: minor frequnecy nucleotide (<0.5)
+* major: major frequency nucleotide (>=0.5)
+* minor: minor frequency nucleotide (<0.5)
 * majorcount: number of reads containing the major nucleotide
 * minorcount: number of reads containing the minor nucleotide
 * majorfreq: frequency of the major nucleotide
@@ -146,7 +146,7 @@ dim(DF_reps)
 
 Visual analysis of the variation in allele frequency estimations from the two sequencing experiments is informative about the technical variation in allele frequency estimation.
 
-Here we generate a plot comparing the allele frequency of variants between replicates 1 and 2 *without* removing variants that were only found in one replicate. These are clealry observed as variants that have  zero values along the x or y axes. 
+Here we generate a plot comparing the allele frequency of variants between replicates 1 and 2 *without* removing variants that were only found in one replicate. These are clearly observed as variants that have  zero values along the x or y axes. 
 ```{r}
 df = merge(replicates,VCF_DF, by.x = c("filename"), by.y = c("sample"))
 
