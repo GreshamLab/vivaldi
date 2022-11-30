@@ -92,12 +92,21 @@ arrange_gt_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c(
                                          majorcount = ifelse(ALT_TYPE == "major", ALT_COUNT,REF_COUNT),
                                          minorcount = ifelse(ALT_TYPE == "minor", ALT_COUNT,REF_COUNT))
 
-    all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,ANN,
-                                    gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
-                                    major,minor,majorcount,minorcount,majorfreq,minorfreq))
+    if (annotated == 'yes'){
+
+      all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,ANN,
+                                             gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
+                                             major,minor,majorcount,minorcount,majorfreq,minorfreq))
+
+    } else{
+
+      all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,
+                                             gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
+                                             major,minor,majorcount,minorcount,majorfreq,minorfreq))
+
+    }
 
     all_files = all_files[!duplicated(all_files), ] %>% droplevels()
-
 
     return(all_files)
 }
