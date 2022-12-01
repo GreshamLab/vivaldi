@@ -15,8 +15,3 @@ A bar plot showing the number of variants colored by their SNPEff annotation
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
-\examples{
-\dontrun{
-snv_segment(vardf)
-}
-}
