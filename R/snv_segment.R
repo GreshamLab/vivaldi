@@ -6,11 +6,6 @@
 #' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
 #' @return A bar plot showing the number of variants colored by their SNPEff annotation
 #' @export
-#' @examples
-#' \dontrun{
-#' snv_segment(vardf)
-#' }
-
 snv_segment = function(vardf){
 
   sum_df = dplyr::group_by(vardf, sample, CHROM, annotation) %>% dplyr::tally()
