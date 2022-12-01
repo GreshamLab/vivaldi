@@ -11,9 +11,8 @@ Authors@R: c(
     person("Elodie", "Ghedin", role = "aut"),
     person("David", "Gresham", , "dg107@nyu.edu", role = c("aut", "cre"))
   )
-Description: The 'vivaldi' package provides functions for analyzing minor
-    alleles in Illumina sequencing data of viral genomes.  Functions in
-    'vivaldi' primarily operate on vcf files.
+Description: Analysis of minor alleles in Illumina sequencing data of viral
+    genomes. Functions in 'vivaldi' primarily operate on vcf files.
 License: MIT + file LICENSE
 URL: https://github.com/GreshamLab/vivaldi
 BugReports: https://github.com/GreshamLab/vivaldi/issues
