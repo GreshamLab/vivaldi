@@ -26,5 +26,7 @@ Merges replicate VCF files into a single dataframe
 \examples{
 cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
 DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
+dim(DF_reps)
+DF_reps
 
 }
