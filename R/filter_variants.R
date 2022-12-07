@@ -12,8 +12,8 @@
 #' ex_DF_reps[, c("sample","CHROM","POS","minorfreq","majorfreq",
 #'               "weighted_minorfreq","weighted_majorfreq")]
 #'
-#' # Imposing a 1% allele frequency threshold results in 1 SNV being removed
-#' DF_filt = filter_variants(ex_DF_reps, coverage_cutoff = 0, frequency_cutoff = 0.01 )
+#' # Imposing a 3% allele frequency threshold results in 1 SNV being removed
+#' DF_filt = filter_variants(ex_DF_reps, coverage_cutoff = 0, frequency_cutoff = 0.03 )
 #' DF_filt[, c("sample","CHROM","POS","minorfreq","majorfreq",
 #'               "weighted_minorfreq","weighted_majorfreq")]
 #'
