@@ -1,32 +1,22 @@
-#' World Health Organization TB data
+#' Example Variant Dataframe
 #'
-#' A subset of data from the World Health Organization Global Tuberculosis
-#' Report ...
-#'
-#' @format ## `VCD_DF`
-#' A data frame with 7,240 rows and 60 columns:
-#' \describe{
-#'   \item{country}{Country name}
-#'   \item{iso2, iso3}{2 & 3 letter ISO country codes}
-#'   \item{year}{Year}
-#'   ...
-#' }
-#' @source <https://www.who.int/teams/global-tuberculosis-programme/data>
-"VCF_DF"
+#' @format ## `ex_VCF_DF`
+#' A data frame with 5 rows and 18 columns:
+"ex_VCF_DF"
 
-
-#' World Health Organization TB data
+#' Example Replicates Dataframe
 #'
-#' A subset of data from the World Health Organization Global Tuberculosis
-#' Report ...
-#'
-#' @format ## `replicates`
-#' A data frame with 7,240 rows and 60 columns:
+#' @format ## `ex_replicates`
+#' A data frame with 2 rows and 2 columns:
 #' \describe{
-#'   \item{country}{Country name}
-#'   \item{iso2, iso3}{2 & 3 letter ISO country codes}
-#'   \item{year}{Year}
-#'   ...
+#'   \item{filename}{File name}
+#'   \item{replicate}{Replicate Identifier}
+#'   \item{sample}{Sample name}
 #' }
-#' @source <https://www.who.int/teams/global-tuberculosis-programme/data>
-"replicates"
+"ex_replicates"
+
+#' Example Dataframe
+#'
+#' @format ## `ex_DF_reps`
+#' A data frame with 2 rows and 35 columns:
+"ex_DF_reps"

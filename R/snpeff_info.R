@@ -5,6 +5,8 @@
 #' @name snpeff_info
 #' @return Returns vector containing information in snpeff annotations
 #' @export
+#' @examples
+#' snpeff_info()
 snpeff_info = function(){
 
   return(c('allele','annotation','putative_impact','gene_name','gene_id',

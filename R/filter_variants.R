@@ -8,6 +8,15 @@
 #' @param frequency_cutoff Frequency cutoff for calling a SNV (default: 3\%)
 #' @return A filtered VCF dataframe
 #' @export
+#' @examples
+#' ex_DF_reps[, c("sample","CHROM","POS","minorfreq","majorfreq",
+#'               "weighted_minorfreq","weighted_majorfreq")]
+#'
+#' # Imposing a 1% allele frequency threshold results in 1 SNV being removed
+#' DF_filt = filter_variants(ex_DF_reps, coverage_cutoff = 0, frequency_cutoff = 0.01 )
+#' DF_filt[, c("sample","CHROM","POS","minorfreq","majorfreq",
+#'               "weighted_minorfreq","weighted_majorfreq")]
+#'
 filter_variants = function(df, coverage_cutoff=200, frequency_cutoff=0.03){
 
     input_dim = nrow(df)

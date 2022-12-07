@@ -15,3 +15,14 @@ A dataframe containing each annotation on a separate column
 \description{
 Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
 }
+\examples{
+ex_DF_reps[,c("ANN")]
+dim(ex_DF_reps)
+
+# The ANN column will be split based on the strings in `snpeff_info()``
+snpeff_info()
+
+df = prepare_annotations(ex_DF_reps)[,c(snpeff_info())]
+df
+dim(df)
+}
