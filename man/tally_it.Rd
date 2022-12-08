@@ -19,3 +19,23 @@ A dataframe with columns from the 'groupit' vector and the number of times each 
 \description{
 Groups the input vcf data frame using a list of variables and tallies the number of occurrences
 }
+\examples{
+# Sample dataframe of 7 variants across 2 samples
+df <- data.frame(
+  sample = c( "sample1", "sample1", "sample1", "sample2",
+              "sample2", "sample2", "sample2"),
+  CHROM = c("PB1", "PB2", "PB2", "LEO", "LEO", "LEO", "ALE"),
+  SegmentSize = c(2280, 2274, 2274, 1701, 1701, 1701, 1888 ),
+  minorfreq = c(0.04422785, 0.03738175, 0.01390202, 0.02927786,
+                0.03071955, 0.02626025, 0.02875321)
+)
+
+# Example 1: to get the sum of variants on every segment:
+groupit = c('sample','CHROM', "SegmentSize")
+tally_it(df, groupit, "snv_count")
+
+# Example 2: to get the count across genomes:
+groupit = c('sample')
+tally_it(df, groupit, "snv_count")
+
+}
