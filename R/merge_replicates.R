@@ -11,26 +11,36 @@
 #' @return a data frame containing replicate information
 #' @export
 #' @examples
+#' df <- data.frame(sample = c("m1", "m2", "m1", "m2", "m1"),
+#'                  CHROM = c("PB1", "PB1", "PB2", "PB2", "NP"),
+#'                  POS = c(234, 234, 240, 240, 254),
+#'                  REF = c("G", "G", "A", "A", "C"),
+#'                  ALT = c("A", "A", "G", "G", "T"),
+#'                  minorfreq = c(0.010, 0.022, 0.043, 0.055, 0.011),
+#'                  majorfreq = c(0.990, 0.978, 0.957, 0.945, 0.989),
+#'                  minorcount = c(7, 15, 26, 32, 7),
+#'                  majorcount = c(709, 661, 574, 547, 610),
+#'                  gt_DP = c(716, 676, 600, 579, 617)
+#' )
 #'
-#' # The `merge_replicates()` functions generates a dataframe with all variants
-#' # that are found in both sequencing replicates. It excludes variants that are
-#' # only found in one replicate. In addition, average frequencies are computed
-#' # from the two replicates.
+#' # Dataframe shows a pair of replicates and their variants at 3 positions.
+#' df
 #'
-#' # `ex_VCF_DF` dataframe shows a pair of replicates and their variants at 3 positions.
-#' ex_VCF_DF[ , c("sample", "CHROM", "POS")]
+#' replicates <- data.frame(filename = c("m1","m2"),
+#'                          replicate = c("rep1", "rep2"),
+#'                          sample = c("a_2_iv", "a_2_iv")
+#' )
 #'
-#' # Merge `ex_VCF_DF` and `ex_replicates` dataframes by the following columns
-#' cols = c("sample","CHROM","POS","REF","ALT","ANN","ALT_TYPE","major","minor")
+#' # Dataframe showing relationship between filename, replicate, and sample name
+#' replicates
 #'
-#' DF_reps = merge_replicates(ex_VCF_DF,ex_replicates,"rep1","rep2",cols)
+#' # Merge `df` and `replicates` dataframes by the following columns
+#' cols = c("sample","CHROM","POS","REF","ALT")
 #'
+#' merge_replicates(df, replicates, "rep1", "rep2", cols)
 #' # The dataframe now contains the 2 variants at positions 234 & 240 that were
-#' # detected in both sequencing replicates whereas variant at  position 254
+#' # detected in both sequencing replicates whereas the variant at position 254
 #' # was only in a single replicate so it was removed during the merge.
-#'
-#' DF_reps[, c("sample","CHROM","POS","minorfreq","majorfreq",
-#'               "weighted_minorfreq","weighted_majorfreq")]
 #'
 merge_replicates = function(vardf, repdata, nameofrep1, nameofrep2,commoncols){
 

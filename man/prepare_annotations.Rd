@@ -22,6 +22,7 @@ dim(ex_DF_reps)
 # The ANN column will be split based on the strings in `snpeff_info()``
 snpeff_info()
 
+# Split the SNPeff annotations in "ANN" column and save to dataframe `df`
 df = prepare_annotations(ex_DF_reps)[,c(snpeff_info())]
 df
 dim(df)
