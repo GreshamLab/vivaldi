@@ -9,7 +9,7 @@ Authors@R: c(
     person("Eric", "Borenstein", role = "aut"),
     person("Mohammed", "Khalfan", role = "aut"),
     person("Elodie", "Ghedin", role = "aut"),
-    person("David", "Gresham", , "dg107@nyu.edu", role = c("aut", "cre"))
+    person("David", "Gresham", , "dg107@nyu.edu", role = c("aut", "cre", "cph"))
   )
 Description: Analysis of minor alleles in Illumina sequencing data of viral
     genomes. Functions in 'vivaldi' primarily operate on vcf files.
