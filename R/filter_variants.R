@@ -23,7 +23,7 @@
 #' # Example 1: A 1% allele frequency threshold and 200 coverage cutoff
 #' filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.01)
 #'
-#' # Example 2: A 3% allele frequency threshold and 100 coverage cutoff
+#' # Example 2: A 2% allele frequency threshold and 100 coverage cutoff
 #' filter_variants(df, coverage_cutoff = 100, frequency_cutoff = 0.02)
 #'
 #'

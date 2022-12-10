@@ -16,7 +16,7 @@ A bar plot showing the number of variants colored by their SNPEff annotation
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
 \examples{
-
+# Example 1: Simple data
 df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
                             "m2", "m2", "m2", "m2", "m2"),
   CHROM = c("PB1", "PB1", "PB2", "PB2", "PB2",
@@ -30,5 +30,8 @@ df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
 df
 
 snv_segment(df)
+
+# Example 2: Sample data
+snv_segment(example_filtered_SNV_df)
 
 }

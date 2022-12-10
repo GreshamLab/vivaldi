@@ -13,5 +13,24 @@ shared_snv_table(vardf)
 A table listing variants in order by how many samples they are found in
 }
 \description{
-Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs a table
+Reads in a dataframe that has been arranged (arrange_gt_data) and filtered
+(filter_variants) and outputs a table
+}
+\details{
+The `shared_snv_table()` function takes the variant dataframe and creates a
+new table, listing the variants in descending order of frequency how many
+samples they are found in. This function is meant to simplify further
+investigation of visual patterns in the previous plot.
+}
+\examples{
+# Sample dataframe has 57 columns
+dim(example_filtered_SNV_df)
+
+# Simplify sample dataframe
+df <- shared_snv_table(example_filtered_SNV_df)
+
+# Dataframe created has 15 columns
+df
+dim(df)
+
 }

@@ -16,14 +16,17 @@ A dataframe containing each annotation on a separate column
 Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
 }
 \examples{
-ex_DF_reps[,c("ANN")]
-dim(ex_DF_reps)
+# Example dataframe
+test <- data.frame( ANN = c("A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P"))
 
-# The ANN column will be split based on the strings in `snpeff_info()``
+# The ANN column will be split based on the strings in `snpeff_info()` and
+# an additional "error" column.
 snpeff_info()
 
 # Split the SNPeff annotations in "ANN" column and save to dataframe `df`
-df = prepare_annotations(ex_DF_reps)[,c(snpeff_info())]
-df
+df <- prepare_annotations(df)
+
+# The one "ANN" column is split into 16 columns
+dim(test)
 dim(df)
 }

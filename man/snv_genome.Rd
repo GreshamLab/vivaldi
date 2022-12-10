@@ -16,6 +16,7 @@ A bar plot showing the number of variants per sample colored by their SNPEff ann
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
 \examples{
+# Example 1: Simple dataframe
 df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
                             "m2", "m2", "m2", "m2", "m2"),
 			    annotation = c("downstrean_gene_variant", "synonymous_variant",
@@ -28,5 +29,8 @@ df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
 df
 
 snv_genome(df)
+
+# Example 2: Sample dataframe
+snv_genome(example_filtered_SNV_df)
 
 }

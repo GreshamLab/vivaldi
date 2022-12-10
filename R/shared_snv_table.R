@@ -1,11 +1,28 @@
 #' shared_snv_table
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs a table
+#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered
+#' (filter_variants) and outputs a table
+#'
+#' The `shared_snv_table()` function takes the variant dataframe and creates a
+#' new table, listing the variants in descending order of frequency how many
+#' samples they are found in. This function is meant to simplify further
+#' investigation of visual patterns in the previous plot.
 #'
 #' @name shared_snv_table
 #' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
 #' @return A table listing variants in order by how many samples they are found in
 #' @export
+#' @examples
+#' # Sample dataframe has 57 columns
+#' dim(example_filtered_SNV_df)
+#'
+#' # Simplify sample dataframe
+#' df <- shared_snv_table(example_filtered_SNV_df)
+#'
+#' # Dataframe created has 15 columns
+#' df
+#' dim(df)
+#'
 shared_snv_table = function(vardf){
 
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)

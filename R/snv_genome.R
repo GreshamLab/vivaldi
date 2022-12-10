@@ -7,6 +7,7 @@
 #' @return A bar plot showing the number of variants per sample colored by their SNPEff annotation
 #' @export
 #' @examples
+#' # Example 1: Simple dataframe
 #' df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
 #'                             "m2", "m2", "m2", "m2", "m2"),
 #' 			    annotation = c("downstrean_gene_variant", "synonymous_variant",
@@ -19,6 +20,9 @@
 #' df
 #'
 #' snv_genome(df)
+#'
+#' # Example 2: Sample dataframe
+#' snv_genome(example_filtered_SNV_df)
 #'
 snv_genome = function(vardf){
 

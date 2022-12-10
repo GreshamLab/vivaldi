@@ -15,3 +15,8 @@ two plots showing the K2P and simple Ts/Tv ratios
 \description{
 Plots Ts/Tv ratios
 }
+\examples{
+head(example_filtered_SNV_df)
+df <- tstv_ratio(example_filtered_SNV_df,1300)
+tstv_plot(df)
+}
