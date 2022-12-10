@@ -19,3 +19,23 @@ A filtered VCF dataframe
 \description{
 Filters single-nucleotide variants using a coverage and frequency cutoff
 }
+\examples{
+df <- data.frame(CHROM = c("A", "B", "C"),
+                POS = c(234, 240, 255),
+                ALT_FREQ = c(0.016, 0.049, 0.031),
+                gt_DP = c(716, 600, 187)
+)
+
+df
+
+# Default: filter by 3\% frequency threshold and 200 coverage cutoff
+filter_variants(df)
+
+# Example 1: A 1\% allele frequency threshold and 200 coverage cutoff
+filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.01)
+
+# Example 2: A 2\% allele frequency threshold and 100 coverage cutoff
+filter_variants(df, coverage_cutoff = 100, frequency_cutoff = 0.02)
+
+
+}

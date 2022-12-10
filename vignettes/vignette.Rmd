@@ -351,8 +351,7 @@ A dN/dS ratio > 1 indicates an enrichment of nonsynonymous changes and a ratio <
 
 To use the `dNdS_segment()` function the user must provide the variant dataframe that contains information about the amino acid changes for all nucleotide variants..  
 ```{r}
-SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1", "H1N1_PA.1", "H1N1_HA.1" ,"H1N1_NP.1", "H1N1_NA.1", 
-                "H1N1_M1.1", "H1N1_M1.2", "H1N1_NS.1", "H1N1_NS.2")
+SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1", "H1N1_PA.1", "H1N1_HA.1" ,"H1N1_NP.1", "H1N1_NA.1", "H1N1_M1.1", "H1N1_M1.2", "H1N1_NS.1", "H1N1_NS.2")
 dNdS_segment(DF_filt)
 ```
 

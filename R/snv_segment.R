@@ -6,6 +6,25 @@
 #' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
 #' @return A bar plot showing the number of variants colored by their SNPEff annotation
 #' @export
+#' @examples
+#' # Example 1: Simple data
+#' df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
+#'                             "m2", "m2", "m2", "m2", "m2"),
+#'   CHROM = c("PB1", "PB1", "PB2", "PB2", "PB2",
+#' 	           "PB1", "PB1", "PB2", "PB2", "PB2"),
+#'   annotation = c("downstrean_gene_variant", "synonymous_variant",
+#' 		              "synonymous_variant", "stop_gained", "missense_variant",
+#' 		          	  "downstrean_gene_variant", "downstrean_gene_variant",
+#' 				          "synonymous_variant", "stop_gained", "missense_variant")
+#' )
+#'
+#' df
+#'
+#' snv_segment(df)
+#'
+#' # Example 2: Sample data
+#' snv_segment(example_filtered_SNV_df)
+#'
 snv_segment = function(vardf){
 
   sum_df = dplyr::group_by(vardf, sample, CHROM, annotation) %>% dplyr::tally()

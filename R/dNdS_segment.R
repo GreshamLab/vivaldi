@@ -6,6 +6,14 @@
 #' @param annotation_df A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
 #' @return A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
 #' @export
+#' @examples
+#' # Sample Data
+#' head(example_filtered_SNV_df)
+#' dim(example_filtered_SNV_df)
+#'
+#' # Plot showing the dN/dS ratio for each splice form
+#' SPLICEFORMS = c("H1N1_PB2.1", "H1N1_PB1.1","H1N1_NS.2")
+#' dNdS_segment(example_filtered_SNV_df)
 dNdS_segment = function(annotation_df){
 
   annotation_df$feature_id = factor(annotation_df$feature_id, levels = SPLICEFORMS)

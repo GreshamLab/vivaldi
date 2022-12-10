@@ -7,6 +7,9 @@
 #' @param genome_size Size of whole genome being used
 #' @return A dataframe containing the calculated transition/transversion ratio (R or basic_tstv)
 #' @export
+#' @examples
+#' head(example_filtered_SNV_df)
+#' tstv_ratio(example_filtered_SNV_df, 13000)
 tstv_ratio = function(df,genome_size){
 
     chrom_groups = c('sample','CHROM',"SegmentSize","tstv")

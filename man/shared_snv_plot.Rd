@@ -17,3 +17,8 @@ A plot showing the location of variants and the number of samples that contain e
 \description{
 Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
 }
+\examples{
+samples = c("a_1_fb", "a_1_iv", "a_2_fb", "a_2_iv", "a_3_fb", "a_3_iv", "b_1_fb", "b_1_iv")
+shared_snv_plot(example_filtered_SNV_df, samples)
+
+}

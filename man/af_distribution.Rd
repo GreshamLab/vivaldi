@@ -15,3 +15,15 @@ A plot with the distribution of all minor variants
 \description{
 Plots a distribution of all minor variants
 }
+\examples{
+df <- data.frame(
+  sample = c( "sample1", "sample1", "sample1", "sample1", "sample1",
+              "sample1", "sample1", "sample1", "sample2", "sample2",
+              "sample2", "sample2", "sample2", "sample2"),
+  minorfreq = c(0.04422785, 0.03738175, 0.01390202, 0.02927786, 0.02199074,
+                0.03071955, 0.02626025, 0.02875321, 0.02249272, 0.01674657,
+                0.02915796, 0.07306280, 0.04143398, 0.02571210)
+)
+
+af_distribution(df)
+}
