@@ -34,7 +34,7 @@
 #' # Dataframe showing relationship between filename, replicate, and sample name
 #' replicates
 #'
-#' # Merge `df` and `replicates` dataframes by the following columns
+#' # Merge by the following columns
 #' cols = c("sample","CHROM","POS","REF","ALT")
 #'
 #' merge_replicates(df, replicates, "rep1", "rep2", cols)

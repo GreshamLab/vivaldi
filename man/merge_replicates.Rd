@@ -47,7 +47,7 @@ replicates <- data.frame(filename = c("m1","m2"),
 # Dataframe showing relationship between filename, replicate, and sample name
 replicates
 
-# Merge `df` and `replicates` dataframes by the following columns
+# Merge by the following columns
 cols = c("sample","CHROM","POS","REF","ALT")
 
 merge_replicates(df, replicates, "rep1", "rep2", cols)

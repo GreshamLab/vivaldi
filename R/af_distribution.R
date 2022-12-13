@@ -7,16 +7,24 @@
 #' @return A plot with the distribution of all minor variants
 #' @export
 #' @examples
-#' df <- data.frame(
-#'   sample = c( "sample1", "sample1", "sample1", "sample1", "sample1",
-#'               "sample1", "sample1", "sample1", "sample2", "sample2",
-#'               "sample2", "sample2", "sample2", "sample2"),
-#'   minorfreq = c(0.04422785, 0.03738175, 0.01390202, 0.02927786, 0.02199074,
-#'                 0.03071955, 0.02626025, 0.02875321, 0.02249272, 0.01674657,
-#'                 0.02915796, 0.07306280, 0.04143398, 0.02571210)
+#' # Example 1:
+#' df <- data.frame(sample = c("m1", "m2", "m1", "m2", "m1"),
+#'                  CHROM = c("PB1", "PB1", "PB2", "PB2", "NP"),
+#'                  POS = c(234, 234, 240, 240, 254),
+#'                  REF = c("G", "G", "A", "A", "C"),
+#'                  ALT = c("A", "A", "G", "G", "T"),
+#'                  minorfreq = c(0.010, 0.022, 0.043, 0.055, 0.011),
+#'                  majorfreq = c(0.990, 0.978, 0.957, 0.945, 0.989),
+#'                  minorcount = c(7, 15, 26, 32, 7),
+#'                  majorcount = c(709, 661, 574, 547, 610),
+#'                  gt_DP = c(716, 676, 600, 579, 617)
 #' )
 #'
 #' af_distribution(df)
+#'
+#' # Example 2:
+#' af_distribution(example_filtered_SNV_df)
+#'
 af_distribution = function(df){
 
   p1 = ggplot2::ggplot(df, ggplot2::aes(x = minorfreq)) +
