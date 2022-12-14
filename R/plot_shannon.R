@@ -1,6 +1,6 @@
 #' plot_shannon
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
+#' Reads in a dataframe that has been arranged (arrange_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
 #'
 #' The `plot_shannon()` function takes the variant dataframe and generates three plots.
 #' 1. The Shannon entropy, or amount of diversity, at each position in the genome at which a variant was found.
@@ -9,7 +9,7 @@
 #' A higher value indicates more diversity.
 #'
 #' @name plot_shannon
-#' @param shannon_df A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
+#' @param shannon_df A dataframe that has been arranged (arrange_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)
 #' @return Three plots showing the nt Shannon, chrom Shannon, and full genome Shannon calculations
 #' @export
 #' @examples

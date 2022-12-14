@@ -3,7 +3,7 @@
 #' Adds metadata information to the vcf dataframe
 #'
 #' @name add_metadata
-#' @param df A rearranged vcf dataframe (arrange_gt_data)
+#' @param df A rearranged vcf dataframe (arrange_data)
 #' @param metadf A metadata dataframe
 #' @param by_vcf A vector of column names in the vcf dataframe that should be used to merge the vcf data with the metadata
 #' @param by_meta A vector of column names in the metadata dataframe that should be used to merge the metadata with the vcf data

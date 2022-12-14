@@ -3,7 +3,7 @@
 #' Groups the input vcf data frame using a list of variables and tallies the number of occurrences
 #'
 #' @name tally_it
-#' @param df A rearranged vcf dataframe (arrange_gt_data)
+#' @param df A rearranged vcf dataframe (arrange_data)
 #' @param groupit A vector containing column names that data should be grouped by
 #' @param new_colname The name of the count column
 #' @return A dataframe with columns from the 'groupit' vector and the number of times each unique grouping occurs in the data

@@ -7,13 +7,13 @@
 plot_shannon(shannon_df)
 }
 \arguments{
-\item{shannon_df}{A dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)}
+\item{shannon_df}{A dataframe that has been arranged (arrange_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy)}
 }
 \value{
 Three plots showing the nt Shannon, chrom Shannon, and full genome Shannon calculations
 }
 \description{
-Reads in a dataframe that has been arranged (arrange_gt_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
+Reads in a dataframe that has been arranged (arrange_data), filtered (filter_variants), and piped through the Shannon calculations (shannon_entropy) and outputs plots
 }
 \details{
 The `plot_shannon()` function takes the variant dataframe and generates three plots.

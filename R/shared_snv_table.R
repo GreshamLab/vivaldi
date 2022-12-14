@@ -1,6 +1,6 @@
 #' shared_snv_table
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered
+#' Reads in a dataframe that has been arranged (arrange_data) and filtered
 #' (filter_variants) and outputs a table
 #'
 #' The `shared_snv_table()` function takes the variant dataframe and creates a
@@ -9,7 +9,7 @@
 #' investigation of visual patterns in the previous plot.
 #'
 #' @name shared_snv_table
-#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
+#' @param vardf A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe
 #' @return A table listing variants in order by how many samples they are found in
 #' @export
 #' @examples

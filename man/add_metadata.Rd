@@ -7,7 +7,7 @@
 add_metadata(df, metadf, by_vcf, by_meta)
 }
 \arguments{
-\item{df}{A rearranged vcf dataframe (arrange_gt_data)}
+\item{df}{A rearranged vcf dataframe (arrange_data)}
 
 \item{metadf}{A metadata dataframe}
 

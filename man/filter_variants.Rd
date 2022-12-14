@@ -7,7 +7,7 @@
 filter_variants(df, coverage_cutoff = 200, frequency_cutoff = 0.03)
 }
 \arguments{
-\item{df}{A rearranged VCF dataframe (rearranged using the arrange_gt_data function)}
+\item{df}{A rearranged VCF dataframe (rearranged using the arrange_data function)}
 
 \item{coverage_cutoff}{The coverage cutoff for calling a SNV (default: 200x)}
 

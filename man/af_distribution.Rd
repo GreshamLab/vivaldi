@@ -7,7 +7,7 @@
 af_distribution(df)
 }
 \arguments{
-\item{df}{A dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants)}
+\item{df}{A dataframe that has been arranged (arrange_data) and filtered (filter_variants)}
 }
 \value{
 plots with the distribution of all minor variants

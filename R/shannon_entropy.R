@@ -10,7 +10,7 @@
 #' segments or samples.
 #'
 #' @name shannon_entropy
-#' @param df A rearranged vcf dataframe (arrange_gt_data)
+#' @param df A rearranged vcf dataframe (arrange_data)
 #' @param genome_size Size of whole genome being used
 #' @return A dataframe with Shannon entropy/kb calculations for the chroms and entire genome
 #' @export

@@ -7,13 +7,13 @@
 shared_snv_table(vardf)
 }
 \arguments{
-\item{vardf}{A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe}
+\item{vardf}{A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe}
 }
 \value{
 A table listing variants in order by how many samples they are found in
 }
 \description{
-Reads in a dataframe that has been arranged (arrange_gt_data) and filtered
+Reads in a dataframe that has been arranged (arrange_data) and filtered
 (filter_variants) and outputs a table
 }
 \details{

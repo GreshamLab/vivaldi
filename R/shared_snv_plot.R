@@ -1,9 +1,9 @@
 #' shared_snv_plot
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+#' Reads in a dataframe that has been arranged (arrange_data) and filtered (filter_variants) and outputs plots
 #'
 #' @name shared_snv_plot
-#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
+#' @param vardf A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe
 #' @param samples A vector of samples to be compared (default:all samples in DF_filt)
 #' @return A plot showing the location of variants and the number of samples that contain each variant
 #' @export
