@@ -7,7 +7,7 @@
 shared_snv_plot(vardf, samples = unique(DF_filt$sample))
 }
 \arguments{
-\item{vardf}{A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe}
+\item{vardf}{A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe}
 
 \item{samples}{A vector of samples to be compared (default:all samples in DF_filt)}
 }
@@ -15,7 +15,7 @@ shared_snv_plot(vardf, samples = unique(DF_filt$sample))
 A plot showing the location of variants and the number of samples that contain each variant
 }
 \description{
-Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+Reads in a dataframe that has been arranged (arrange_data) and filtered (filter_variants) and outputs plots
 }
 \examples{
 samples = c("a_1_fb", "a_1_iv", "a_2_fb", "a_2_iv", "a_3_fb", "a_3_iv", "b_1_fb", "b_1_iv")

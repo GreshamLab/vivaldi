@@ -7,7 +7,7 @@
 shannon_entropy(df, genome_size)
 }
 \arguments{
-\item{df}{A rearranged vcf dataframe (arrange_gt_data)}
+\item{df}{A rearranged vcf dataframe (arrange_data)}
 
 \item{genome_size}{Size of whole genome being used}
 }

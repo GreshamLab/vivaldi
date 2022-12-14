@@ -7,7 +7,7 @@
 tally_it(df, groupit, new_colname)
 }
 \arguments{
-\item{df}{A rearranged vcf dataframe (arrange_gt_data)}
+\item{df}{A rearranged vcf dataframe (arrange_data)}
 
 \item{groupit}{A vector containing column names that data should be grouped by}
 

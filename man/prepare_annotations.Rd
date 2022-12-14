@@ -13,7 +13,7 @@ prepare_annotations(df)
 A dataframe containing each annotation on a separate column
 }
 \description{
-Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
+Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_data)
 }
 \examples{
 # Example dataframe
