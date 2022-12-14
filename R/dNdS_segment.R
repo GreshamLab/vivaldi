@@ -4,7 +4,7 @@
 #'
 #' @name dNdS_segment
 #' @param annotation_df A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations
-#' @param SPLICEFORMS List of splice forms
+#' @param SPLICEFORMS A character vector of isoform names
 #' @return A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
 #' @export
 #' @examples
