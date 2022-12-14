@@ -1,9 +1,9 @@
 #' position_allele_freq
 #'
-#' Reads in a dataframe that has been arranged (arrange_gt_data) and filtered (filter_variants) and outputs plots
+#' Reads in a dataframe that has been arranged (arrange_data) and filtered (filter_variants) and outputs plots
 #'
 #' @name position_allele_freq
-#' @param vardf A rearranged (arrange_gt_data) and filtered (filtered_variants) vcf dataframe
+#' @param vardf A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe
 #' @param segment Name of segment (must be in quotes)
 #' @param nt Position on segment (must be in quotes)
 #' @return A plot showing the the frequencies of the major and minor allele at the given position across all samples

@@ -3,7 +3,7 @@
 #' Filters single-nucleotide variants using a coverage and frequency cutoff
 #'
 #' @name filter_variants
-#' @param df A rearranged VCF dataframe (rearranged using the arrange_gt_data function)
+#' @param df A rearranged VCF dataframe (rearranged using the arrange_data function)
 #' @param coverage_cutoff The coverage cutoff for calling a SNV (default: 200x)
 #' @param frequency_cutoff Frequency cutoff for calling a SNV (default: 3\%)
 #' @return A filtered VCF dataframe

@@ -3,12 +3,6 @@ globalVariables(unique(c(
   "minorfreq",
   # arrange_data:
   "ALT", "ALT_COUNT", "ALT_FREQ", "ALT_TYPE", "ANN", "CHROM", "gt_AD", "major", "majorcount", "majorfreq", "minor", "minorcount", "minorfreq", "POS", "REF", "REF_COUNT", "REF_FREQ",
-  # arrange_gt_data:
-  "ALT", "ALT_COUNT", "ALT_FREQ", "ALT_TYPE", "ANN", "CHROM", "gt_AD", "gt_DP", "major", "majorcount", "majorfreq", "minor", "minorcount", "minorfreq", "POS", "REF", "REF_COUNT", "REF_FREQ",
-  # arrange_gt_data_varscan:
-  "ALT", "ALT_FREQ", "ALT_TYPE", "gt_AD", "gt_RD", "REF", "REF_FREQ",
-  # arrange_no_gt_data:
-  "ALT", "ALT_FREQ", "ALT_TYPE", "REF", "REF_FREQ",
   # dNdS_segment:
   "annotation", "dNdS", "feature_id", "n.x", "n.y", "SPLICEFORMS",
   # filter_variants:

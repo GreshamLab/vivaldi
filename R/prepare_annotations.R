@@ -1,6 +1,6 @@
 #' prepare_annotations
 #'
-#' Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_gt_data)
+#' Separates the SNPeff annotations found in an annotated and rearranged VCF dataframe (arranged using arrange_data)
 #'
 #' @name prepare_annotations
 #' @param df A rearranged and annotated VCF dataframe
