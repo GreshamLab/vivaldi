@@ -18,6 +18,5 @@ A dataframe containing the calculated transition/transversion ratio (R or basic_
 Inputs a filtered and rearranged vcf dataframe and calculates the transition/transversion ratio
 }
 \examples{
-head(example_filtered_SNV_df)
 tstv_ratio(example_filtered_SNV_df, 13000)
 }

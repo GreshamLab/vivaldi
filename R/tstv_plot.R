@@ -7,7 +7,6 @@
 #' @return two plots showing the K2P and simple Ts/Tv ratios
 #' @export
 #' @examples
-#' head(example_filtered_SNV_df)
 #' df <- tstv_ratio(example_filtered_SNV_df,1300)
 #' tstv_plot(df)
 tstv_plot = function(df){
