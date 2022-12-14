@@ -9,7 +9,7 @@ dNdS_segment(annotation_df, SPLICEFORMS)
 \arguments{
 \item{annotation_df}{A rearranged, filtered, and annotated vcf dataframe - must be for amino-acid specific calculations, cannot be the same as the dataframe used for SNP calculations}
 
-\item{SPLICEFORMS}{List of splice forms}
+\item{SPLICEFORMS}{A character vector of isoform names}
 }
 \value{
 A plot showing the dN/dS ratio for each splice form (rather than segment) for each sample
