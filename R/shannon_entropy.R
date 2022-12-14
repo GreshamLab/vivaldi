@@ -27,7 +27,12 @@
 #'
 #' genome_size = 13133
 #'
-#' # Modifies the dataframe to add five new columns
+#' # MOdify the dataframe to add 5 new columns of shannon entropy data:
+#' # 1. shannon_ntpos
+#' # 2. chrom_shannon
+#' # 3. genome_shannon
+#' # 4. shannon_chrom_perkb
+#' # 5. genome_shannon_perkb
 #' shannon_entropy(df, genome_size)
 #'
 shannon_entropy = function(df,genome_size){

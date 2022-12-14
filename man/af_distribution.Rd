@@ -10,10 +10,10 @@ af_distribution(df)
 \item{df}{A dataframe that has been arranged (arrange_data) and filtered (filter_variants)}
 }
 \value{
-A plot with the distribution of all minor variants
+plots with the distribution of all minor variants
 }
 \description{
-Plots a distribution of all minor variants
+Plots distribution of all minor variants
 }
 \examples{
 # Example 1:

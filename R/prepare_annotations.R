@@ -7,7 +7,7 @@
 #' @return A dataframe containing each annotation on a separate column
 #' @export
 #' @examples
-#' # Example dataframe
+#' # Example 1: Shows the separation of the ANN column based on | delimiter.
 #' test <- data.frame( ANN = c("A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P"))
 #'
 #' # The ANN column will be split based on the strings in `snpeff_info()` and
@@ -20,6 +20,26 @@
 #' # The one "ANN" column is split into 16 columns
 #' dim(test)
 #' dim(df)
+#'
+#' # Example 2: Actual annotation data
+#' test <- data.frame( sample = c("m1","m1","m1","m1"),
+#'   CHROM = c("H1N1_HA","H1N1_HA","H1N1_HA","H1N1_HA"),
+#'   POS = c(1007, 1145, 1293, 1319),
+#'   REF = c("G", "T", "T", "C"),
+#'   ALT = c("A", "A", "C", "T"),
+#'   ANN = c("A|missense_variant|MODERATE|CDS_H1N1_HA_1_1701|H1N1_HA|transcript|H1N1_HA.1|protein_coding|1/1|c.1007G>A|p.Arg336Lys|1007/1701|1007/1701|336/566||",
+#'   "A|missense_variant|MODERATE|CDS_H1N1_HA_1_1701|H1N1_HA|transcript|H1N1_HA.1|protein_coding|1/1|c.1145T>A|p.Leu382Gln|1145/1701|1145/1701|382/566||",
+#'   "C|synonymous_variant|LOW|CDS_H1N1_HA_1_1701|H1N1_HA|transcript|H1N1_HA.1|protein_coding|1/1|c.1293T>C|p.Gly431Gly|1293/1701|1293/1701|431/566||",
+#'   "T|missense_variant|MODERATE|CDS_H1N1_HA_1_1701|H1N1_HA|transcript|H1N1_HA.1|protein_coding|1/1|c.1319C>T|p.Ala440Val|1319/1701|1319/1701|440/566||")
+#' )
+#'
+#' # Split the SNPeff annotations in "ANN" column and save to dataframe `df`
+#' df <- prepare_annotations(test)
+#'
+#' # The one "ANN" column is split into 16 columns
+#' dim(test)
+#' dim(df)
+#'
 prepare_annotations = function(df){
 
     if (!"ANN" %in% colnames(df)){

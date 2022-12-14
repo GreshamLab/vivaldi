@@ -1,10 +1,10 @@
 #' af_distribution
 #'
-#' Plots a distribution of all minor variants
+#' Plots distribution of all minor variants
 #'
 #' @name af_distribution
 #' @param df A dataframe that has been arranged (arrange_data) and filtered (filter_variants)
-#' @return A plot with the distribution of all minor variants
+#' @return plots with the distribution of all minor variants
 #' @export
 #' @examples
 #' # Example 1:
