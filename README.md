@@ -7,13 +7,13 @@
 
 The standard input is a vcf file.
 
-## Installation
+## Installation from CRAN
 
 ``` r
 install.packages("vivaldi")
 ```
 
-### Development version
+### Install development version from github
 
 To get a bug fix or to use a feature from the development version, you
 can install the development version of vivaldi from GitHub.
