@@ -24,7 +24,7 @@ The **vivaldi** package is available on CRAN and is loaded as follows.  We also 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
-library(tidyverse)
+library(dplyr)
 ```
 
 ## Vignette data set
