@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 # Load the Vivaldi package
 
-The **vivaldi** package is available on CRAN and is loaded as follows.  We also use `tidyverse` for data wrangling and `kableExtra` for rendering tables in vignette 
+The **vivaldi** package is available on CRAN and is loaded as follows.  We also use `dplyr` for data wrangling and `kableExtra` for rendering tables in vignette 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
