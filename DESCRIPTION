@@ -1,7 +1,7 @@
 Type: Package
 Package: vivaldi
 Title: Viral Variant Location and Diversity
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Marissa", "Knoll", role = "aut"),
     person("Katherine", "Johnson", role = "aut"),
