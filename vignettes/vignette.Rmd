@@ -24,7 +24,6 @@ The **vivaldi** package is available on CRAN and is loaded as follows.  We also 
 ```{r setup}
 library(vivaldi)
 library(kableExtra)
-library(dplyr)
 ```
 
 ## Vignette data set
@@ -47,7 +46,7 @@ seg_sizes = system.file("extdata", "SegmentSize.csv", package="vivaldi")
 sizes = read.csv(file=seg_sizes,header=T,sep=",",na.strings = c(''))
 
 #select only the relevant segment sizes for H1N1
-sizes = filter(sizes, STRAIN ==  "H1N1")
+sizes = dplyr::filter(sizes, STRAIN ==  "H1N1")
 
 genome_size = 13133
 ```
@@ -77,8 +76,8 @@ Once the data has been arranged we can see that there are a total of 2,493 varia
 VCF_DF = arrange_data(vardir, ref = system.file("extdata", "H1N1.fa", package="vivaldi"), annotated = 'yes')
 kable(head(VCF_DF))
 VCF_DF %>%
-  group_by(sample) %>%
-  summarise(n = n()) %>%
+  dplyr::group_by(sample) %>%
+  dplyr::summarise(n = dplyr::n()) %>%
   kable()
 dim(VCF_DF)
 ```
@@ -135,8 +134,8 @@ DF_reps = merge_replicates(VCF_DF,replicates,"rep1","rep2",cols)
 kable(head(DF_reps))
 
 DF_reps %>%
-  group_by(sample) %>%
-  summarise(n = n()) %>%
+  dplyr::group_by(sample) %>%
+  dplyr::summarise(n = dplyr::n()) %>%
   kable()
 
 dim(DF_reps)
@@ -214,23 +213,23 @@ dim(DF_filt)
 
 Since the NS and M segments in influenza have splice variants, the variants on these two segments will be double counted. To prevent inaccurate counting of these variants, we remove duplicates before continuing with downstream analysis. 
 ```{r}
-DF_filt_ns = filter(DF_filt, feature_id != "H1N1_NS.1" & feature_id != "H1N1_NS.2" & 
+DF_filt_ns = dplyr::filter(DF_filt, feature_id != "H1N1_NS.1" & feature_id != "H1N1_NS.2" & 
                       feature_id != "H1N1_M1.1" & feature_id != "H1N1_M1.2")
 
-DF_filt_s = filter(DF_filt, feature_id == "H1N1_NS.1" | feature_id == "H1N1_NS.2" | 
+DF_filt_s = dplyr::filter(DF_filt, feature_id == "H1N1_NS.1" | feature_id == "H1N1_NS.2" | 
                           feature_id =="H1N1_M1.1" | feature_id =="H1N1_M1.2")
 
 DF_filt_s_unique = DF_filt_s %>% dplyr::group_by(sample,CHROM,POS,REF,ALT) %>% 
   dplyr::mutate(count = 1, totalsamp = sum(count)) %>%
-  filter(totalsamp == 1) %>%
-  ungroup()
+  dplyr::filter(totalsamp == 1) %>%
+  dplyr::ungroup()
 
 # if variants are duplicated, only take those from NS.1 or M.1
 DF_filt_s_double = DF_filt_s %>% dplyr::group_by(sample,CHROM,POS,REF,ALT) %>% 
   dplyr::mutate(count = 1, totalsamp = sum(count)) %>%
-  filter(totalsamp > 1) %>%
-  filter(feature_id == "H1N1_NS.1" | feature_id =="H1N1_M1.1") %>%
-  ungroup() %>%
+  dplyr::filter(totalsamp > 1) %>%
+  dplyr::filter(feature_id == "H1N1_NS.1" | feature_id =="H1N1_M1.1") %>%
+  dplyr::ungroup() %>%
   dplyr::select(!(count:totalsamp))
   
 DF_filt_s_all = rbind(DF_filt_s_unique,DF_filt_s_double)
