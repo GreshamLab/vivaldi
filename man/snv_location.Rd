@@ -16,7 +16,7 @@ A plot showing the location and frequency of SNVs found across samples
 Reads in the vcf dataframe and generates a plot showing the frequency and location of SNVs
 }
 \examples{
-Example 1:
+# Example 1:
 df <- data.frame(sample = c("m1", "m1", "m1", "m1", "m1",
                             "m2", "m2", "m2", "m2", "m2"),
                  CHROM = c("PB1", "PB1", "PB2", "PB2", "PB2",
