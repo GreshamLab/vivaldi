@@ -1,7 +1,7 @@
 citHeader("To cite vivaldi in publications use:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype  = "Article",
   title    = "Optimized Quantification of Intrahost Viral Diversity in SARS-CoV-2 and Influenza Virus Sequence Data",
   author   = c(person("AE", "Roder"),
                person("KEE", "Johnson"),
