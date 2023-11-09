@@ -102,11 +102,11 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
         # $fix contains the INFO fields
         vcf_fix = vcf_tidy$fix %>% dplyr::select(tidyselect::all_of(fix_list))
 
-        gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE, verbose = verbose)
+        gt_DP = vcfR::extract.info(x = vcf_all, element = c("DP"), as.numeric = TRUE, mask = FALSE)
         length(gt_DP) == nrow(vcf_all) # checking to make sure that these contain the same number of variants
         DP_df = data.frame(gt_DP)
 
-        AF = vcfR::extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE, verbose = verbose)
+        AF = vcfR::extract.info(x = vcf_all, element = c("AF"), as.numeric = TRUE, mask = FALSE)
         length(AF) == nrow(vcf_all)
         AF_df = data.frame(AF)
 
@@ -153,9 +153,15 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
                                           majorcount = ifelse(ALT_TYPE == "major", ALT_COUNT,REF_COUNT),
                                           minorcount = ifelse(ALT_TYPE == "minor", ALT_COUNT,REF_COUNT))
 
+  if (annotated == 'yes'){
   all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,ANN,
                                          gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
                                          major,minor,majorcount,minorcount,majorfreq,minorfreq))
+  } else{
+    all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,
+                                           gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
+                                           major,minor,majorcount,minorcount,majorfreq,minorfreq))
+  }
 
   all_files = all_files[!duplicated(all_files), ] %>% droplevels()
 
