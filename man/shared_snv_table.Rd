@@ -4,10 +4,12 @@
 \alias{shared_snv_table}
 \title{shared_snv_table}
 \usage{
-shared_snv_table(vardf)
+shared_snv_table(vardf, annotated = "yes")
 }
 \arguments{
 \item{vardf}{A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe}
+
+\item{annotated}{Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")}
 }
 \value{
 A table listing variants in order by how many samples they are found in
