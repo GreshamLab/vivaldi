@@ -10,6 +10,7 @@
 #'
 #' @name shared_snv_table
 #' @param vardf A rearranged (arrange_data) and filtered (filtered_variants) vcf dataframe
+#' @param annotated Whether the VCF files are annotated using snpeff "yes" or "no" (default "yes")
 #' @return A table listing variants in order by how many samples they are found in
 #' @export
 #' @examples
@@ -23,16 +24,21 @@
 #' df
 #' dim(df)
 #'
-shared_snv_table = function(vardf){
+shared_snv_table = function(vardf, annotated = 'yes'){
 
   vardf$variant = paste0(vardf$CHROM,"_",vardf$major, vardf$POS, vardf$minor)
   df = dplyr::group_by(vardf, variant) %>% dplyr::mutate(count = 1, totalsamp = sum(count))
 
   df = df[!duplicated(df), ] %>% droplevels()
 
+  if (annotated == 'yes'){
   ordered_df = dplyr::select(df, CHROM,POS,REF,ALT,major,minor,annotation,feature_type,feature_id,protein_position,
                       HGVS.p,majorfreq,minorfreq,variant,totalsamp) %>%
     dplyr::arrange(dplyr::desc(totalsamp))
+  } else{
+    ordered_df = dplyr::select(df, CHROM,POS,REF,ALT,major,minor,majorfreq,minorfreq,variant,totalsamp) %>%
+      dplyr::arrange(dplyr::desc(totalsamp))
+  }
 
   return(ordered_df)
 }
