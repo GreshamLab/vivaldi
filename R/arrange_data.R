@@ -154,7 +154,7 @@ arrange_data = function(vardir, reference_fasta, annotated = 'yes', ntlist=c('A'
                                           minorcount = ifelse(ALT_TYPE == "minor", ALT_COUNT,REF_COUNT))
 
   if (annotated == 'yes'){
-  all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,ANN,
+    all_files = dplyr::select(all_files, c(sample,CHROM,POS,REF,ALT,ANN,
                                          gt_DP,REF_COUNT,ALT_COUNT,REF_FREQ,ALT_FREQ,ALT_TYPE,
                                          major,minor,majorcount,minorcount,majorfreq,minorfreq))
   } else{
