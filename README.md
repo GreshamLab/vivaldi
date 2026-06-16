@@ -51,7 +51,7 @@ The main input is a directory of `.vcf` files. Depending on the workflow, you ma
 - a replicate mapping table for technical replicate merging
 - SnpEff-annotated VCF files for annotation-aware downstream analyses
 
-The package ships with example data in `/home/runner/work/vivaldi/vivaldi/inst/extdata`, including:
+The package ships with example data accessible via `system.file("extdata", package = "vivaldi")`, including:
 
 - `H1N1.fa` - example influenza reference FASTA
 - `SegmentSize.csv` - segment size metadata
@@ -89,9 +89,9 @@ sizes <- read.csv(seg_sizes)
 merged_df <- merge_replicates(
   vcf_df,
   replicates,
-  rep1 = "rep1",
-  rep2 = "rep2",
-  cols = c("sample", "CHROM", "POS", "REF", "ALT", "ANN", "ALT_TYPE", "major", "minor")
+  "rep1",
+  "rep2",
+  c("sample", "CHROM", "POS", "REF", "ALT", "ANN", "ALT_TYPE", "major", "minor")
 )
 
 filtered_df <- filter_variants(
@@ -156,7 +156,7 @@ help(package = "vivaldi")
 
 ## Testing and development
 
-The repository uses standard R package tooling, including `testthat` tests under `/home/runner/work/vivaldi/vivaldi/tests/testthat` and GitHub Actions R-CMD-check workflows.
+The repository uses standard R package tooling, including `testthat` tests under `tests/testthat` and GitHub Actions R-CMD-check workflows.
 
 ## Authors
 
